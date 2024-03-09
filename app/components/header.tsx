@@ -10,7 +10,6 @@ export default function Header() {
           width={30}
           height={30}
         />
-        <h1 className='text-xl antialiased'>Notes</h1>
       </div>
       <p className='font-bold'>User</p>
     </header>

@@ -9,6 +9,7 @@ import {
   ListBulletIcon,
   DividerHorizontalIcon,
   QuoteIcon,
+  UnderlineIcon,
 } from '@radix-ui/react-icons';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
@@ -19,7 +20,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   }
 
   return (
-    <div className='flex items-center no-scrollbar shadow justify-start md:justify-center space-x-3 overflow-x-auto bg-gray-100 p-1 rounded-lg'>
+    <div className='flex items-center no-scrollbar shadow justify-start md:justify-center space-x-3 overflow-x-auto p-1 rounded-sm'>
       <Button
         variant={'menu'}
         size={'sm'}
@@ -52,6 +53,18 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
         aria-label='font italic'
       >
         <FontItalicIcon />
+      </Button>
+      <Button
+        variant={'menu'}
+        size={'sm'}
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        disabled={!editor.can().chain().focus().toggleUnderline().run()}
+        className={
+          editor.isActive('underline') ? 'font-bold bg-gray-50 shadow' : ''
+        }
+        aria-label='underline'
+      >
+        <UnderlineIcon />
       </Button>
       <Button
         variant={'menu'}

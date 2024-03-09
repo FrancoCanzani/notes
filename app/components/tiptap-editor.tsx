@@ -4,6 +4,7 @@ import MenuBar from './menu-bar';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect } from 'react';
@@ -12,6 +13,7 @@ const extensions = [
   Color.configure({}),
   TextStyle.configure({}),
   ListItem,
+  Underline,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -63,7 +65,7 @@ export default () => {
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className='relative min-h-[600px] rounded-md w-full sm:max-w-screen-lg border-muted shadow outline-none p-3'
+        className='relative min-h-[600px] rounded-sm w-full sm:max-w-screen-lg shadow outline-none p-3'
       />
     </div>
   );
