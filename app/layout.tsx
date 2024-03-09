@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { getServerSession } from 'next-auth';
+import ClientProvider from './components/client-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 const APP_NAME = 'next-pwa example';
@@ -33,11 +35,22 @@ export const viewport: Viewport = {
   themeColor: '#FFFFFF',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const session = await getServerSession();
+
   return (
     <html lang='en' dir='ltr'>
-      <body className='dark:text-gray-100 bg-gray-50 max-w-4xl m-auto'>
-        <main className='p-6 pt-3 md:pt-6 min-h-screen'>{children}</main>
+      <body className={`dark:text-gray-100 bg-gray-50 ${inter.className}`}>
+        {/* this div is intentional, prevents a layout shift when opening components */}
+        <div className={`max-w-4xl m-auto`}>
+          <ClientProvider session={session}>
+            <main className='p-6 pt-3 md:pt-6 min-h-screen'>{children}</main>
+          </ClientProvider>
+        </div>
       </body>
     </html>
   );

@@ -1,19 +1,21 @@
 'use client';
 
+import { useEditor, EditorContent } from '@tiptap/react';
 import MenuBar from './menu-bar';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { EditorContent, useEditor } from '@tiptap/react';
+import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const extensions = [
   Color.configure({}),
   TextStyle.configure({}),
   ListItem,
   Underline,
+  Highlight.configure({ multicolor: true }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -26,7 +28,7 @@ const extensions = [
   }),
 ];
 
-export default () => {
+const Editor = () => {
   const editor = useEditor({
     autofocus: true,
     extensions,
@@ -38,8 +40,9 @@ export default () => {
   });
 
   useEffect(() => {
-    if (!editor) return;
-
+    if (!editor) {
+      return;
+    }
     const savedContent = localStorage.getItem('editorContent');
     if (savedContent) {
       editor.commands.setContent(savedContent);
@@ -47,8 +50,9 @@ export default () => {
   }, [editor]);
 
   useEffect(() => {
-    if (!editor) return;
-
+    if (!editor) {
+      return;
+    }
     const handleLocalStorageChange = () => {
       localStorage.setItem('editorContent', editor.getHTML());
     };
@@ -70,3 +74,5 @@ export default () => {
     </div>
   );
 };
+
+export default Editor;

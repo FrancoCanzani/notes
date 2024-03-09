@@ -1,17 +1,18 @@
+'use client';
+
 import Image from 'next/image';
+import UserDropdown from './user-dropdown';
 
 export default function Header() {
   return (
-    <header className='flex items-center justify-between'>
-      <div className='flex items-center justify-start space-x-2'>
-        <Image
-          src={'/flamingo-icon.webp'}
-          alt='Mingo icon'
-          width={30}
-          height={30}
-        />
-      </div>
-      <p className='font-bold'>User</p>
+    <header className='flex items-center justify-between w-full'>
+      <Image
+        src={'/flamingo-icon.webp'}
+        alt='Mingo icon'
+        width={30}
+        height={30}
+      />
+      <UserDropdown />
     </header>
   );
 }
