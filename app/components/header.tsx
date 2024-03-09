@@ -10,9 +10,7 @@ export default function Header() {
           width={30}
           height={30}
         />
-        <h1 className='font-bold text-xl antialiased'>
-          <span className='text-pink-500'>Mingo</span>Notes
-        </h1>
+        <h1 className='text-xl antialiased'>Notes</h1>
       </div>
       <p className='font-bold'>User</p>
     </header>
