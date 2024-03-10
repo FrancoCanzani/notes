@@ -9,12 +9,14 @@ import { Button, type ButtonProps } from '../components/ui/button';
 interface LoginButtonProps extends ButtonProps {
   showGithubIcon?: boolean;
   text?: string;
+  callbackUrl?: string;
 }
 
 export function LoginButton({
   text = 'Login with GitHub',
   showGithubIcon = true,
   className,
+  callbackUrl,
   ...props
 }: LoginButtonProps) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -25,7 +27,7 @@ export function LoginButton({
       onClick={() => {
         setIsLoading(true);
         // next-auth signIn() function doesn't work yet at Edge Runtime due to usage of BroadcastChannel
-        signIn('github', { callbackUrl: `/` });
+        signIn('github', { callbackUrl: callbackUrl });
       }}
       disabled={isLoading}
       className={cn(className)}

@@ -65,13 +65,18 @@ const Editor = () => {
   }, [editor]);
 
   return (
-    <div className='space-y-4 py-6'>
+    <form className='space-y-4 py-6 px-3'>
+      <input
+        type='text'
+        placeholder='Title'
+        className='relative bg-gray-50 rounded-sm w-full sm:max-w-screen-xl shadow outline-none px-3 py-2'
+      />
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className='relative min-h-[600px] rounded-sm w-full sm:max-w-screen-lg shadow outline-none p-3'
+        className='relative min-h-[550px] rounded-sm w-full sm:max-w-screen-xl shadow outline-none p-3'
       />
-    </div>
+    </form>
   );
 };
 

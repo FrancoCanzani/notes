@@ -22,7 +22,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   }
 
   return (
-    <div className='flex items-center no-scrollbar shadow justify-start md:justify-center space-x-3 overflow-x-auto p-1 rounded-sm'>
+    <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto p-1 rounded-sm'>
       <Button
         variant={'menu'}
         size={'sm'}

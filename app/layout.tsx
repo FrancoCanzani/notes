@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import { getServerSession } from 'next-auth';
 import ClientProvider from './components/client-provider';
 
-const inter = Inter({ subsets: ['latin'] });
-const APP_NAME = 'next-pwa example';
+const APP_NAME = 'Flamingo Quick Notes';
 const APP_DESCRIPTION = 'This is an example of using next-pwa';
 
 export const metadata: Metadata = {
@@ -44,13 +43,10 @@ export default async function RootLayout({
 
   return (
     <html lang='en' dir='ltr'>
-      <body className={`dark:text-gray-100 bg-gray-50 ${inter.className}`}>
-        {/* this div is intentional, prevents a layout shift when opening components */}
-        <div className={`max-w-4xl m-auto`}>
-          <ClientProvider session={session}>
-            <main className='p-6 pt-3 md:pt-6 min-h-screen'>{children}</main>
-          </ClientProvider>
-        </div>
+      <body className={`dark:text-gray-100 bg-gray-50 ${GeistSans.className}`}>
+        <ClientProvider session={session}>
+          <main className='min-h-screen'>{children}</main>
+        </ClientProvider>
       </body>
     </html>
   );
