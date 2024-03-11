@@ -17,7 +17,7 @@ export default function Page() {
         </h2>
         <div className='flex flex-col sm:flex-row items-center justify-center space-x-3 space-y-5 sm:space-y-0'>
           <Link
-            href={'/editor'}
+            href={'/notes'}
             className='p-4 border-2 border-pink-400 rounded-md shadow shadow-pink-300 max-w-sm mx-auto space-y-2'
           >
             <h2 className='flex items-center justify-center text-sm font-medium'>
