@@ -33,6 +33,7 @@ const extensions = [
 ];
 
 export default function Editor({ noteId }: { noteId: string }) {
+  const [title, setTitle] = useState(`New note - ${noteId}`);
   const [saveStatus, setSaveStatus] = useState('Saved');
 
   const editor = useEditor({
@@ -45,32 +46,43 @@ export default function Editor({ noteId }: { noteId: string }) {
     },
   });
 
-  const session = useSession();
-  const user = session.data?.user;
+  useEffect(() => {
+    const note = window.localStorage.getItem(`note_${noteId}`);
+    if (note) {
+      const { title: storedTitle, content } = JSON.parse(note);
+      setTitle(storedTitle);
+      editor?.commands.setContent(JSON.parse(content));
+    }
+  }, [editor, noteId]);
+
+  // const session = useSession();
+  // const user = session.data?.user;
 
   // the callback function will be called only after x milliseconds since the last invocation
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     const json = editor.getJSON();
-    handleLocalStorageSave(noteId, JSON.stringify(json));
+    handleLocalStorageSave(noteId, title, JSON.stringify(json));
     setSaveStatus('Saved');
+    toast(saveStatus);
   }, 1000);
-
-  useEffect(() => {
-    if (!editor) return;
-    const content = window.localStorage.getItem(`note_${noteId}`);
-    if (content) editor.commands.setContent(JSON.parse(content));
-  }, [editor, noteId]);
 
   if (!editor) return;
   editor.on('update', ({ editor }) => {
     debouncedUpdates(editor);
   });
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   return (
     <div className='space-y-4 py-6 px-3'>
       <input
         type='text'
         placeholder='Title'
+        onChange={handleTitleChange}
+        value={title}
+        autoFocus
         className='relative bg-gray-50 rounded-sm w-full sm:max-w-screen-xl shadow outline-none px-3 py-2'
       />
       <MenuBar editor={editor} />
