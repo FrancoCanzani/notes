@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <main className='flex'>
       <Sidebar />
-      <div className='flex items-center justify-center min-h-screen w-full overflow-x-hidden sm:pl-60'>
+      <div className='flex items-start justify-start w-full overflow-x-hidden sm:pl-60'>
         {localStorageNotes ? (
           <div>
             {localStorageNotes.map((note) => (
