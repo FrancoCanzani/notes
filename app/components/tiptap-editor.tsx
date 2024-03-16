@@ -73,6 +73,8 @@ export default function Editor({ noteId }: { noteId: string }) {
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+    if (!editor) return;
+    debouncedUpdates(editor);
   };
 
   return (

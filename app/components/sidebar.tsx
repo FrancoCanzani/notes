@@ -6,8 +6,8 @@ import { Menu } from 'lucide-react';
 import UserDropdown from './user-dropdown';
 import Link from 'next/link';
 import { nanoid } from 'nanoid';
-import getAllNoteIds from '../lib/helpers/get-note-ids';
 import { usePathname } from 'next/navigation';
+import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -20,7 +20,8 @@ export default function Sidebar() {
     setShowSidebar(false);
   }, []);
 
-  const localNotes = getAllNoteIds();
+  const localNotes = getLocalStorageNotes();
+
   // const usedKB = Math.round((JSON.stringify(localStorage).length / 1024) * 2);
   // const usedMB = Math.round(usedKB / 1024);
 
@@ -60,10 +61,11 @@ export default function Sidebar() {
               <h2 className='font-medium capitalize text-xl'>Local notes</h2>
               {localNotes.map((note) => (
                 <Link
-                  href={`/notes/${note}`}
+                  href={`/notes/${note.key}`}
+                  key={note.key}
                   className='text-zinc-700 text-center font-medium rounded-md py-1 px-3 w-full shadow hover:shadow-zinc-400'
                 >
-                  {note}
+                  {note.key}
                 </Link>
               ))}
             </div>
