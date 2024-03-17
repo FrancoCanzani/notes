@@ -1,7 +1,6 @@
 'use client';
 
 import Sidebar from '../components/sidebar';
-import Image from 'next/image';
 import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import Link from 'next/link';
 import NoteEditorPreview from '../components/note-editor-preview';
@@ -47,7 +46,10 @@ export default function Page() {
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center space-x-1 justify-start'>
                       <span className='text-xs text-gray-800'>
-                        Last edited: {calculateTimeSince(note.lastSaved)}
+                        Last edited:{' '}
+                        {note.lastSaved
+                          ? calculateTimeSince(note.lastSaved)
+                          : 'Unknown'}
                       </span>
                     </div>
                   </div>
