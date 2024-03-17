@@ -16,13 +16,27 @@ import {
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
 
-export default function MenuBar({ editor }: { editor: Editor | null }) {
+export default function MenuBar({
+  editor,
+  isSaving,
+}: {
+  editor: Editor | null;
+  isSaving: boolean;
+}) {
   if (!editor) {
     return null;
   }
 
   return (
-    <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto p-1 rounded-sm'>
+    <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-sm'>
+      <span
+        className={cn(
+          'hover:bg-gray-50 border-gray-100 p-1 border',
+          isSaving && 'animate-pulse'
+        )}
+      >
+        {isSaving ? 'Saving...' : 'Not Saving'}
+      </span>
       <Button
         variant={'menu'}
         size={'sm'}

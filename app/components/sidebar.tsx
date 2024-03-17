@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Menu } from 'lucide-react';
+import { Key, Menu } from 'lucide-react';
 import UserDropdown from './user-dropdown';
 import Link from 'next/link';
 import { nanoid } from 'nanoid';
 import { usePathname } from 'next/navigation';
 import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
+import { cn } from '../lib/utils';
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -36,7 +37,7 @@ export default function Sidebar() {
       <div
         className={`transform ${
           showSidebar ? 'w-full translate-x-0' : '-translate-x-full'
-        } fixed flex flex-col justify-between z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed flex flex-col justify-start space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
       >
         <div
           className={`flex items-center justify-start font-medium space-x-2`}
@@ -51,31 +52,59 @@ export default function Sidebar() {
         </div>
         <Link
           href={`/notes/new/${newNoteId}`}
-          className='text-zinc-700 hover:text-zinc-600 text-center font-medium backdrop-blur-lg bg-gradient-to-tr from-transparent via-[rgba(121,121,121,0.16)] to-transparent rounded-md py-2 px-4 shadow hover:shadow-zinc-400 duration-500'
+          className='flex gap-2 transition-all bg-gray-50 duration-150 shadow-sm items-center justify-center font-medium rounded-md py-1.5 px-3 hover:shadow-md'
         >
-          New Note
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='1em'
+            height='1em'
+            viewBox='0 0 24 24'
+          >
+            <path fill='currentColor' d='M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z' />
+          </svg>{' '}
+          Add New Note
         </Link>
+        {pathname != '/notes' && (
+          <Link
+            href={'/notes'}
+            className='flex gap-3 text-sm transition-all bg-gray-50 duration-150 shadow-sm items-center justify-start font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='0.8em'
+              height='0.8em'
+              viewBox='0 0 16 16'
+            >
+              <g fill='currentColor'>
+                <path d='M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1z' />
+                <path d='M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293z' />
+              </g>
+            </svg>
+            All notes
+          </Link>
+        )}
         <div className='flex flex-col w-full space-y-3 items-center justify-center'>
           {localNotes && (
-            <div className='flex flex-col items-center justify-center space-y-2'>
-              <h2 className='font-medium capitalize text-xl'>Local notes</h2>
+            <div className='flex flex-col items-center w-full justify-center space-y-2'>
+              <h2 className='font-medium capitalize text-start w-full'>
+                Local notes
+              </h2>
               {localNotes.map((note) => (
                 <Link
                   href={`/notes/${note.key}`}
                   key={note.key}
-                  className='text-zinc-700 text-center font-medium rounded-md py-1 px-3 w-full shadow hover:shadow-zinc-400'
+                  className={cn(
+                    'px-3 py-1.5 w-full bg-amber-100 shadow-amber-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
+                    pathname.includes(note.key) &&
+                      'bg-amber-200 shadow-amber-300'
+                  )}
                 >
-                  {note.key}
+                  {note.title}
                 </Link>
               ))}
             </div>
           )}
         </div>
-        {pathname != '/notes' && (
-          <Link href={'/notes'} className='underline'>
-            All notes
-          </Link>
-        )}
         <UserDropdown />
       </div>
     </>

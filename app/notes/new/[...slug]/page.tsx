@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <main className='flex'>
       <Sidebar />
-      <div className='max-w-screen-2xl m-auto overflow-x-hidden sm:pl-60'>
+      <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
         <Editor noteId={noteId} />
       </div>
     </main>
