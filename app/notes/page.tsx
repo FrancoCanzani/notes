@@ -14,9 +14,12 @@ export default function Page() {
 
   if (!Array.isArray(localStorageNotes) || localStorageNotes.length === 0) {
     return (
-      <div className='flex font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
-        <p>Nothing to see here. Tap Add New Note to start writing.</p>
-      </div>
+      <main className='flex'>
+        <Sidebar />
+        <div className='flex font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
+          <p>Nothing to see here. Tap Add New Note to start writing.</p>
+        </div>
+      </main>
     );
   }
 
