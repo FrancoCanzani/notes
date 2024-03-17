@@ -11,12 +11,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../components/ui/alert-dialog';
-import { Button } from './ui/button';
 import calculateTimeSince from '../lib/helpers/calculate-time-since';
 import NoteEditorPreview from './note-editor-preview';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface NoteProps {
   key: string;
@@ -28,9 +29,21 @@ interface NoteProps {
 export default function NoteCard({ note }: { note: NoteProps }) {
   const router = useRouter();
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: note.key });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
     <div
       key={note.key}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       className='p-3 rounded-md bg-amber-200 shadow-amber-300 hover:shadow-md transition-all duration-150 shadow-sm space-y-2 w-full sm:w-56 min-h-44'
     >
       <div className='space-y-0.5'>

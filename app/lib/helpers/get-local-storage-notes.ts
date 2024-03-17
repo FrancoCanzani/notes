@@ -10,17 +10,16 @@ export default function getLocalStorageNotes(): {
     content: string;
     lastSaved: string;
   }[] = [];
-  if (typeof window !== 'undefined') {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('note_')) {
-        const item = localStorage.getItem(key);
-        if (item) {
-          const { title, content, lastSaved } = JSON.parse(item);
-          notes.push({ key: key.substring(5), title, content, lastSaved });
-        }
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('note_')) {
+      const item = localStorage.getItem(key);
+      if (item) {
+        const { title, content, lastSaved } = JSON.parse(item);
+        notes.push({ key: key.substring(5), title, content, lastSaved });
       }
     }
   }
+
   return notes;
 }
