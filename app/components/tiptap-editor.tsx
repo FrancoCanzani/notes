@@ -62,7 +62,7 @@ export default function Editor({ noteId }: { noteId: string }) {
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     setIsSaving(true); // Set saving status to true
     const json = editor.getJSON();
-    await handleLocalStorageSave(noteId, title, JSON.stringify(json));
+    handleLocalStorageSave(noteId, title, JSON.stringify(json));
     setIsSaving(false); // Set saving status to false
     toast('is saving');
   }, 1000);
