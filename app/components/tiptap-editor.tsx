@@ -10,7 +10,6 @@ import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import { useSession } from 'next-auth/react';
 import handleLocalStorageSave from '../lib/helpers/handle-local-storage-save';
-import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -34,7 +33,7 @@ const extensions = [
 
 export default function Editor({ noteId }: { noteId: string }) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const editor = useEditor({
     autofocus: true,
@@ -60,16 +59,15 @@ export default function Editor({ noteId }: { noteId: string }) {
 
   // the callback function will be called only after x milliseconds since the last invocation
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
-    setIsSaving(true); // Set saving status to true
+    setIsSaved(true);
     const json = editor.getJSON();
-    handleLocalStorageSave(noteId, title, JSON.stringify(json));
-    setIsSaving(false); // Set saving status to false
-    toast('is saving');
+    await handleLocalStorageSave(noteId, title, JSON.stringify(json));
   }, 1000);
 
   if (!editor) return;
   editor.on('update', ({ editor }) => {
     debouncedUpdates(editor);
+    setIsSaved(false);
   });
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +86,7 @@ export default function Editor({ noteId }: { noteId: string }) {
         autoFocus
         className='relative bg-gray-50 rounded-sm w-full sm:max-w-screen-2xl shadow outline-none px-3 py-2'
       />
-      <MenuBar editor={editor} isSaving={isSaving} />
+      <MenuBar editor={editor} isSaved={isSaved} />
       <EditorContent
         editor={editor}
         className='relative min-h-[550px] rounded-sm w-full sm:max-w-screen-2xl shadow outline-none p-3'

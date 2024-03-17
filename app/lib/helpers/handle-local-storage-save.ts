@@ -1,4 +1,4 @@
-export default function handleLocalStorageSave(
+export default async function handleLocalStorageSave(
   noteId: string,
   title: string,
   content: string
@@ -10,7 +10,7 @@ export default function handleLocalStorageSave(
     const lastSaved = new Date().toLocaleString();
 
     const note = { title, lastSaved, content };
-    window.localStorage.setItem(`note_${noteId}`, JSON.stringify(note));
+    await window.localStorage.setItem(`note_${noteId}`, JSON.stringify(note));
   } else {
     throw new Error('Local Storage API is only available in client components');
   }

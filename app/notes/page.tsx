@@ -2,22 +2,21 @@
 
 import Sidebar from '../components/sidebar';
 import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
-import Link from 'next/link';
-import NoteEditorPreview from '../components/note-editor-preview';
-import calculateTimeSince from '../lib/helpers/calculate-time-since';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import NoteCard from '../components/note-card';
 
 export default function Page() {
   const localStorageNotes = getLocalStorageNotes();
-  const router = useRouter();
 
   if (!Array.isArray(localStorageNotes) || localStorageNotes.length === 0) {
     return (
       <main className='flex'>
         <Sidebar />
         <div className='flex font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
-          <p>Nothing to see here. Tap Add New Note to start writing.</p>
+          <p className='text-balance text-center p-4'>
+            Nothing to see here. Tap{' '}
+            <strong className='underline'>Add New Note</strong> to start
+            writing.
+          </p>
         </div>
       </main>
     );
@@ -46,53 +45,7 @@ export default function Page() {
         </h2>
         <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
           {localStorageNotes.map((note) => (
-            <div
-              key={note.key}
-              className='p-3 rounded-md bg-amber-200 shadow-amber-300 hover:shadow-md transition-all duration-150 shadow-sm space-y-2 w-full sm:w-56 min-h-44'
-            >
-              <div className='space-y-0.5'>
-                <h3 className='font-medium text-sm'>{note.title}</h3>
-                <div className='flex items-center justify-between'>
-                  <div className='flex items-center space-x-1 justify-start'>
-                    <span className='text-xs text-gray-800'>
-                      Last edited:{' '}
-                      {note.lastSaved
-                        ? calculateTimeSince(note.lastSaved)
-                        : 'Unknown'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <hr className='w-full h-[0.5px] border-gray-600 opacity-25' />
-              <NoteEditorPreview
-                content={note.content}
-                className='block w-full no-scrollbars text-xs h-24 text-ellipsis overflow-auto whitespace-nowrap p-2 rounded-md outline-none bg-amber-50 shadow'
-              />
-              <div className='w-full flex items-center justify-between'>
-                <Link href={`notes/${note.key}`} className='text-xs'>
-                  Edit
-                </Link>
-                <button
-                  onClick={() => {
-                    localStorage.removeItem(`note_${note.key}`);
-                    router.refresh();
-                    toast.success(`Deleted: ${note.title}`);
-                  }}
-                >
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='1em'
-                    height='1em'
-                    viewBox='0 0 256 256'
-                  >
-                    <path
-                      fill='currentColor'
-                      d='M216 50h-42V40a22 22 0 0 0-22-22h-48a22 22 0 0 0-22 22v10H40a6 6 0 0 0 0 12h10v146a14 14 0 0 0 14 14h128a14 14 0 0 0 14-14V62h10a6 6 0 0 0 0-12M94 40a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10v10H94Zm100 168a2 2 0 0 1-2 2H64a2 2 0 0 1-2-2V62h132Zm-84-104v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0m48 0v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0'
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <NoteCard note={note} />
           ))}
         </div>
       </div>
