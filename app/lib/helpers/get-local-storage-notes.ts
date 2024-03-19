@@ -1,22 +1,23 @@
-export default function getLocalStorageNotes(): {
-  key: string;
-  title: string;
-  content: string;
-  lastSaved: string;
-}[] {
-  const notes: {
-    key: string;
-    title: string;
-    content: string;
-    lastSaved: string;
-  }[] = [];
+import { Note } from '../types';
+
+export default function getLocalStorageNotes(): Note[] {
+  const notes: Note[] = [];
   for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('note_')) {
-      const item = localStorage.getItem(key);
+    const id = localStorage.key(i);
+    if (id && id.startsWith('note_')) {
+      const item = localStorage.getItem(id);
       if (item) {
-        const { title, content, lastSaved } = JSON.parse(item);
-        notes.push({ key: key.substring(5), title, content, lastSaved });
+        const { title, content, lastSaved, pinned, created, type } =
+          JSON.parse(item);
+        notes.push({
+          id: id.substring(5),
+          title,
+          content,
+          lastSaved,
+          created,
+          pinned,
+          type,
+        });
       }
     }
   }

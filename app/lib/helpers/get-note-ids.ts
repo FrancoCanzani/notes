@@ -1,10 +1,10 @@
 export default function getAllNoteIds() {
-  const keys = [];
+  const ids = [];
   for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('note_')) {
-      keys.push(key.substring(5));
+    const id = localStorage.key(i);
+    if (id && id.startsWith('note_')) {
+      ids.push(id.substring(5));
     }
   }
-  return keys;
+  return ids;
 }

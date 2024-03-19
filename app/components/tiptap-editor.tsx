@@ -8,7 +8,6 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
-import { useSession } from 'next-auth/react';
 import handleLocalStorageSave from '../lib/helpers/handle-local-storage-save';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -31,7 +30,13 @@ const extensions = [
   }),
 ];
 
-export default function Editor({ noteId }: { noteId: string }) {
+export default function Editor({
+  noteId,
+  local,
+}: {
+  noteId: string;
+  local: boolean;
+}) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const [isSaved, setIsSaved] = useState(false);
 
@@ -46,16 +51,24 @@ export default function Editor({ noteId }: { noteId: string }) {
   });
 
   useEffect(() => {
-    const note = window.localStorage.getItem(`note_${noteId}`);
-    if (note) {
-      const { title: storedTitle, content } = JSON.parse(note);
-      setTitle(storedTitle);
-      editor?.commands.setContent(JSON.parse(content));
+    if (local) {
+      const note = window.localStorage.getItem(`note_${noteId}`);
+
+      if (note) {
+        const { title: storedTitle, content } = JSON.parse(note);
+        setTitle(storedTitle);
+        editor?.commands.setContent(JSON.parse(content));
+      }
+    } else {
+      const note = window.localStorage.getItem(`note_${noteId}`);
+
+      if (note) {
+        const { title: storedTitle, content } = JSON.parse(note);
+        setTitle(storedTitle);
+        editor?.commands.setContent(JSON.parse(content));
+      }
     }
   }, [editor, noteId]);
-
-  // const session = useSession();
-  // const user = session.data?.user;
 
   // the callback function will be called only after x milliseconds since the last invocation
   const debouncedUpdates = useDebouncedCallback(async (editor) => {

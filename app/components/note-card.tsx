@@ -16,35 +16,31 @@ import NoteEditorPreview from './note-editor-preview';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { cn } from '../lib/utils';
 
 interface NoteProps {
-  key: string;
+  id: string;
   title: string;
   content: string;
   lastSaved: string;
 }
 
-export default function NoteCard({ note }: { note: NoteProps }) {
+export default function NoteCard({
+  note,
+  className,
+}: {
+  note: NoteProps;
+  className?: string;
+}) {
   const router = useRouter();
-
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: note.key });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
 
   return (
     <div
-      key={note.key}
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className='p-3 rounded-md bg-amber-200 shadow-amber-300 hover:shadow-md transition-all duration-150 shadow-sm space-y-2 w-full sm:w-56 min-h-44'
+      key={note.id}
+      className={cn(
+        'p-3 rounded-md bg-amber-200 shadow-amber-300 hover:shadow-md transition-all duration-150 shadow-sm space-y-2 w-full sm:w-56 min-h-44',
+        className
+      )}
     >
       <div className='space-y-0.5'>
         <h3 className='font-medium text-sm'>{note.title}</h3>
@@ -52,7 +48,9 @@ export default function NoteCard({ note }: { note: NoteProps }) {
           <div className='flex items-center space-x-1 justify-start'>
             <span className='text-xs text-gray-800'>
               Last edited:{' '}
-              {note.lastSaved ? calculateTimeSince(note.lastSaved) : 'Unknown'}
+              {note.lastSaved
+                ? calculateTimeSince(note.lastSaved.toString())
+                : 'Unknown'}
             </span>
           </div>
         </div>
@@ -64,7 +62,7 @@ export default function NoteCard({ note }: { note: NoteProps }) {
       />
       <div className='w-full flex items-center justify-between'>
         <Link
-          href={`notes/${note.key}`}
+          href={`notes/local/${note.id}`}
           className='text-xs flex items-center justify-center gap-1 opacity-75 hover:opacity-100'
         >
           Edit{' '}
@@ -111,7 +109,7 @@ export default function NoteCard({ note }: { note: NoteProps }) {
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  localStorage.removeItem(`note_${note.key}`);
+                  localStorage.removeItem(`note_${note.id}`);
                   router.refresh();
                   toast.success(`Deleted: ${note.title}`);
                 }}

@@ -9,22 +9,18 @@ import { nanoid } from 'nanoid';
 import { usePathname } from 'next/navigation';
 import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import { cn } from '../lib/utils';
+import { Note } from '../lib/types';
 
-export default function Sidebar() {
+export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
-  // the odds of repeating a specific 7-character string after 1,000 attempts are approximately 2.83%
   const newNoteId = nanoid(7);
   const pathname = usePathname();
 
   useEffect(() => {
-    // Assuming we want to hide the sidebar when the component mounts
     setShowSidebar(false);
   }, []);
 
   const localNotes = getLocalStorageNotes();
-
-  // const usedKB = Math.round((JSON.stringify(localStorage).length / 1024) * 2);
-  // const usedMB = Math.round(usedKB / 1024);
 
   return (
     <>
@@ -52,7 +48,7 @@ export default function Sidebar() {
             <h1 className='capitalize font-semibold'>Flamingo quick notes</h1>
           </div>
           <Link
-            href={`/notes/new/${newNoteId}`}
+            href={`/notes/local/new/${newNoteId}`}
             className='flex gap-2 transition-all bg-gray-50 duration-150 shadow-sm items-center justify-center font-medium rounded-md py-1.5 px-3 hover:shadow-md'
           >
             <svg
@@ -63,7 +59,7 @@ export default function Sidebar() {
             >
               <path fill='currentColor' d='M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z' />
             </svg>{' '}
-            Add New Note
+            Add Local Note
           </Link>
           {pathname != '/notes' && (
             <Link
@@ -92,11 +88,33 @@ export default function Sidebar() {
                 </h2>
                 {localNotes.map((note) => (
                   <Link
-                    href={`/notes/${note.key}`}
-                    key={note.key}
+                    href={`/notes/local/${note.id}`}
+                    id={note.id}
                     className={cn(
                       'px-3 py-1.5 w-full bg-amber-100 font-medium shadow-amber-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
-                      pathname.includes(note.key) &&
+                      pathname.includes(note.id) &&
+                        'bg-amber-200 shadow-amber-300'
+                    )}
+                  >
+                    {note.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className='flex flex-col w-full space-y-3 items-center justify-center'>
+            {cloudNotes && (
+              <div className='flex flex-col items-center w-full justify-center space-y-2'>
+                <h2 className='font-medium capitalize text-start w-full'>
+                  Cloud notes
+                </h2>
+                {cloudNotes.map((note) => (
+                  <Link
+                    href={`/notes/cloud/${note.id}`}
+                    key={note._id}
+                    className={cn(
+                      'px-3 py-1.5 w-full bg-amber-100 font-medium shadow-amber-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
+                      pathname.includes(note.id) &&
                         'bg-amber-200 shadow-amber-300'
                     )}
                   >

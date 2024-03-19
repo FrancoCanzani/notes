@@ -1,5 +1,5 @@
-import Editor from '../../components/tiptap-editor';
-import Sidebar from '../../components/sidebar';
+import Editor from '../../../components/tiptap-editor';
+import Sidebar from '../../../components/sidebar';
 import { getServerSession } from 'next-auth';
 
 export default async function Page({ params }: { params: { slug: string } }) {
