@@ -3,6 +3,7 @@
 import { User } from './db/schemas/user-schema';
 import connectToDatabase from './db/connect-to-db';
 import { Note } from './db/schemas/note-schema';
+import { revalidatePath } from 'next/cache';
 
 interface UserProps {
   id: string;
@@ -90,13 +91,16 @@ export async function saveCloudNote(
         id: noteId,
         title,
         content,
+        lastSaved: new Date().toLocaleString(),
       });
     } else {
       note.title = title;
       note.content = content;
+      note.lastSaved = new Date().toLocaleString();
     }
 
     await note.save();
+    revalidatePath('/notes', 'page');
 
     return note;
   } catch (error) {
@@ -104,13 +108,20 @@ export async function saveCloudNote(
   }
 }
 
-export async function createCloudNote(userId: string) {
+export async function deleteCloudNote(
+  userId: string | undefined,
+  noteId: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for deleteCloudNote');
+  }
+
   try {
     await connectToDatabase();
 
-    let notes = await Note.find({ userId });
+    const note = await Note.findOneAndDelete({ userId, id: noteId });
 
-    return notes;
+    return note;
   } catch (error) {
     throw error;
   }

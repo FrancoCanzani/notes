@@ -5,15 +5,14 @@ import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import UserDropdown from './user-dropdown';
 import Link from 'next/link';
-import { nanoid } from 'nanoid';
 import { usePathname } from 'next/navigation';
 import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
+import AddNewNoteButton from './add-new-note';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
-  const newNoteId = nanoid(7);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   return (
     <>
       <button
-        className='fixed z-20 right-5 top-4 sm:hidden' // Adjust positioning as needed
+        className='fixed z-20 right-5 top-4 sm:hidden'
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
@@ -47,20 +46,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             />
             <h1 className='capitalize font-semibold'>Flamingo quick notes</h1>
           </div>
-          <Link
-            href={`/notes/local/new/${newNoteId}`}
-            className='flex gap-2 transition-all bg-gray-50 duration-150 shadow-sm items-center justify-center font-medium rounded-md py-1.5 px-3 hover:shadow-md'
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='1em'
-              height='1em'
-              viewBox='0 0 24 24'
-            >
-              <path fill='currentColor' d='M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z' />
-            </svg>{' '}
-            Add Local Note
-          </Link>
+          <AddNewNoteButton />
           {pathname != '/notes' && (
             <Link
               href={'/notes'}
@@ -103,7 +89,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             )}
           </div>
           <div className='flex flex-col w-full space-y-3 items-center justify-center'>
-            {cloudNotes && (
+            {cloudNotes && cloudNotes.length > 0 && (
               <div className='flex flex-col items-center w-full justify-center space-y-2'>
                 <h2 className='font-medium capitalize text-start w-full'>
                   Cloud notes
@@ -113,9 +99,9 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
                     href={`/notes/cloud/${note.id}`}
                     key={note._id}
                     className={cn(
-                      'px-3 py-1.5 w-full bg-amber-100 font-medium shadow-amber-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
+                      'px-3 py-1.5 w-full bg-green-100 font-medium shadow-green-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
                       pathname.includes(note.id) &&
-                        'bg-amber-200 shadow-amber-300'
+                        'bg-green-200 shadow-green-300'
                     )}
                   >
                     {note.title}

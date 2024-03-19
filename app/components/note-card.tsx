@@ -17,23 +17,32 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { cn } from '../lib/utils';
-
-interface NoteProps {
-  id: string;
-  title: string;
-  content: string;
-  lastSaved: string;
-}
+import { Note } from '../lib/types';
+import { deleteCloudNote } from '../lib/actions';
+import { useSession } from 'next-auth/react';
 
 export default function NoteCard({
   note,
   className,
 }: {
-  note: NoteProps;
+  note: Note;
   className?: string;
 }) {
   const router = useRouter();
+  const session = useSession();
+  const userId = session.data?.user?.id;
 
+  const handleDeleteNote = async () => {
+    if (note.type === 'local') {
+      localStorage.removeItem(`note_${note.id}`);
+      router.refresh();
+      toast.success(`Deleted: ${note.title}`);
+    }
+
+    await deleteCloudNote(userId, note.id);
+    router.refresh();
+    toast.success(`Deleted: ${note.title}`);
+  };
   return (
     <div
       key={note.id}
@@ -47,10 +56,7 @@ export default function NoteCard({
         <div className='flex items-center justify-between'>
           <div className='flex items-center space-x-1 justify-start'>
             <span className='text-xs text-gray-800'>
-              Last edited:{' '}
-              {note.lastSaved
-                ? calculateTimeSince(note.lastSaved.toString())
-                : 'Unknown'}
+              Last edited: {calculateTimeSince(note.lastSaved)}
             </span>
           </div>
         </div>
@@ -62,7 +68,11 @@ export default function NoteCard({
       />
       <div className='w-full flex items-center justify-between'>
         <Link
-          href={`notes/local/${note.id}`}
+          href={
+            note.type === 'local'
+              ? `notes/local/${note.id}`
+              : `notes/cloud/${note.id}`
+          }
           className='text-xs flex items-center justify-center gap-1 opacity-75 hover:opacity-100'
         >
           Edit{' '}
@@ -108,12 +118,8 @@ export default function NoteCard({
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
-                onClick={() => {
-                  localStorage.removeItem(`note_${note.id}`);
-                  router.refresh();
-                  toast.success(`Deleted: ${note.title}`);
-                }}
-                className='opacity-75 bg-amber-200 border-2 border-amber-100 hover:opacity-100'
+                onClick={() => handleDeleteNote()}
+                className='bg-amber-200 hover:bg-amber-300 duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
               >
                 Continue
               </AlertDialogAction>

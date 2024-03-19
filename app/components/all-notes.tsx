@@ -39,17 +39,24 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
       </h2>
       <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
         {localStorageNotes.map((note) => (
-          <NoteCard note={note} />
+          <NoteCard note={note} key={note.id} />
         ))}
       </div>
       <h2 className='px-5 pt-5 font-medium gap-2 flex items-center justify-start'>
         Cloud Notes
       </h2>
       <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
-        {cloudNotes &&
+        {cloudNotes && cloudNotes.length > 0 ? (
           cloudNotes.map((note) => (
-            <NoteCard className='bg-green-300 shadow-green-300' note={note} />
-          ))}
+            <NoteCard
+              className='bg-green-300 shadow-green-300'
+              note={note}
+              key={note._id}
+            />
+          ))
+        ) : (
+          <p>No cloud notes available</p>
+        )}
       </div>
     </div>
   );

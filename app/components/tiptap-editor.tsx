@@ -11,13 +11,17 @@ import StarterKit from '@tiptap/starter-kit';
 import handleLocalStorageSave from '../lib/helpers/handle-local-storage-save';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { saveCloudNote } from '../lib/actions';
+import { Note } from '../lib/types';
 
 const extensions = [
-  Color.configure({}),
-  TextStyle.configure({}),
+  Color,
+  TextStyle,
   ListItem,
   Underline,
-  Highlight.configure({ multicolor: true }),
+  Highlight,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -32,13 +36,19 @@ const extensions = [
 
 export default function Editor({
   noteId,
-  local,
+  cloudNote,
 }: {
   noteId: string;
-  local: boolean;
+  cloudNote?: Note;
 }) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const [isSaved, setIsSaved] = useState(false);
+  const session = useSession();
+  const userId = session.data?.user?.id;
+  const pathname = usePathname();
+  const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
+
+  console.log(cloudNote);
 
   const editor = useEditor({
     autofocus: true,
@@ -51,33 +61,41 @@ export default function Editor({
   });
 
   useEffect(() => {
-    if (local) {
-      const note = window.localStorage.getItem(`note_${noteId}`);
+    const loadNote = async () => {
+      if (noteType === 'local') {
+        const note = window.localStorage.getItem(`note_${noteId}`);
+        console.log(note);
 
-      if (note) {
-        const { title: storedTitle, content } = JSON.parse(note);
-        setTitle(storedTitle);
-        editor?.commands.setContent(JSON.parse(content));
+        if (note) {
+          const { title: storedTitle, content } = JSON.parse(note);
+          setTitle(storedTitle);
+          editor?.commands.setContent(JSON.parse(content));
+        }
+      } else {
+        if (cloudNote) {
+          const { title: storedTitle, content } = cloudNote;
+          setTitle(storedTitle);
+          editor?.commands.setContent(JSON.parse(content));
+        }
       }
-    } else {
-      const note = window.localStorage.getItem(`note_${noteId}`);
+    };
 
-      if (note) {
-        const { title: storedTitle, content } = JSON.parse(note);
-        setTitle(storedTitle);
-        editor?.commands.setContent(JSON.parse(content));
-      }
-    }
-  }, [editor, noteId]);
+    loadNote();
+  }, [editor, noteId, noteType, userId]);
 
-  // the callback function will be called only after x milliseconds since the last invocation
+  // Debounce the editor updates
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     setIsSaved(true);
     const json = editor.getJSON();
-    await handleLocalStorageSave(noteId, title, JSON.stringify(json));
+    if (noteType === 'local') {
+      handleLocalStorageSave(noteId, title, JSON.stringify(json));
+    } else {
+      await saveCloudNote(userId, noteId, title, JSON.stringify(json));
+    }
   }, 1000);
 
-  if (!editor) return;
+  if (!editor) return null;
+
   editor.on('update', ({ editor }) => {
     debouncedUpdates(editor);
     setIsSaved(false);
