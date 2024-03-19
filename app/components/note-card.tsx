@@ -54,11 +54,11 @@ export default function NoteCard({
       <div className='space-y-0.5'>
         <h3 className='font-medium text-sm'>{note.title}</h3>
         <div className='flex items-center justify-between'>
-          <div className='flex items-center space-x-1 justify-start'>
+          {/* <div className='flex items-center space-x-1 justify-start'>
             <span className='text-xs text-gray-800'>
               Last edited: {calculateTimeSince(note.lastSaved)}
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
       <hr className='w-full h-[0.5px] border-gray-600 opacity-25' />
