@@ -1,7 +1,7 @@
 import Sidebar from '../../../components/sidebar';
 import { getCloudNotes } from '../../../lib/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../api/auth/[...nextauth]/route';
+import { authOptions } from '../../../lib/auth';
 import Editor from '../../../components/tiptap-editor';
 import { Note } from '../../../lib/types';
 

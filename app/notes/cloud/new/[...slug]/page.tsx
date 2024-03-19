@@ -1,8 +1,8 @@
 import Sidebar from '../../../../components/sidebar';
 import { getCloudNotes } from '../../../../lib/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../../api/auth/[...nextauth]/route';
 import Editor from '../../../../components/tiptap-editor';
+import { authOptions } from '../../../../lib/auth';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await getServerSession(authOptions);

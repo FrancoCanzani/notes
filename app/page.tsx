@@ -1,6 +1,9 @@
+'use client';
+
 import { LoginButton } from './components/log-in';
 import Image from 'next/image';
 import Link from 'next/link';
+import InstallPWA from './components/install-pwa-button';
 
 export default function Page() {
   return (
@@ -15,6 +18,7 @@ export default function Page() {
         <h2 className='text-center text-pretty'>
           Welcome to <strong>Flamingo</strong>, the simple note taking app
         </h2>
+        <InstallPWA />
         <div className='flex items-center justify-center space-x-3'>
           <Link
             href={'/notes'}

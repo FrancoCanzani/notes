@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import { cn } from '../lib/utils';
 import { Button, type ButtonProps } from '../components/ui/button';
-import handleUser from '../lib/actions';
+import { handleUser } from '../lib/actions';
 
 interface LoginButtonProps extends ButtonProps {
   showGithubIcon?: boolean;
