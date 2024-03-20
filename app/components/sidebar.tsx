@@ -10,10 +10,14 @@ import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
 import AddNewNoteButton from './add-new-note';
+import { useSession } from 'next-auth/react';
+import { nanoid } from 'nanoid';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = usePathname();
+  const session = useSession();
+  const newNoteId = nanoid(7);
 
   useEffect(() => {
     setShowSidebar(false);
@@ -46,7 +50,16 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             />
             <h1 className='capitalize font-semibold'>Flamingo quick notes</h1>
           </div>
-          <AddNewNoteButton />
+          {session ? (
+            <AddNewNoteButton />
+          ) : (
+            <Link
+              href={`/notes/local/new/${newNoteId}`}
+              className='capitalize cursor-pointer duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md bg-white w-full text-center opacity-75 hover:opacity-100'
+            >
+              Add Local Note
+            </Link>
+          )}
           {pathname != '/notes' && (
             <Link
               href={'/notes'}

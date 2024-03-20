@@ -21,6 +21,14 @@ export default function AddNewNoteButton() {
         Add new note
       </AlertDialogTrigger>
       <AlertDialogContent className='bg-gray-50 rounded-md'>
+        <AlertDialogCancel className='absolute right-0.5'>
+          <button
+            className='bg-gray-100 hover:bg-gray-200 duration-150 shadow-sm py-1 px-2 font-medium rounded-md hover:shadow-md'
+            type='button'
+          >
+            X
+          </button>
+        </AlertDialogCancel>
         <AlertDialogHeader>
           <AlertDialogTitle>What type of note do you want?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -28,15 +36,7 @@ export default function AddNewNoteButton() {
             stored on a remote server and accessible from any device.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>
-            <button
-              className='bg-gray-200 hover:bg-gray-300 duration-150 shadow-sm py-1.5 px-3 font-medium rounded-md hover:shadow-md'
-              type='button'
-            >
-              Cancel
-            </button>
-          </AlertDialogCancel>
+        <AlertDialogFooter className='flex w-full items-center justify-between'>
           <AlertDialogAction>
             <Link
               href={`/notes/local/new/${newNoteId}`}

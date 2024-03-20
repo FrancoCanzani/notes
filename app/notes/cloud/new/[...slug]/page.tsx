@@ -6,10 +6,10 @@ import { authOptions } from '../../../../lib/auth';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await getServerSession(authOptions);
-  const userId = session.user.id;
   const noteId = params.slug[0];
 
-  if (userId) {
+  if (session && session.user) {
+    const userId = session.user.id;
     const notes = await getCloudNotes(userId);
 
     return (
