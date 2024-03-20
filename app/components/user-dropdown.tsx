@@ -56,7 +56,7 @@ export default function UserDropdown() {
           </div>
         </div>
       ) : (
-        <LoginButton />
+        <LoginButton callbackUrl='/notes' />
       )}
     </>
   );
