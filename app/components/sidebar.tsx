@@ -19,6 +19,8 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const session = useSession();
   const newNoteId = nanoid(7);
 
+  console.log(session.status);
+
   useEffect(() => {
     setShowSidebar(false);
   }, []);

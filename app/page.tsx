@@ -27,7 +27,7 @@ export default function Page() {
             Continue Local
           </Link>
           <LoginButton
-            callbackUrl='/editor'
+            callbackUrl='https://notes-lemon-nu.vercel.app/notes'
             className='p-2 border-2 hover:bg-amber-300 text-sm border-amber-200 bg-amber-200 rounded-md shadow shadow-amber-100'
           />
         </div>

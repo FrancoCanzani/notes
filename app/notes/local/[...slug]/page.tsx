@@ -25,7 +25,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <main className='flex'>
       <Sidebar />
-      <Editor noteId={noteId} />
+      <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
+        <Editor noteId={noteId} />
+      </div>
     </main>
   );
 }
