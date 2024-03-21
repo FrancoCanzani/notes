@@ -41,11 +41,7 @@ export default function UserDropdown() {
                 <Button
                   variant={'destructive'}
                   className='text-start text-red-600'
-                  onClick={() =>
-                    signOut({
-                      callbackUrl: 'https://notes-lemon-nu.vercel.app/',
-                    })
-                  }
+                  onClick={() => signOut()}
                 >
                   Sign Out
                 </Button>
@@ -58,7 +54,7 @@ export default function UserDropdown() {
           </div>
         </div>
       ) : (
-        <LoginButton callbackUrl='https://notes-lemon-nu.vercel.app/notes' />
+        <LoginButton />
       )}
     </>
   );
