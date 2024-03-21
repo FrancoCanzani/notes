@@ -122,9 +122,11 @@ export default function MenuBar({
         variant={'menu'}
         size={'sm'}
         onClick={() =>
-          editor.chain().focus().toggleHighlight({ color: '#FFD465' }).run()
+          editor.isActive('highlight')
+            ? editor.chain().focus().unsetHighlight().run()
+            : editor.chain().focus().toggleHighlight({ color: '#FFD465' }).run()
         }
-        disabled={!editor.can().chain().focus().toggleCode().run()}
+        disabled={!editor.can().chain().focus().toggleHighlight().run()}
         className={cn(
           'bg-[#FFD465]/50 hover:bg-[#FFD465]',
           editor.isActive('highlight') ? 'font-bold bg-[#FFD465] shadow' : ''

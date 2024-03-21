@@ -19,8 +19,6 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const session = useSession();
   const newNoteId = nanoid(7);
 
-  console.log(session.status);
-
   useEffect(() => {
     setShowSidebar(false);
   }, []);
@@ -38,7 +36,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
       <div
         className={`transform ${
           showSidebar ? 'w-full translate-x-0' : '-translate-x-full'
-        } fixed flex flex-col justify-between space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed flex flex-col justify-between items-center space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
       >
         <div className='space-y-10'>
           <div
@@ -52,15 +50,17 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             />
             <h1 className='capitalize font-semibold'>Flamingo quick notes</h1>
           </div>
-          {session ? (
+          {session.status === 'authenticated' ? (
             <AddNewNoteButton />
           ) : (
-            <Link
-              href={`/notes/local/new/${newNoteId}`}
-              className='capitalize cursor-pointer duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md bg-white w-full text-center opacity-75 hover:opacity-100'
-            >
-              Add Local Note
-            </Link>
+            <div className='w-full flex items-center justify-center'>
+              <Link
+                href={`/notes/local/new/${newNoteId}`}
+                className='capitalize cursor-pointer duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md bg-white w-full text-center opacity-75 hover:opacity-100'
+              >
+                Add Local Note
+              </Link>
+            </div>
           )}
           {pathname != '/notes' && (
             <Link

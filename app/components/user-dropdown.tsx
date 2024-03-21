@@ -54,7 +54,7 @@ export default function UserDropdown() {
           </div>
         </div>
       ) : (
-        <LoginButton />
+        <LoginButton className='capitalize cursor-pointer duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md bg-white w-full text-center opacity-75 hover:opacity-100' />
       )}
     </>
   );

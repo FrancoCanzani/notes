@@ -37,6 +37,7 @@ export default function NoteCard({
       localStorage.removeItem(`note_${note.id}`);
       router.refresh();
       toast.success(`Deleted: ${note.title}`);
+      return;
     }
 
     await deleteCloudNote(userId, note.id);
@@ -113,7 +114,7 @@ export default function NoteCard({
                 note.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter>
+            <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
               <AlertDialogCancel className='opacity-75 border-2 border-gray-100 hover:opacity-100'>
                 Cancel
               </AlertDialogCancel>

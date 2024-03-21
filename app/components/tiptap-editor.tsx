@@ -48,8 +48,6 @@ export default function Editor({
   const pathname = usePathname();
   const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
 
-  console.log(cloudNote);
-
   const editor = useEditor({
     autofocus: true,
     extensions,

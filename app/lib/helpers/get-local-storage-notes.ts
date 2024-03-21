@@ -1,6 +1,10 @@
 import { Note } from '../types';
 
 export default function getLocalStorageNotes(): Note[] {
+  if (typeof localStorage === 'undefined') {
+    return []; // If localStorage is not available (e.g., on the server), return an empty array
+  }
+
   const notes: Note[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const id = localStorage.key(i);
