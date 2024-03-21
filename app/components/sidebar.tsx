@@ -56,7 +56,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             <div className='w-full flex items-center justify-center'>
               <Link
                 href={`/notes/local/new/${newNoteId}`}
-                className='capitalize cursor-pointer duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md bg-white w-full text-center opacity-75 hover:opacity-100'
+                className='py-3 animate-shimmer w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
               >
                 Add Local Note
               </Link>
