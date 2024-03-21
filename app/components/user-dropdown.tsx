@@ -41,7 +41,7 @@ export default function UserDropdown() {
                 <Button
                   variant={'destructive'}
                   className='text-start text-red-600'
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: '/' })}
                 >
                   Sign Out
                 </Button>
