@@ -6,12 +6,12 @@ import { Menu } from 'lucide-react';
 import UserDropdown from './user-dropdown';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
 import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
+import useLocalStorageNotes from '../lib/helpers/use-local-storage-notes';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -23,12 +23,12 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
     setShowSidebar(false);
   }, []);
 
-  const localNotes = getLocalStorageNotes();
+  const localNotes = useLocalStorageNotes();
 
   return (
     <>
       <button
-        className='fixed z-20 right-5 top-4 sm:hidden'
+        className='fixed z-20 right-5 top-4 sm:hidden '
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
@@ -36,7 +36,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
       <div
         className={`transform ${
           showSidebar ? 'w-full translate-x-0' : '-translate-x-full'
-        } fixed flex flex-col justify-between items-center space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed flex flex-col justify-between space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
       >
         <div className='space-y-10'>
           <div

@@ -1,11 +1,11 @@
 'use client';
 
-import getLocalStorageNotes from '../lib/helpers/get-local-storage-notes';
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
+import useLocalStorageNotes from '../lib/helpers/use-local-storage-notes';
 
 export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
-  const localStorageNotes = getLocalStorageNotes();
+  const localStorageNotes = useLocalStorageNotes();
 
   if (!Array.isArray(localStorageNotes) || localStorageNotes.length === 0) {
     return (
@@ -46,7 +46,7 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           </div>
         </>
       )}
-      {cloudNotes && cloudNotes.length > 0 && (
+      {cloudNotes && (
         <>
           <h2 className='px-5 pt-5 font-medium gap-2 flex items-center justify-start'>
             Cloud Notes
