@@ -32,6 +32,8 @@ export default function NoteCard({
   const session = useSession();
   const userId = session.data?.user?.id;
 
+  console.log(userId);
+
   const handleDeleteNote = async () => {
     if (note.type === 'local') {
       localStorage.removeItem(`note_${note.id}`);
