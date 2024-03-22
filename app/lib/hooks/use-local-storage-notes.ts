@@ -4,7 +4,7 @@ import { Note } from '../types';
 import { useEffect, useState } from 'react';
 
 export default function useLocalStorageNotes(): Note[] {
-  const [notes, setNotes] = useState<Note[]>([]); // State to store notes
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {

@@ -11,7 +11,7 @@ import { Note } from '../lib/types';
 import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
-import useLocalStorageNotes from '../lib/helpers/use-local-storage-notes';
+import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -104,7 +104,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             )}
           </div>
           <div className='flex flex-col w-full space-y-3 items-center justify-center'>
-            {cloudNotes && cloudNotes.length > 0 && (
+            {cloudNotes && (
               <div className='flex flex-col items-center w-full justify-center space-y-2'>
                 <h2 className='font-medium capitalize text-start w-full'>
                   Cloud notes

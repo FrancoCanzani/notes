@@ -2,12 +2,12 @@
 
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
-import useLocalStorageNotes from '../lib/helpers/use-local-storage-notes';
+import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
 
 export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const localStorageNotes = useLocalStorageNotes();
 
-  if (!Array.isArray(localStorageNotes) || localStorageNotes.length === 0) {
+  if (localStorageNotes.length === 0 && cloudNotes && cloudNotes.length === 0) {
     return (
       <div className='flex font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
         <p className='text-balance text-center p-4'>
@@ -23,7 +23,7 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
       <h2 className='px-5 pt-4 font-medium text-xl capitalize'>
         All your notes
       </h2>
-      {localStorageNotes && (
+      {localStorageNotes.length > 0 && (
         <>
           <h2 className='px-5 pt-5 font-medium gap-2 flex items-center justify-start'>
             Local Notes{' '}
@@ -46,7 +46,7 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           </div>
         </>
       )}
-      {cloudNotes && (
+      {cloudNotes && cloudNotes.length > 0 && (
         <>
           <h2 className='px-5 pt-5 font-medium gap-2 flex items-center justify-start'>
             Cloud Notes

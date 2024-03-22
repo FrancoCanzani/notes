@@ -44,6 +44,7 @@ export default function NoteCard({
     router.refresh();
     toast.success(`Deleted: ${note.title}`);
   };
+
   return (
     <div
       key={note.id}

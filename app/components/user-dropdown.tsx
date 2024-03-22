@@ -35,9 +35,9 @@ export default function UserDropdown() {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='bg-white text-start'>
-              <DropdownMenuLabel>User settings</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className='hover:bg-gray-50'>
+              {/* <DropdownMenuLabel>User settings</DropdownMenuLabel>
+              <DropdownMenuSeparator /> */}
+              <DropdownMenuItem className='hover:bg-gray-50 h-7'>
                 <Button
                   variant={'destructive'}
                   className='text-start text-red-600'
