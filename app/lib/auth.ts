@@ -1,6 +1,7 @@
 import GitHubProvider from 'next-auth/providers/github';
+import NextAuth, { type NextAuthOptions } from 'next-auth';
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID ?? '',
@@ -8,10 +9,14 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    // @ts-ignore
-    async session({ session, token }) {
-      session.user.id = token.sub;
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
       return session;
+    },
+    async jwt({ token }) {
+      return token;
     },
   },
 };
