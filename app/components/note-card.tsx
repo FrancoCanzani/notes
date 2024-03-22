@@ -33,6 +33,7 @@ export default function NoteCard({
   const userId = session.data?.user?.id;
 
   console.log(session.status);
+  console.log(session.data?.user);
 
   console.log(session.data?.user?.id);
 
