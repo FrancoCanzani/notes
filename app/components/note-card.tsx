@@ -32,7 +32,7 @@ export default function NoteCard({
   const session = useSession();
 
   console.log(session.status);
-  console.log(session.user);
+  // console.log(session.user);
   console.log(session.data?.user);
 
   const handleDeleteNote = async () => {

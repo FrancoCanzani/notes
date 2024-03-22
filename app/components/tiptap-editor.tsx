@@ -44,7 +44,6 @@ export default function Editor({
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const [isSaved, setIsSaved] = useState(false);
   const session = useSession();
-  const userId = session.data?.user?.id;
   const pathname = usePathname();
   const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
 
@@ -79,7 +78,7 @@ export default function Editor({
     };
 
     loadNote();
-  }, [editor, noteId, noteType, userId]);
+  }, [editor, noteId, noteType]);
 
   // Debounce the editor updates
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
@@ -88,7 +87,14 @@ export default function Editor({
     if (noteType === 'local') {
       handleLocalStorageSave(noteId, title, JSON.stringify(json));
     } else {
-      await saveCloudNote(userId, noteId, title, JSON.stringify(json));
+      if (session.data) {
+        await saveCloudNote(
+          session.data?.user?.id,
+          noteId,
+          title,
+          JSON.stringify(json)
+        );
+      }
     }
   }, 1000);
 
