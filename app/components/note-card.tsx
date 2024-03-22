@@ -32,9 +32,8 @@ export default function NoteCard({
   const session = useSession();
 
   console.log(session.status);
+  console.log(session.user);
   console.log(session.data?.user);
-
-  console.log(session.data?.user?.id);
 
   const handleDeleteNote = async () => {
     if (note.type === 'local') {

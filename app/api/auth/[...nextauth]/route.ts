@@ -13,6 +13,7 @@ const authOptions: NextAuthOptions = {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
+      console.log(session.user);
       return session;
     },
     async jwt({ token }) {
