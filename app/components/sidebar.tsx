@@ -104,7 +104,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             )}
           </div>
           <div className='flex flex-col w-full space-y-3 items-center justify-center'>
-            {cloudNotes && (
+            {cloudNotes && cloudNotes.length > 0 && (
               <div className='flex flex-col items-center w-full justify-center space-y-2'>
                 <h2 className='font-medium capitalize text-start w-full'>
                   Cloud notes
