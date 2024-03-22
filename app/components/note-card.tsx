@@ -31,22 +31,17 @@ export default function NoteCard({
   const router = useRouter();
   const session = useSession();
 
-  console.log(session.status);
-  // console.log(session.user);
-  console.log(session.data?.user);
-
   const handleDeleteNote = async () => {
     if (note.type === 'local') {
       localStorage.removeItem(`note_${note.id}`);
-      router.refresh();
       toast.success(`Deleted: ${note.title}`);
-      return;
+      return router.refresh();
     }
 
     if (session.data) {
       await deleteCloudNote(session.data.user.id, note.id);
-      router.refresh();
       toast.success(`Deleted: ${note.title}`);
+      return router.refresh();
     }
   };
 
