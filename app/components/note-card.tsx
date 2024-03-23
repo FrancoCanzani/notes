@@ -130,8 +130,8 @@ export default function NoteCard({
             </AlertDialogContent>
           </AlertDialog>
         ) : (
-          session.data && (
-            <AlertDialog>
+          <AlertDialog>
+            {session.data && (
               <AlertDialogTrigger
                 asChild
                 className='cursor-pointer opacity-75 hover:opacity-100'
@@ -148,28 +148,28 @@ export default function NoteCard({
                   />
                 </svg>
               </AlertDialogTrigger>
-              <AlertDialogContent className='bg-gray-50'>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your note.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
-                  <AlertDialogCancel className='opacity-75 border-2 border-gray-100 hover:opacity-100'>
-                    Cancel
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleDeleteNote()}
-                    className='bg-amber-200 hover:bg-amber-300 duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )
+            )}
+            <AlertDialogContent className='bg-gray-50'>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your note.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
+                <AlertDialogCancel className='opacity-75 border-2 border-gray-100 hover:opacity-100'>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => handleDeleteNote()}
+                  className='bg-amber-200 hover:bg-amber-300 duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </div>
     </div>
