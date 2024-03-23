@@ -54,7 +54,7 @@ export default function NoteCard({
       )}
     >
       <div className='space-y-0.5'>
-        <h3 className='font-medium text-sm'>{note.title}</h3>
+        <h3 className='font-medium truncate text-sm'>{note.title}</h3>
         <div className='flex items-center justify-between'>
           {/* <div className='flex items-center space-x-1 justify-start'>
             <span className='text-xs text-gray-800'>

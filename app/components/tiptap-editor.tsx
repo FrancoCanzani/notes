@@ -61,8 +61,6 @@ export default function Editor({
     const loadNote = async () => {
       if (noteType === 'local') {
         const note = window.localStorage.getItem(`note_${noteId}`);
-        console.log(note);
-
         if (note) {
           const { title: storedTitle, content } = JSON.parse(note);
           setTitle(storedTitle);

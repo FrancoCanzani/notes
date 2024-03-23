@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import UserDropdown from './user-dropdown';
@@ -25,6 +24,11 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   const localNotes = useLocalStorageNotes();
 
+  const formatDate = (date: string) => {
+    const formattedDate = new Date(date);
+    return formattedDate.toLocaleString();
+  };
+
   return (
     <>
       <button
@@ -36,19 +40,13 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
       <div
         className={`transform ${
           showSidebar ? 'w-full translate-x-0' : '-translate-x-full'
-        } fixed flex flex-col justify-between space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed flex flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
       >
-        <div className='space-y-10'>
+        <div className='space-y-5'>
           <div
             className={`flex items-center justify-start font-medium space-x-2`}
           >
-            <Image
-              src={'/flamingo-icon.webp'}
-              alt='Mingo icon'
-              width={25}
-              height={25}
-            />
-            <h1 className='capitalize font-semibold'>Flamingo quick notes</h1>
+            <h1 className='capitalize font-semibold'>Quick notes</h1>
           </div>
           {session.status === 'authenticated' ? (
             <AddNewNoteButton />
@@ -56,7 +54,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             <div className='w-full flex items-center justify-center'>
               <Link
                 href={`/notes/local/new/${newNoteId}`}
-                className='py-3 animate-shimmer w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
+                className='py-2 animate-shimmer hover:text-white w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
               >
                 Add Local Note
               </Link>
@@ -65,7 +63,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
           {pathname != '/notes' && (
             <Link
               href={'/notes'}
-              className='flex gap-3 text-sm transition-all bg-gray-50 duration-150 shadow-sm items-center justify-start font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+              className='px-3 flex items-center justify-start gap-x-3 py-2.5 w-full bg-gray-50 border shadow-gray-100 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-3'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -81,48 +79,90 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
               All notes
             </Link>
           )}
-          <div className='flex flex-col w-full space-y-3 items-center justify-center'>
+          <div className='flex flex-col w-full space-y-4 items-center justify-start'>
             {localNotes.length > 0 && (
-              <div className='flex flex-col items-center w-full justify-center space-y-2'>
+              <>
                 <h2 className='font-medium capitalize text-start w-full'>
-                  Local notes
+                  Local
                 </h2>
-                {localNotes.map((note) => (
-                  <Link
-                    href={`/notes/local/${note.id}`}
-                    id={note.id}
-                    className={cn(
-                      'px-3 py-1.5 w-full bg-amber-100 font-medium shadow-amber-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
-                      pathname.includes(note.id) &&
-                        'bg-amber-200 shadow-amber-300'
-                    )}
-                  >
-                    {note.title}
-                  </Link>
-                ))}
-              </div>
+                <div className='flex flex-col w-full space-y-2 h-52 overflow-y-scroll no-scrollbar items-center justify-start'>
+                  {localNotes.map((note) => (
+                    <Link
+                      href={`/notes/local/${note.id}`}
+                      id={note.id}
+                      className={cn(
+                        'px-3 py-2 w-full bg-gray-50 border shadow-gray-100 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-3',
+                        pathname.includes(note.id) &&
+                          'bg-gray-100 border-black shadow-md shadow-gray-200'
+                      )}
+                    >
+                      <div className='flex items-center justify-between w-full'>
+                        <p className='font-medium w-fit text-base truncate'>
+                          {note.title}
+                        </p>
+                        {pathname.includes(note.id) && (
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='1em'
+                            height='1em'
+                            viewBox='0 0 15 15'
+                          >
+                            <path
+                              fill='none'
+                              stroke='currentColor'
+                              strokeLinecap='square'
+                              d='m6.5 10.5l3-3l-3-3'
+                            />
+                          </svg>
+                        )}
+                      </div>
+                      <time className='text-xs'>{note.lastSaved}</time>
+                    </Link>
+                  ))}
+                </div>
+              </>
             )}
-          </div>
-          <div className='flex flex-col w-full space-y-3 items-center justify-center'>
             {cloudNotes && cloudNotes.length > 0 && (
-              <div className='flex flex-col items-center w-full justify-center space-y-2'>
+              <>
                 <h2 className='font-medium capitalize text-start w-full'>
-                  Cloud notes
+                  Cloud
                 </h2>
-                {cloudNotes.map((note) => (
-                  <Link
-                    href={`/notes/cloud/${note.id}`}
-                    key={note._id}
-                    className={cn(
-                      'px-3 py-1.5 w-full bg-green-100 font-medium shadow-green-200 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-2',
-                      pathname.includes(note.id) &&
-                        'bg-green-200 shadow-green-300'
-                    )}
-                  >
-                    {note.title}
-                  </Link>
-                ))}
-              </div>
+                <div className='flex flex-col w-full space-y-2 h-52 overflow-y-scroll no-scrollbar items-center justify-start'>
+                  {cloudNotes.map((note) => (
+                    <Link
+                      href={`/notes/cloud/${note.id}`}
+                      key={note._id}
+                      className={cn(
+                        'px-3 py-2 w-full bg-gray-50 border shadow-gray-100 text-sm rounded-md hover:shadow-md transition-all duration-150 shadow-sm space-y-3',
+                        pathname.includes(note.id) &&
+                          'bg-gray-100 border-black shadow-md shadow-gray-200'
+                      )}
+                    >
+                      <div className='flex items-center justify-between w-full'>
+                        <p className='font-medium text-base truncate'>
+                          {note.title}
+                        </p>
+                        {pathname.includes(note.id) && (
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='1em'
+                            height='1em'
+                            viewBox='0 0 15 15'
+                          >
+                            <path
+                              fill='none'
+                              stroke='currentColor'
+                              strokeLinecap='square'
+                              d='m6.5 10.5l3-3l-3-3'
+                            />
+                          </svg>
+                        )}
+                      </div>
+                      <time className='text-xs'>{note.lastSaved}</time>{' '}
+                    </Link>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
