@@ -4,8 +4,17 @@ import { LoginButton } from './components/log-in';
 import Image from 'next/image';
 import Link from 'next/link';
 import InstallPWA from './components/install-pwa-button';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const session = useSession();
+  const router = useRouter();
+
+  if (session.status === 'authenticated') {
+    router.push('/notes');
+  }
+
   return (
     <main className={`max-w-4xl m-auto`}>
       <div className='flex flex-col h-[calc(100vh-theme(spacing.16))] items-center justify-center space-y-10 py-10'>
