@@ -49,9 +49,7 @@ export default function UserDropdown() {
             </DropdownMenuContent>
           </DropdownMenu>
           <div>
-            <p className='text-xs font-medium'>
-              {session.data?.user?.name} {session.data?.user?.id}
-            </p>
+            <p className='text-xs font-medium'>{session.data?.user?.name}</p>
             <p className='text-xs text-blue-800'>{session.data?.user?.email}</p>
           </div>
         </div>

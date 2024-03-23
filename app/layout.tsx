@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import { GeistSans } from 'geist/font/sans';
-import { getServerSession } from 'next-auth';
 import ClientProvider from './components/client-provider';
+import { auth } from '../auth';
 
 const APP_NAME = 'Flamingo Quick Notes';
 const APP_DESCRIPTION = 'This is an example of using next-pwa';
@@ -39,7 +39,7 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await auth();
 
   return (
     <html lang='en' dir='ltr'>

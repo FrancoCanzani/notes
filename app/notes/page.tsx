@@ -1,12 +1,10 @@
 import Sidebar from '../components/sidebar';
 import AllNotes from '../components/all-notes';
 import { getCloudNotes } from '../lib/actions';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../lib/auth';
-
+import { auth } from '../../auth';
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (session && session.user) {
     const userId = session.user.id;
