@@ -118,7 +118,7 @@ export default function NoteCard({
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => handleDeleteNote()}
-                  className='bg-amber-200 hover:bg-amber-300 duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+                  className='bg-black text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
                 >
                   Continue
                 </AlertDialogAction>
