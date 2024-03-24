@@ -27,7 +27,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   return (
     <>
       <button
-        className='fixed z-20 right-5 top-4 sm:hidden '
+        className='fixed z-20 right-5 top-4 sm:hidden opacity-70 hover:opacity-100'
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
