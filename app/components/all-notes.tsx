@@ -64,11 +64,7 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           </h2>
           <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
             {cloudNotes.map((note) => (
-              <NoteCard
-                className='bg-green-300 shadow-green-300'
-                note={note}
-                key={note._id}
-              />
+              <NoteCard note={note} key={note._id} />
             ))}
           </div>
         </>

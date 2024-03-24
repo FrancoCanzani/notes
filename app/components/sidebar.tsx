@@ -24,11 +24,6 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   const localNotes = useLocalStorageNotes();
 
-  const formatDate = (date: string) => {
-    const formattedDate = new Date(date);
-    return formattedDate.toLocaleString();
-  };
-
   return (
     <>
       <button
@@ -54,7 +49,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             <div className='w-full flex items-center justify-center'>
               <Link
                 href={`/notes/local/new/${newNoteId}`}
-                className='py-2 animate-shimmer hover:text-white w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
+                className='py-2 animate-shimmer hover:shadow-md shadow-gray-100 hover:text-white w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
               >
                 Add Local Note
               </Link>

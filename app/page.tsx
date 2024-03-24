@@ -15,6 +15,8 @@ export default function Page() {
     router.push('/notes');
   }
 
+  console.log(session);
+
   return (
     <main className={`max-w-4xl m-auto`}>
       <div className='flex flex-col h-[calc(100vh-theme(spacing.16))] items-center justify-center space-y-10 py-10'>

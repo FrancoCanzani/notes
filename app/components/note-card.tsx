@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../components/ui/alert-dialog';
-import calculateTimeSince from '../lib/helpers/calculate-time-since';
 import NoteEditorPreview from './note-editor-preview';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -49,26 +48,23 @@ export default function NoteCard({
     <div
       key={note.id}
       className={cn(
-        'p-3 rounded-md bg-amber-200 shadow-amber-300 hover:shadow-md transition-all duration-150 shadow-sm space-y-2 w-full sm:w-56 min-h-44',
+        'rounded-lg bg-gray-100 border hover:shadow-md transition-all duration-150 shadow-sm w-full sm:w-56 min-h-44',
         className
       )}
     >
-      <div className='space-y-0.5'>
-        <h3 className='font-medium truncate text-sm'>{note.title}</h3>
-        <div className='flex items-center justify-between'>
-          {/* <div className='flex items-center space-x-1 justify-start'>
-            <span className='text-xs text-gray-800'>
-              Last edited: {calculateTimeSince(note.lastSaved)}
-            </span>
-          </div> */}
-        </div>
-      </div>
-      <hr className='w-full h-[0.5px] border-gray-600 opacity-25' />
+      <h3
+        className={cn(
+          'font-medium rounded-t-lg p-3 bg-amber-200 truncate text-sm',
+          note.type === 'cloud' && 'bg-sky-100'
+        )}
+      >
+        {note.title}
+      </h3>
       <NoteEditorPreview
         content={note.content}
-        className='block w-full no-scrollbars text-xs h-24 text-ellipsis overflow-auto whitespace-nowrap p-2 rounded-md outline-none bg-amber-50 shadow'
+        className='block w-full no-scrollbars text-xs h-24 text-ellipsis overflow-auto whitespace-nowrap p-2 outline-none bg-amber-50'
       />
-      <div className='w-full flex items-center justify-between'>
+      <div className='w-full p-3 flex items-center justify-between'>
         <Link
           href={
             note.type === 'local'
