@@ -14,7 +14,6 @@ export default function Page() {
   if (session.status === 'authenticated') {
     router.push('/notes');
   }
-
   console.log(session);
 
   return (

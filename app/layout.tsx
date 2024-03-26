@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import { GeistSans } from 'geist/font/sans';
 import ClientProvider from './components/client-provider';
-import { auth } from '../auth';
+import { auth } from './lib/auth';
 
 const APP_NAME = 'Flamingo Quick Notes';
 const APP_DESCRIPTION = 'This is an example of using next-pwa';

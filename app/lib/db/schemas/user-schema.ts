@@ -14,12 +14,6 @@ const userSchema = new Schema({
   image: {
     type: String,
   },
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
   creation: {
     type: Date,
     default: Date.now,

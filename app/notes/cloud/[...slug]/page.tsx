@@ -1,6 +1,6 @@
 import Sidebar from '../../../components/sidebar';
 import { getCloudNotes } from '../../../lib/actions';
-import { auth } from '../../../../auth';
+import { auth } from '../../../lib/auth';
 import Editor from '../../../components/tiptap-editor';
 import { Note } from '../../../lib/types';
 
