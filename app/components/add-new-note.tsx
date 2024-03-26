@@ -41,7 +41,7 @@ export default function AddNewNoteButton() {
           <AlertDialogAction>
             <Link
               href={`/notes/local/new/${newNoteId}`}
-              className='bg-amber-200 hover:bg-amber-300 flex gap-x-2 items-center justify-center duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+              className='bg-black flex items-center justify-center gap-x-2 text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -60,7 +60,7 @@ export default function AddNewNoteButton() {
           <AlertDialogAction>
             <Link
               href={`/notes/cloud/new/${newNoteId}`}
-              className='bg-sky-200 hover:bg-sky-300 flex gap-x-2 items-center justify-center duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
+              className='bg-black flex items-center justify-center gap-x-2 text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'

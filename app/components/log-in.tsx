@@ -36,7 +36,7 @@ export function LoginButton({
 
   return (
     <Button
-      variant='menu'
+      variant='default'
       onClick={handleLogin}
       disabled={isLoading}
       className={cn(className)}
