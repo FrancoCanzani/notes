@@ -12,7 +12,7 @@ export default function Component() {
         <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl'>
           QuickNotes
         </h1>
-        <p className='max-w-[600px] text-center mx-auto text-gray-500 md:text-xl/relaxed dark:text-gray-400'>
+        <p className='max-w-[400px] sm:max-w-[500px] text-pretty text-center mx-auto text-gray-500 md:text-xl/relaxed dark:text-gray-400'>
           {' '}
           Capture your thoughts on the go. The fastest way to jot down ideas,
           make lists, and save inspiration.

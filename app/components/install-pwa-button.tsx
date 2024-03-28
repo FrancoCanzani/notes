@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
+import { Button } from './ui/button';
 
 const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -43,15 +44,16 @@ const InstallPWA = ({ className }: { className?: string }) => {
   return (
     <div>
       {deferredPrompt && (
-        <button
+        <Button
+          variant={'outline'}
           className={cn(
-            'group inline-flex items-center h-9 rounded-md text-sm font-medium whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500',
+            'py-2 animate-shimmer hover:shadow shadow-gray-100 w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50',
             className
           )}
           onClick={handleInstallClick}
         >
           Install App
-        </button>
+        </Button>
       )}
     </div>
   );
