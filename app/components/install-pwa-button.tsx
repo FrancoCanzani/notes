@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { cn } from '../lib/utils';
 
-const InstallPWA = () => {
+const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
@@ -43,7 +44,10 @@ const InstallPWA = () => {
     <div>
       {deferredPrompt && (
         <button
-          className='p-2 border-2 font-medium hover:bg-amber-300 text-sm border-amber-200 bg-amber-200 rounded-md shadow shadow-amber-100'
+          className={cn(
+            'group inline-flex items-center h-9 rounded-md text-sm font-medium whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-200 hover:text-indigo-700 focus:ring-indigo-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500',
+            className
+          )}
           onClick={handleInstallClick}
         >
           Install App

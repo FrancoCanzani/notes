@@ -8,6 +8,7 @@ export default function Component() {
   return (
     <div className='flex flex-col min-h-[100dvh]'>
       <div className='flex flex-col bg-gray-100 items-center justify-center space-y-2 py-10'>
+        <InstallPWA className='mb-4' />
         <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl'>
           QuickNotes
         </h1>

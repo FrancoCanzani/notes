@@ -19,8 +19,6 @@ export const {
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
       session.user.id = token.id;
-      console.log(session);
-
       return session;
     },
   },
