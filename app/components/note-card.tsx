@@ -62,7 +62,7 @@ export default function NoteCard({
       </h3>
       <NoteEditorPreview
         content={note.content}
-        className='block w-full no-scrollbars text-xs h-36 text-ellipsis overflow-auto whitespace-nowrap p-2 outline-none bg-amber-50'
+        className='block w-full no-scrollbar text-xs h-36 text-ellipsis overflow-auto whitespace-nowrap p-2 outline-none bg-amber-50'
       />
       <div className='w-full p-3 flex items-center justify-between'>
         <Link

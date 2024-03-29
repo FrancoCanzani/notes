@@ -21,6 +21,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../lib/actions';
 import { Note } from '../lib/types';
+import CommandList from './command-list';
 
 const extensions = [
   Color,
@@ -130,9 +131,12 @@ export default function Editor({
         editor={editor}
         className='relative min-h-[700px] sm:min-h-[525px] rounded-sm w-full sm:max-w-screen-2xl shadow outline-none p-3'
       />
-      <div className='text-xs text-gray-500'>
-        {editor.storage.characterCount.characters()} characters /{' '}
-        {editor.storage.characterCount.words()} words
+      <div className='flex items-center justify-between'>
+        <div className='text-xs text-gray-500'>
+          {editor.storage.characterCount.characters()} characters /{' '}
+          {editor.storage.characterCount.words()} words
+        </div>
+        <CommandList />
       </div>
     </div>
   );

@@ -51,12 +51,10 @@ export default function MenuBar({
   return (
     <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-sm'>
       <span
-        className={cn(
-          'hover:bg-gray-50 border-gray-100 p-1 border',
-          !isSaved && 'animate-pulse'
-        )}
+        className={cn('hover:bg-gray-50 border-gray-100 p-1 border')}
+        title={!isSaved ? 'Saved' : 'Saving'}
       >
-        {isSaved ? (
+        {!isSaved ? (
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='1.2em'
@@ -90,6 +88,7 @@ export default function MenuBar({
           editor.isActive('paragraph') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='paragraph'
+        title='Paragraph'
       >
         <TextIcon />
       </Button>
@@ -99,7 +98,8 @@ export default function MenuBar({
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? 'font-bold bg-gray-50 shadow' : ''}
-        aria-label='font bold'
+        aria-label='bold'
+        title='Bold'
       >
         <FontBoldIcon />
       </Button>
@@ -111,7 +111,8 @@ export default function MenuBar({
         className={
           editor.isActive('italic') ? 'font-bold bg-gray-50 shadow' : ''
         }
-        aria-label='font italic'
+        aria-label='italic'
+        title='Italic'
       >
         <FontItalicIcon />
       </Button>
@@ -124,6 +125,7 @@ export default function MenuBar({
           editor.isActive('underline') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='underline'
+        title='Underline'
       >
         <UnderlineIcon />
       </Button>
@@ -135,7 +137,8 @@ export default function MenuBar({
         className={
           editor.isActive('strike') ? 'font-bold bg-gray-50 shadow' : ''
         }
-        aria-label='strike through'
+        aria-label='strike'
+        title='Strike'
       >
         <StrikethroughIcon />
       </Button>
@@ -153,6 +156,7 @@ export default function MenuBar({
           editor.isActive('highlight') ? 'font-bold bg-[#FFD465] shadow' : ''
         )}
         aria-label='highlight'
+        title='Highlight'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -174,7 +178,8 @@ export default function MenuBar({
         className={
           editor.isActive('codeBlock') ? 'font-bold bg-gray-50 shadow' : ''
         }
-        aria-label='code'
+        aria-label='code block'
+        title='Code'
       >
         <CodeIcon />
       </Button>
@@ -186,6 +191,7 @@ export default function MenuBar({
           editor.isActive('blockquote') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='blockquote'
+        title='Blockquote'
       >
         <QuoteIcon />
       </Button>
@@ -199,6 +205,7 @@ export default function MenuBar({
         }
         className={editor.isActive('link') ? 'font-bold bg-gray-50 shadow' : ''}
         aria-label='link'
+        title='Link'
       >
         <Link1Icon />
       </Button>
@@ -207,6 +214,7 @@ export default function MenuBar({
         size={'sm'}
         onClick={() => editor.chain().focus().unsetAllMarks().run()}
         aria-label='clear marks'
+        title='Clear marks'
       >
         <EraserIcon />
       </Button>
@@ -221,6 +229,7 @@ export default function MenuBar({
             : ''
         )}
         aria-label='heading'
+        title='Heading'
       >
         <HeadingIcon />
       </Button>
@@ -232,6 +241,7 @@ export default function MenuBar({
           editor.isActive('taskList') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='task list'
+        title='Task list'
       >
         <CheckboxIcon />
       </Button>
@@ -243,6 +253,7 @@ export default function MenuBar({
           editor.isActive('bulletList') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='bullet list'
+        title='Bullet list'
       >
         <ListBulletIcon />
       </Button>
@@ -254,6 +265,7 @@ export default function MenuBar({
           editor.isActive('orderedList') ? 'font-bold bg-gray-50 shadow' : ''
         }
         aria-label='ordered list'
+        title='Ordered list'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -274,6 +286,7 @@ export default function MenuBar({
         size={'sm'}
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         aria-label='horizontal rule'
+        title='Horizontal rule'
       >
         <DividerHorizontalIcon />
       </Button>
@@ -281,6 +294,8 @@ export default function MenuBar({
         variant={'menu'}
         size={'sm'}
         onClick={() => editor.chain().focus().setHardBreak().run()}
+        aria-label='break'
+        title='Break'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -300,6 +315,7 @@ export default function MenuBar({
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
         aria-label='undo'
+        title='Undo'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -324,6 +340,7 @@ export default function MenuBar({
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
         aria-label='redo'
+        title='Redo'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

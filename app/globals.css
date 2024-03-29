@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.no-scrollbars::-webkit-scrollbar {
-  display: none; /* for Chrome, Safari and Opera */
-}
-
-.no-scrollbars {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
 .tiptap {
   > * + * {
     margin-top: 0.75em;
@@ -37,7 +28,8 @@
   }
 
   pre {
-    background: #cecece;
+    background: lightslategray;
+    color: white;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.2rem;
