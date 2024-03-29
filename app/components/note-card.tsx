@@ -86,87 +86,44 @@ export default function NoteCard({
             />
           </svg>
         </Link>
-        {note.type === 'local' ? (
-          <AlertDialog>
-            <AlertDialogTrigger
-              asChild
-              className='cursor-pointer opacity-75 hover:opacity-100'
+        <AlertDialog>
+          <AlertDialogTrigger
+            asChild
+            className='cursor-pointer opacity-75 hover:opacity-100'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='1em'
+              height='1em'
+              viewBox='0 0 256 256'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='1em'
-                height='1em'
-                viewBox='0 0 256 256'
+              <path
+                fill='currentColor'
+                d='M216 50h-42V40a22 22 0 0 0-22-22h-48a22 22 0 0 0-22 22v10H40a6 6 0 0 0 0 12h10v146a14 14 0 0 0 14 14h128a14 14 0 0 0 14-14V62h10a6 6 0 0 0 0-12M94 40a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10v10H94Zm100 168a2 2 0 0 1-2 2H64a2 2 0 0 1-2-2V62h132Zm-84-104v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0m48 0v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0'
+              />
+            </svg>
+          </AlertDialogTrigger>
+          <AlertDialogContent className='bg-gray-50'>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                note.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
+              <AlertDialogCancel className='border-2 border-gray-100 hover:opacity-75'>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => handleDeleteNote()}
+                className='bg-black text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
               >
-                <path
-                  fill='currentColor'
-                  d='M216 50h-42V40a22 22 0 0 0-22-22h-48a22 22 0 0 0-22 22v10H40a6 6 0 0 0 0 12h10v146a14 14 0 0 0 14 14h128a14 14 0 0 0 14-14V62h10a6 6 0 0 0 0-12M94 40a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10v10H94Zm100 168a2 2 0 0 1-2 2H64a2 2 0 0 1-2-2V62h132Zm-84-104v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0m48 0v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0'
-                />
-              </svg>
-            </AlertDialogTrigger>
-            <AlertDialogContent className='bg-gray-50'>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your note.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
-                <AlertDialogCancel className='opacity-75 border-2 border-gray-100 hover:opacity-100'>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => handleDeleteNote()}
-                  className='bg-black text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        ) : (
-          session.data && (
-            <AlertDialog>
-              <AlertDialogTrigger
-                asChild
-                className='cursor-pointer opacity-75 hover:opacity-100'
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='1em'
-                  height='1em'
-                  viewBox='0 0 256 256'
-                >
-                  <path
-                    fill='currentColor'
-                    d='M216 50h-42V40a22 22 0 0 0-22-22h-48a22 22 0 0 0-22 22v10H40a6 6 0 0 0 0 12h10v146a14 14 0 0 0 14 14h128a14 14 0 0 0 14-14V62h10a6 6 0 0 0 0-12M94 40a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10v10H94Zm100 168a2 2 0 0 1-2 2H64a2 2 0 0 1-2-2V62h132Zm-84-104v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0m48 0v64a6 6 0 0 1-12 0v-64a6 6 0 0 1 12 0'
-                  />
-                </svg>
-              </AlertDialogTrigger>
-              <AlertDialogContent className='bg-gray-50'>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your note.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
-                  <AlertDialogCancel className='opacity-75 border-2 border-gray-100 hover:opacity-100'>
-                    Cancel
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleDeleteNote()}
-                    className='bg-amber-200 hover:bg-amber-300 duration-150 shadow-sm font-medium rounded-md py-1.5 px-3 hover:shadow-md'
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )
-        )}
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

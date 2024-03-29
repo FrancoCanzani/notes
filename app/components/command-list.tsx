@@ -55,36 +55,36 @@ export default function CommandList() {
 
   return (
     <Dialog>
-      <DialogTrigger className='text-gray-500 underline hover:text-gray-800'>
+      <DialogTrigger className='text-gray-500 text-xs underline hover:text-gray-800'>
         Commands
       </DialogTrigger>
       <DialogContent className='bg-white rounded-md'>
-        <div className='relative overflow-x-auto '>
+        <div className='relative overflow-x-auto pt-6'>
           <table className='w-full text-sm text-left rtl:text-right'>
-            <thead className='text-xs bg-gray-50'>
+            <thead className='text-xs bg-gray-50 rounded-md'>
               <tr>
-                <th scope='col' className='px-6 py-3'>
+                <th scope='col' className='px-6 py-2'>
                   Command
                 </th>
-                <th scope='col' className='px-6 py-3'>
+                <th scope='col' className='px-6 py-2'>
                   Windows/Linux
                 </th>
-                <th scope='col' className='px-6 py-3'>
+                <th scope='col' className='px-6 py-2'>
                   macOS
                 </th>
               </tr>
             </thead>
             <tbody>
               {sortedCommands.map(({ command, windowsLinux, macOS }) => (
-                <tr key={command}>
+                <tr key={command} className='text-xs '>
                   <th
                     scope='row'
-                    className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
+                    className='px-2 sm:px-4 md:px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white'
                   >
                     {command}
                   </th>
-                  <td className='px-6 py-4'>{windowsLinux}</td>
-                  <td className='px-6 py-4'>{macOS}</td>
+                  <td className='px-2 sm:px-4 md:px-6 py-2'>{windowsLinux}</td>
+                  <td className='px-2 sm:px-4 md:px-6 py-2'>{macOS}</td>
                 </tr>
               ))}
             </tbody>
