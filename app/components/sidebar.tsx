@@ -106,6 +106,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
                       <Link
                         href={`/notes/local/${note.id}`}
                         id={note.id}
+                        key={note._id}
                         className={cn(
                           'px-3 py-2 w-full bg-gray-50 border hover:shadow shadow-gray-100 text-sm rounded-md transition-all duration-150 shadow-sm space-y-3',
                           pathname.includes(note.id) &&

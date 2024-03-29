@@ -3,10 +3,16 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import MenuBar from './menu-bar';
 import { Color } from '@tiptap/extension-color';
+import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
+import Heading from '@tiptap/extension-heading';
+import CharacterCount from '@tiptap/extension-character-count';
+import Link from '@tiptap/extension-link';
 import StarterKit from '@tiptap/starter-kit';
 import handleLocalStorageSave from '../lib/helpers/handle-local-storage-save';
 import { useEffect, useState } from 'react';
@@ -19,19 +25,19 @@ import { Note } from '../lib/types';
 const extensions = [
   Color,
   TextStyle,
+  Link,
+  BulletList,
   ListItem,
+  TaskList,
+  TaskItem,
   Underline,
   Highlight,
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
+  CharacterCount,
+  TaskList,
+  Heading.configure({
+    levels: [1],
   }),
+  StarterKit,
 ];
 
 export default function Editor({
@@ -122,8 +128,12 @@ export default function Editor({
       <MenuBar editor={editor} isSaved={isSaved} />
       <EditorContent
         editor={editor}
-        className='relative min-h-[550px] rounded-sm w-full sm:max-w-screen-2xl shadow outline-none p-3'
+        className='relative min-h-[700px] sm:min-h-[525px] rounded-sm w-full sm:max-w-screen-2xl shadow outline-none p-3'
       />
+      <div className='text-xs text-gray-500'>
+        {editor.storage.characterCount.characters()} characters /{' '}
+        {editor.storage.characterCount.words()} words
+      </div>
     </div>
   );
 }

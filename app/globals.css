@@ -16,18 +16,19 @@
     margin-top: 0.75em;
   }
 
-  ul,
-  ol {
-    padding: 0 1rem;
+  ul {
+    list-style-type: circle;
+    padding: 0 2rem;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
+  ol {
+    list-style-type: decimal;
+    padding: 0 2rem;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: large;
   }
 
   code {
@@ -36,11 +37,10 @@
   }
 
   pre {
-    background: #1f1d49;
-    color: white;
+    background: #cecece;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
 
     code {
       color: inherit;
@@ -63,10 +63,48 @@
     }
   }
 
+  a {
+    color: mediumblue;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+
   hr {
     border: none;
     border-top: 1px solid #a3a3a3;
     margin: 1rem 0;
+  }
+
+  ul[data-type='taskList'] {
+    list-style: none;
+    padding: 0;
+
+    p {
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
+      }
+
+      ul li,
+      ol li {
+        display: list-item;
+      }
+
+      ul[data-type='taskList'] > li {
+        display: flex;
+      }
+    }
   }
 }
 

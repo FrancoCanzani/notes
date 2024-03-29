@@ -3,6 +3,7 @@
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
 import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
+import { useState } from 'react';
 
 export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const localStorageNotes = useLocalStorageNotes();

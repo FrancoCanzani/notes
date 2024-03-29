@@ -1,6 +1,7 @@
 'use client';
 
 import { Editor } from '@tiptap/core';
+import { useCallback } from 'react';
 import {
   FontBoldIcon,
   FontItalicIcon,
@@ -10,6 +11,9 @@ import {
   TextIcon,
   ListBulletIcon,
   DividerHorizontalIcon,
+  Link1Icon,
+  HeadingIcon,
+  CheckboxIcon,
   QuoteIcon,
   UnderlineIcon,
 } from '@radix-ui/react-icons';
@@ -26,6 +30,23 @@ export default function MenuBar({
   if (!editor) {
     return null;
   }
+
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
+
+    if (url === null) {
+      return;
+    }
+
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+
+      return;
+    }
+
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  }, [editor]);
 
   return (
     <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-sm'>
@@ -131,7 +152,7 @@ export default function MenuBar({
           'bg-[#FFD465]/50 hover:bg-[#FFD465]',
           editor.isActive('highlight') ? 'font-bold bg-[#FFD465] shadow' : ''
         )}
-        aria-label='code'
+        aria-label='highlight'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -145,7 +166,6 @@ export default function MenuBar({
           />
         </svg>{' '}
       </Button>
-
       <Button
         variant={'menu'}
         size={'sm'}
@@ -172,12 +192,24 @@ export default function MenuBar({
       <Button
         variant={'menu'}
         size={'sm'}
+        onClick={
+          editor.isActive('link')
+            ? () => editor.chain().focus().unsetLink().run()
+            : setLink
+        }
+        className={editor.isActive('link') ? 'font-bold bg-gray-50 shadow' : ''}
+        aria-label='link'
+      >
+        <Link1Icon />
+      </Button>
+      <Button
+        variant={'menu'}
+        size={'sm'}
         onClick={() => editor.chain().focus().unsetAllMarks().run()}
         aria-label='clear marks'
       >
         <EraserIcon />
       </Button>
-
       <Button
         variant={'menu'}
         size={'sm'}
@@ -188,34 +220,20 @@ export default function MenuBar({
             ? 'font-bold bg-gray-50 shadow'
             : ''
         )}
+        aria-label='heading'
       >
-        H1
+        <HeadingIcon />
       </Button>
       <Button
         variant={'menu'}
         size={'sm'}
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={cn(
-          'font-serif text-[14px]',
-          editor.isActive('heading', { level: 2 })
-            ? 'font-bold bg-gray-50 shadow'
-            : ''
-        )}
+        onClick={() => editor.chain().focus().toggleTaskList().run()}
+        className={
+          editor.isActive('taskList') ? 'font-bold bg-gray-50 shadow' : ''
+        }
+        aria-label='task list'
       >
-        H2
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={cn(
-          'font-serif text-[14px]',
-          editor.isActive('heading', { level: 3 })
-            ? 'font-bold bg-gray-50 shadow'
-            : ''
-        )}
-      >
-        H3
+        <CheckboxIcon />
       </Button>
       <Button
         variant={'menu'}
@@ -251,7 +269,6 @@ export default function MenuBar({
           />
         </svg>{' '}
       </Button>
-
       <Button
         variant={'menu'}
         size={'sm'}
