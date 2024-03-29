@@ -55,38 +55,41 @@ export default function CommandList() {
 
   return (
     <Dialog>
-      <DialogTrigger className='text-xs text-gray-500 underline hover:text-gray-800'>
+      <DialogTrigger className='text-gray-500 underline hover:text-gray-800'>
         Commands
       </DialogTrigger>
-      <DialogContent className='bg-white px-8'>
-        <table className='border-collapse table-auto w-full text-sm'>
-          <thead>
-            <tr>
-              <th className='border-b font-medium p-2 pl-8 pt-0 pb-3 text-left'>
-                Command
-              </th>
-              <th className='border-b font-medium p-2 pl-8 pt-0 pb-3 text-left'>
-                Windows/Linux
-              </th>
-              <th className='border-b font-medium p-2 pl-8 pt-0 pb-3 text-left'>
-                macOS
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedCommands.map(({ command, windowsLinux, macOS }) => (
-              <tr key={command}>
-                <td className='border-b border-slate-100 p-2 pl-8'>
-                  {command}
-                </td>
-                <td className='border-b border-slate-100 p-2 pl-8'>
-                  {windowsLinux}
-                </td>
-                <td className='border-b border-slate-100 p-2 pl-8'>{macOS}</td>
+      <DialogContent className='bg-white rounded-md'>
+        <div className='relative overflow-x-auto '>
+          <table className='w-full text-sm text-left rtl:text-right'>
+            <thead className='text-xs bg-gray-50'>
+              <tr>
+                <th scope='col' className='px-6 py-3'>
+                  Command
+                </th>
+                <th scope='col' className='px-6 py-3'>
+                  Windows/Linux
+                </th>
+                <th scope='col' className='px-6 py-3'>
+                  macOS
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedCommands.map(({ command, windowsLinux, macOS }) => (
+                <tr key={command}>
+                  <th
+                    scope='row'
+                    className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
+                  >
+                    {command}
+                  </th>
+                  <td className='px-6 py-4'>{windowsLinux}</td>
+                  <td className='px-6 py-4'>{macOS}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </DialogContent>
     </Dialog>
   );
