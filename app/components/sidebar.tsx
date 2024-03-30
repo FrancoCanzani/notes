@@ -18,6 +18,8 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [openLocalNotes, setOpenLocalNotes] = useState(false);
   const [openCloudNotes, setOpenCloudNotes] = useState(false);
+  const { localNotes, setLocalNotes } = useLocalStorageNotes();
+
   const pathname = usePathname();
   const session = useSession();
   const newNoteId = nanoid(7);
@@ -25,8 +27,6 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   useEffect(() => {
     setShowSidebar(false);
   }, []);
-
-  const localNotes = useLocalStorageNotes();
 
   return (
     <>
