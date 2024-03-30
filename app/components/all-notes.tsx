@@ -3,17 +3,17 @@
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
 import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
-  const localStorageNotes = useLocalStorageNotes();
+  const { localNotes, setLocalNotes } = useLocalStorageNotes();
 
-  if (localStorageNotes.length === 0 && cloudNotes && cloudNotes.length === 0) {
+  if (localNotes.length === 0 && cloudNotes && cloudNotes.length === 0) {
     return (
       <div className='flex font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
         <p className='text-balance text-center p-4'>
           Nothing to see here. Tap{' '}
-          <strong className='underline'>Add New Note</strong> to start writing.
+          <strong className='underline'>New Note</strong> to start creating.
         </p>
       </div>
     );
@@ -24,7 +24,7 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
       <h2 className='px-5 pt-4 font-medium text-xl capitalize'>
         All your notes
       </h2>
-      {localStorageNotes.length > 0 && (
+      {localNotes.length > 0 && (
         <>
           <h2 className='px-5 pt-5 font-medium gap-2 flex items-center justify-start'>
             Local Notes{' '}
@@ -41,8 +41,13 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
             </svg>
           </h2>
           <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
-            {localStorageNotes.map((note) => (
-              <NoteCard note={note} key={note.id} />
+            {localNotes.map((note) => (
+              <NoteCard
+                note={note}
+                key={note.id}
+                localNotes={localNotes}
+                setLocalNotes={setLocalNotes}
+              />
             ))}
           </div>
         </>
@@ -65,7 +70,12 @@ export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           </h2>
           <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
             {cloudNotes.map((note) => (
-              <NoteCard note={note} key={note._id} />
+              <NoteCard
+                note={note}
+                key={note._id}
+                localNotes={localNotes}
+                setLocalNotes={setLocalNotes}
+              />
             ))}
           </div>
         </>

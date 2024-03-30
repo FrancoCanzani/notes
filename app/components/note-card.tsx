@@ -19,13 +19,18 @@ import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
 import { deleteCloudNote } from '../lib/actions';
 import { useSession } from 'next-auth/react';
+import { Dispatch, SetStateAction } from 'react';
 
 export default function NoteCard({
   note,
   className,
+  localNotes,
+  setLocalNotes,
 }: {
   note: Note;
   className?: string;
+  localNotes: Note[];
+  setLocalNotes: Dispatch<SetStateAction<Note[]>>;
 }) {
   const router = useRouter();
   const session = useSession();
@@ -33,14 +38,19 @@ export default function NoteCard({
   const handleDeleteNote = async () => {
     if (note.type === 'local') {
       localStorage.removeItem(`note_${note.id}`);
-      toast.success(`Deleted: ${note.title}`);
-      return router.refresh();
-    }
-
-    if (session.data) {
-      await deleteCloudNote(session.data.user.id, note.id);
-      toast.success(`Deleted: ${note.title}`);
-      return router.refresh();
+      const filtered = localNotes.filter(
+        (localNote: Note) => localNote.id !== note.id
+      );
+      setLocalNotes(filtered);
+      return toast.success(`Deleted: ${note.title}`);
+    } else if (session.data) {
+      try {
+        await deleteCloudNote(session.data.user.id, note.id);
+        toast.success(`Deleted: ${note.title}`);
+        router.refresh();
+      } catch (error) {
+        toast.error(`Failed to delete: ${note.title}`);
+      }
     }
   };
 
@@ -98,7 +108,7 @@ export default function NoteCard({
               />
             </svg>
           </AlertDialogTrigger>
-          <AlertDialogContent className='bg-gray-50'>
+          <AlertDialogContent className='bg-gray-50 rounded-xl'>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
@@ -107,12 +117,12 @@ export default function NoteCard({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className='flex w-full items-center justify-center space-x-6'>
-              <AlertDialogCancel className='border-2 border-gray-100 hover:opacity-75'>
+              <AlertDialogCancel className='bg-gray-200 hover:opacity-90 duration-150 font-medium rounded-xl p-4'>
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => handleDeleteNote()}
-                className='bg-black text-white hover:shadow duration-150 shadow-sm font-medium rounded-md py-1.5 px-3'
+                className='bg-blue-600 text-white hover:opacity-90 duration-150 font-medium rounded-xl p-4'
               >
                 Continue
               </AlertDialogAction>

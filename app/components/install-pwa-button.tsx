@@ -43,7 +43,7 @@ const InstallPWA = ({ className }: { className?: string }) => {
 
   return (
     <div>
-      {!deferredPrompt && (
+      {deferredPrompt && (
         <Button
           variant={'outline'}
           className={cn(

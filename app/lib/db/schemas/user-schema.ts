@@ -20,11 +20,11 @@ const userSchema = new Schema({
   },
   creation: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   lastSaved: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 

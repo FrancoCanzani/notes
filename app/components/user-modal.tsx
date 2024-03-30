@@ -13,7 +13,7 @@ export default function UserSettingsModal() {
         User Settings <GearIcon />
       </DialogTrigger>
       <DialogContent className='bg-gray-50 rounded-md'>
-        <h3 className='font-medium'>User Settings</h3>
+        <h3 className='font-medium'>Settings</h3>
         <hr />
         <div className='text-sm space-y-1'>
           <p className=''>Name: {session.data?.user?.name}</p>
@@ -22,13 +22,14 @@ export default function UserSettingsModal() {
             {session.data?.user?.email}
           </p>
           <p className=''>
-            <span className='text-black'>Id:</span> {session.data?.user?.id}
+            <span className='text-black'>QuickNotes Id:</span>{' '}
+            {session.data?.user?.id}
           </p>
         </div>
         <hr />
         <Button
           variant={'destructive'}
-          className='font-medium text-red-700 bg-red-100 hover:bg-red-200 w-fit px-2 py-1 h-8 rounded-md capitalize text-start flex items-center justify-between'
+          className='font-medium text-red-700 bg-red-100 hover:bg-red-200 w-fit p-4 rounded-xl capitalize text-start flex items-center justify-between'
           onClick={() => signOut({ callbackUrl: '/' })}
         >
           Sign Out

@@ -8,15 +8,13 @@ export default function handleLocalStorageSave(
   if (!noteId || !title || !content) {
     throw new Error('Note ID, title, and content must be provided');
   }
-  const created = new Date().toLocaleString();
-  const lastSaved = created;
+  const lastSaved = new Date();
 
   const note: Note = {
     id: noteId,
     title,
     content,
     pinned: false,
-    created,
     lastSaved,
     type: 'local',
   };

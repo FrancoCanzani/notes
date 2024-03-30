@@ -20,11 +20,11 @@ const noteSchema = new Schema({
   },
   created: {
     type: String,
-    default: Date.now.toString(),
+    default: Date.now(),
   },
   lastSaved: {
     type: String,
-    default: Date.now.toString(),
+    default: Date.now(),
   },
   userId: {
     type: String,

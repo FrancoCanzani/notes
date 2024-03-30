@@ -1,10 +1,13 @@
 // why a useEffect? Using checks like typeof window !== 'undefined' in your rendering logic
 
-import { Note } from '../types';
 import { useEffect, useState } from 'react';
+import { Note } from '../types';
 
-export default function useLocalStorageNotes(): Note[] {
-  const [notes, setNotes] = useState<Note[]>([]);
+export default function useLocalStorageNotes(): {
+  localNotes: Note[];
+  setLocalNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+} {
+  const [localNotes, setLocalNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
@@ -28,11 +31,11 @@ export default function useLocalStorageNotes(): Note[] {
           }
         }
       }
-      setNotes(localStorageNotes);
+      setLocalNotes(localStorageNotes);
     } else {
-      setNotes([]);
+      setLocalNotes([]);
     }
   }, []);
 
-  return notes;
+  return { localNotes, setLocalNotes };
 }

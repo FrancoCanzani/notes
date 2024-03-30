@@ -91,12 +91,12 @@ export async function saveCloudNote(
         id: noteId,
         title,
         content,
-        lastSaved: new Date().toLocaleString(),
+        lastSaved: new Date(),
       });
     } else {
       note.title = title;
       note.content = content;
-      note.lastSaved = new Date().toLocaleString();
+      note.lastSaved = new Date();
     }
 
     await note.save();
