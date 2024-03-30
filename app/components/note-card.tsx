@@ -48,22 +48,17 @@ export default function NoteCard({
     <div
       key={note.id}
       className={cn(
-        'rounded-lg bg-gray-100 border hover:shadow-md transition-all duration-150 shadow-sm w-full sm:w-56 min-h-52',
+        'rounded-xl bg-materialBlue-100 hover:bg-materialBlue-300 hover:shadow transition-all duration-150 w-full sm:w-56 md:w-60 lg:w-64 min-h-48',
         className
       )}
     >
-      <h3
-        className={cn(
-          'font-medium rounded-t-lg p-3 bg-amber-100 truncate text-sm',
-          note.type === 'cloud' && 'bg-indigo-100'
-        )}
-      >
-        {note.title}
-      </h3>
       <NoteEditorPreview
         content={note.content}
-        className='block w-full no-scrollbar text-xs h-36 text-ellipsis overflow-auto whitespace-nowrap p-2 outline-none bg-amber-50'
+        className='block rounded-xl w-full no-scrollbar text-xs h-32 text-ellipsis overflow-auto whitespace-nowrap p-2 outline-none bg-materialYellow'
       />
+      <h3 className={cn('font-medium rounded-t-lg p-3 truncate text-sm')}>
+        {note.title}
+      </h3>
       <div className='w-full p-3 flex items-center justify-between'>
         <Link
           href={

@@ -63,13 +63,13 @@ export default function CommandList() {
           <table className='w-full text-sm text-left rtl:text-right'>
             <thead className='text-xs bg-gray-50 rounded-md'>
               <tr>
-                <th scope='col' className='px-6 py-2'>
+                <th scope='col' className='px-2 sm:px-4 md:px-6 py-2'>
                   Command
                 </th>
-                <th scope='col' className='px-6 py-2'>
+                <th scope='col' className='px-2 sm:px-4 md:px-6 py-2'>
                   Windows/Linux
                 </th>
-                <th scope='col' className='px-6 py-2'>
+                <th scope='col' className='px-2 sm:px-4 md:px-6 py-2'>
                   macOS
                 </th>
               </tr>

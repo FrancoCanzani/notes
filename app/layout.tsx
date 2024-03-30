@@ -5,8 +5,8 @@ import { GeistSans } from 'geist/font/sans';
 import ClientProvider from './components/client-provider';
 import { auth } from './lib/auth';
 
-const APP_NAME = 'Flamingo Quick Notes';
-const APP_DESCRIPTION = 'This is an example of using next-pwa';
+const APP_NAME = 'QuickNotes';
+const APP_DESCRIPTION = 'The fastest way to jot down ideas';
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -43,7 +43,7 @@ export default async function RootLayout({
 
   return (
     <html lang='en' dir='ltr'>
-      <body className={`dark:text-gray-100 bg-gray-50 ${GeistSans.className}`}>
+      <body className={`bg-materialBlue-200 ${GeistSans.className}`}>
         <ClientProvider session={session}>
           <main className='min-h-screen'>{children}</main>
         </ClientProvider>

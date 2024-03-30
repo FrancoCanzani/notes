@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
-import UserDropdown from './user-dropdown';
+import { LoginButton } from './log-in';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
@@ -11,6 +11,7 @@ import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
 import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
+import UserSettingsModal from './user-modal';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -37,7 +38,7 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
       <div
         className={`transform ${
           showSidebar ? 'w-full translate-x-0' : '-translate-x-full'
-        } fixed flex flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-10 h-full border-r border-gray-200 bg-gray-100 p-4 transition-all dark:border-stone-700 dark:bg-stone-900 sm:w-60 sm:translate-x-0`}
+        } fixed flex flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-10 h-full p-4 transition-all sm:w-60 sm:translate-x-0 bg-materialBlue-200`}
       >
         <div className='space-y-5'>
           <div
@@ -48,25 +49,36 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
           {session.status === 'authenticated' ? (
             <AddNewNoteButton />
           ) : (
-            <div className='w-full flex items-center justify-center'>
-              <Link
-                href={`/notes/local/new/${newNoteId}`}
-                className='py-2 hover:animate-shimmer hover:shadow shadow-gray-100 text-white w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
+            <div className='p-4 hover:shadow w-full relative flex items-center justify-center gap-x-4 rounded-xl bg-materialGreen font-medium'>
+              <svg
+                width='1.2rem'
+                height='1.2rem'
+                viewBox='0 0 15 15'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+                className='absolute left-3'
               >
-                Add Local Note
-              </Link>
+                <path
+                  d='M11.8536 1.14645C11.6583 0.951184 11.3417 0.951184 11.1465 1.14645L3.71455 8.57836C3.62459 8.66832 3.55263 8.77461 3.50251 8.89155L2.04044 12.303C1.9599 12.491 2.00189 12.709 2.14646 12.8536C2.29103 12.9981 2.50905 13.0401 2.69697 12.9596L6.10847 11.4975C6.2254 11.4474 6.3317 11.3754 6.42166 11.2855L13.8536 3.85355C14.0488 3.65829 14.0488 3.34171 13.8536 3.14645L11.8536 1.14645ZM4.42166 9.28547L11.5 2.20711L12.7929 3.5L5.71455 10.5784L4.21924 11.2192L3.78081 10.7808L4.42166 9.28547Z'
+                  fill='currentColor'
+                  fill-rule='evenodd'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>{' '}
+              <Link href={`/notes/local/new/${newNoteId}`}>Local Note</Link>
             </div>
           )}
           {pathname != '/notes' && (
             <Link
               href={'/notes'}
-              className='px-3 flex font-medium items-center justify-start gap-x-3 py-2.5 w-full bg-gray-50 border shadow-gray-100 rounded-md hover:shadow transition-all duration-150 shadow-sm space-y-3'
+              className='p-4 flex font-medium items-center justify-center gap-x-3 w-full bg-gray-50 rounded-xl hover:shadow transition-all duration-150 space-y-3'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='1em'
                 height='1em'
                 viewBox='0 0 16 16'
+                className='fixed left-8'
               >
                 <g fill='currentColor'>
                   <path d='M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1z' />
@@ -81,13 +93,13 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
               <>
                 <button
                   onClick={() => setOpenLocalNotes(!openLocalNotes)}
-                  className='font-medium hover:bg-gray-200 hover:text-black text-gray-700 px-3 py-2 rounded-md capitalize text-start w-full flex items-center justify-between'
+                  className='font-medium hover:bg-gray-200 p-4 rounded-xl capitalize text-start w-full flex items-center justify-between'
                 >
                   Local ({localNotes.length})
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    width='1em'
-                    height='1em'
+                    width='1.5em'
+                    height='1.5em'
                     viewBox='0 0 24 24'
                     className={cn('', openLocalNotes && 'rotate-90')}
                   >
@@ -108,30 +120,13 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
                         id={note.id}
                         key={note._id}
                         className={cn(
-                          'px-3 py-2 w-full bg-gray-50 border hover:shadow shadow-gray-100 text-sm rounded-md transition-all duration-150 shadow-sm space-y-3',
-                          pathname.includes(note.id) && 'border-black'
+                          'rounded-xl bg-materialBlue-100 p-4 hover:bg-materialBlue-300 hover:shadow transition-all duration-150 w-full',
+                          pathname.includes(note.id) && 'bg-materialBlue-300'
                         )}
                       >
-                        <div className='flex items-center justify-between w-full'>
-                          <p className='font-medium w-fit text-base truncate'>
-                            {note.title}
-                          </p>
-                          {pathname.includes(note.id) && (
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              width='1em'
-                              height='1em'
-                              viewBox='0 0 15 15'
-                            >
-                              <path
-                                fill='none'
-                                stroke='currentColor'
-                                strokeLinecap='square'
-                                d='m6.5 10.5l3-3l-3-3'
-                              />
-                            </svg>
-                          )}
-                        </div>
+                        <p className='font-medium w-fit text-base truncate'>
+                          {note.title}
+                        </p>
                         <time className='text-xs'>{note.lastSaved}</time>
                       </Link>
                     ))}
@@ -143,13 +138,13 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
               <>
                 <button
                   onClick={() => setOpenCloudNotes(!openCloudNotes)}
-                  className='font-medium hover:bg-gray-200 hover:text-black text-gray-700 px-3 py-2 rounded-md capitalize text-start w-full flex items-center justify-between'
+                  className='font-medium hover:bg-gray-200 p-4 rounded-xl capitalize text-start w-full flex items-center justify-between'
                 >
                   Cloud ({cloudNotes.length})
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    width='1em'
-                    height='1em'
+                    width='1.5em'
+                    height='1.5em'
                     viewBox='0 0 24 24'
                     className={cn('', openCloudNotes && 'rotate-90')}
                   >
@@ -169,30 +164,13 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
                         href={`/notes/cloud/${note.id}`}
                         key={note._id}
                         className={cn(
-                          'px-3 py-2 w-full bg-gray-50 border hover:shadow shadow-gray-100 text-sm rounded-md transition-all duration-150 shadow-sm space-y-3',
-                          pathname.includes(note.id) && 'border-black'
+                          'rounded-xl bg-materialBlue-100 p-4 hover:bg-materialBlue-300 hover:shadow transition-all duration-150 w-full',
+                          pathname.includes(note.id) && 'bg-materialBlue-300'
                         )}
                       >
-                        <div className='flex items-center justify-between w-full'>
-                          <p className='font-medium text-base truncate'>
-                            {note.title}
-                          </p>
-                          {pathname.includes(note.id) && (
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              width='1em'
-                              height='1em'
-                              viewBox='0 0 15 15'
-                            >
-                              <path
-                                fill='none'
-                                stroke='currentColor'
-                                strokeLinecap='square'
-                                d='m6.5 10.5l3-3l-3-3'
-                              />
-                            </svg>
-                          )}
-                        </div>
+                        <p className='font-medium text-sm truncate'>
+                          {note.title}
+                        </p>
                         <time className='text-xs'>{note.lastSaved}</time>{' '}
                       </Link>
                     ))}
@@ -202,7 +180,11 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             )}
           </div>
         </div>
-        <UserDropdown />
+        {session.data?.user ? (
+          <UserSettingsModal />
+        ) : (
+          <LoginButton className='cursor-pointer font-medium hover:bg-gray-200 p-4 rounded-xl capitalize w-full flex items-center justify-between' />
+        )}
       </div>
     </>
   );

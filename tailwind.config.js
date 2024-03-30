@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        materialBlue: {
+          100: '#f2f6fc',
+          200: '#eaf1fb',
+          300: '#d3e3fd',
+        },
+        materialGreen: '#c4eed0',
+        materialYellow: '#FFEDCB',
+      },
       animation: {
         shimmer: 'shimmer 2s linear infinite',
       },

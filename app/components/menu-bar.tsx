@@ -49,7 +49,7 @@ export default function MenuBar({
   }, [editor]);
 
   return (
-    <div className='flex items-center no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-sm'>
+    <div className='flex items-center bg-gray-50 no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-md'>
       <span
         className={cn('hover:bg-gray-50 border-gray-100 p-1 border')}
         title={!isSaved ? 'Saved' : 'Saving'}

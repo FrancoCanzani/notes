@@ -35,14 +35,13 @@ export function LoginButton({
   };
 
   return (
-    <Button
-      variant='default'
+    <button
       onClick={handleLogin}
       disabled={isLoading}
       className={cn(className)}
       {...props}
     >
       {isLoading ? <p>Loading</p> : text}
-    </Button>
+    </button>
   );
 }

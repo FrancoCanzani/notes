@@ -124,12 +124,12 @@ export default function Editor({
         onChange={handleTitleChange}
         value={title}
         autoFocus
-        className='relative bg-gray-50 rounded-sm w-full sm:max-w-screen-2xl shadow outline-none px-3 py-2'
+        className='relative bg-gray-50 rounded-md w-full sm:max-w-screen-2xl shadow outline-none px-3 py-2'
       />
       <MenuBar editor={editor} isSaved={isSaved} />
       <EditorContent
         editor={editor}
-        className='relative min-h-[700px] sm:min-h-[525px] rounded-sm w-full sm:max-w-screen-2xl shadow outline-none p-3'
+        className='relative bg-gray-50 min-h-[700px] sm:min-h-[525px] rounded-md w-full sm:max-w-screen-2xl shadow outline-none p-3'
       />
       <div className='flex items-center justify-between'>
         <div className='text-xs text-gray-500'>
