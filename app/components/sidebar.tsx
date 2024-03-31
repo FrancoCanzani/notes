@@ -10,15 +10,30 @@ import { Note } from '../lib/types';
 import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
-import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
-import UserSettingsModal from './user-modal';
+import UserSettingsModal from './user-settings-modal';
 import { formatDistanceToNow } from 'date-fns';
+import { values } from 'idb-keyval';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [openLocalNotes, setOpenLocalNotes] = useState(false);
   const [openCloudNotes, setOpenCloudNotes] = useState(false);
-  const { localNotes, setLocalNotes } = useLocalStorageNotes();
+  const [localNotes, setLocalNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    const fetchLocalNotes = async () => {
+      try {
+        const notes = await values();
+        if (notes) {
+          setLocalNotes(notes || []);
+        }
+      } catch (error) {
+        console.error('Error fetching local notes from IndexedDB:', error);
+      }
+    };
+
+    fetchLocalNotes();
+  }, []);
 
   const pathname = usePathname();
   const session = useSession();

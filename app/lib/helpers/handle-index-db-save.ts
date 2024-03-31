@@ -1,6 +1,7 @@
 import { Note } from '../types';
+import { set } from 'idb-keyval';
 
-export default function handleLocalStorageSave(
+export default async function handleIndexedDBSave(
   noteId: string,
   title: string,
   content: string
@@ -18,5 +19,10 @@ export default function handleLocalStorageSave(
     lastSaved,
     type: 'local',
   };
-  window.localStorage.setItem(`note_${noteId}`, JSON.stringify(note));
+
+  try {
+    await set(noteId, note);
+  } catch (error) {
+    throw error;
+  }
 }

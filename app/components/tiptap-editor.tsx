@@ -2,19 +2,7 @@
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import MenuBar from './menu-bar';
-import { Color } from '@tiptap/extension-color';
-import BulletList from '@tiptap/extension-bullet-list';
-import ListItem from '@tiptap/extension-list-item';
-import TaskItem from '@tiptap/extension-task-item';
-import TaskList from '@tiptap/extension-task-list';
-import TextStyle from '@tiptap/extension-text-style';
-import Underline from '@tiptap/extension-underline';
-import Highlight from '@tiptap/extension-highlight';
-import Heading from '@tiptap/extension-heading';
-import CharacterCount from '@tiptap/extension-character-count';
-import Link from '@tiptap/extension-link';
-import StarterKit from '@tiptap/starter-kit';
-import handleLocalStorageSave from '../lib/helpers/handle-local-storage-save';
+import { extensions } from '../lib/extensions';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { usePathname } from 'next/navigation';
@@ -22,24 +10,8 @@ import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../lib/actions';
 import { Note } from '../lib/types';
 import CommandList from './command-list';
-
-const extensions = [
-  Color,
-  TextStyle,
-  Link,
-  BulletList,
-  ListItem,
-  TaskList,
-  TaskItem,
-  Underline,
-  Highlight,
-  CharacterCount,
-  TaskList,
-  Heading.configure({
-    levels: [1],
-  }),
-  StarterKit,
-];
+import { get } from 'idb-keyval';
+import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
 
 export default function Editor({
   noteId,
@@ -67,9 +39,11 @@ export default function Editor({
   useEffect(() => {
     const loadNote = async () => {
       if (noteType === 'local') {
-        const note = window.localStorage.getItem(`note_${noteId}`);
+        const note = await get(noteId);
+        console.log(note);
+
         if (note) {
-          const { title: storedTitle, content } = JSON.parse(note);
+          const { title: storedTitle, content } = note;
           setTitle(storedTitle);
           editor?.commands.setContent(JSON.parse(content));
         }
@@ -83,21 +57,21 @@ export default function Editor({
     };
 
     loadNote();
-  }, [editor, noteId, noteType]);
+  }, [editor, noteId, noteType, cloudNote]);
 
-  // Debounce the editor updates
+  // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     setIsSaved(true);
-    const json = editor.getJSON();
+    const jsonContent = editor.getJSON();
     if (noteType === 'local') {
-      handleLocalStorageSave(noteId, title, JSON.stringify(json));
+      await handleIndexedDBSave(noteId, title, JSON.stringify(jsonContent)); // Changed to JSON.stringify(jsonContent)
     } else {
       if (session.data) {
         await saveCloudNote(
           session.data?.user?.id,
           noteId,
           title,
-          JSON.stringify(json)
+          JSON.stringify(jsonContent)
         );
       }
     }

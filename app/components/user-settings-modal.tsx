@@ -21,11 +21,13 @@ export default function UserSettingsModal() {
             <span className='text-black'>Email:</span>{' '}
             {session.data?.user?.email}
           </p>
-          <p className=''>
+          <p>
             <span className='text-black'>QuickNotes Id:</span>{' '}
             {session.data?.user?.id}
           </p>
         </div>
+        <hr />
+        {/* <p className='text-sm'>{`Local storage in use: ${getLocalStorageSize()}/5000kb`}</p> */}
         <hr />
         <Button
           variant={'destructive'}

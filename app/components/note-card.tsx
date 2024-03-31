@@ -20,6 +20,7 @@ import { Note } from '../lib/types';
 import { deleteCloudNote } from '../lib/actions';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction } from 'react';
+import { del } from 'idb-keyval';
 
 export default function NoteCard({
   note,
@@ -37,11 +38,13 @@ export default function NoteCard({
 
   const handleDeleteNote = async () => {
     if (note.type === 'local') {
-      localStorage.removeItem(`note_${note.id}`);
+      await del(note.id);
       const filtered = localNotes.filter(
         (localNote: Note) => localNote.id !== note.id
       );
       setLocalNotes(filtered);
+      // refresh to refetch local notes on the sidebar
+      router.refresh();
       return toast.success(`Deleted: ${note.title}`);
     } else if (session.data) {
       try {

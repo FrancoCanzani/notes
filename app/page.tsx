@@ -1,10 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import InstallPWA from './components/install-pwa-button';
 import { LoginButton } from './components/log-in';
 import { buttonVariants } from './components/ui/button';
 import { cn } from './lib/utils';
 
-export default function Component() {
+export default function Page() {
   return (
     <div className='flex flex-col min-h-[100dvh]'>
       <div className='flex flex-col bg-gray-100 items-center justify-center space-y-2 py-10'>

@@ -2,11 +2,26 @@
 
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
-import useLocalStorageNotes from '../lib/hooks/use-local-storage-notes';
 import { useState, useEffect } from 'react';
+import { get, values } from 'idb-keyval';
 
 export default function AllNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
-  const { localNotes, setLocalNotes } = useLocalStorageNotes();
+  const [localNotes, setLocalNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    const fetchLocalNotes = async () => {
+      try {
+        const notes = await values();
+        if (notes) {
+          setLocalNotes(notes || []);
+        }
+      } catch (error) {
+        console.error('Error fetching local notes from IndexedDB:', error);
+      }
+    };
+
+    fetchLocalNotes();
+  }, []);
 
   if (localNotes.length === 0 && cloudNotes && cloudNotes.length === 0) {
     return (

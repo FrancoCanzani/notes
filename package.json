@@ -37,6 +37,7 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "geist": "^1.2.2",
+    "idb-keyval": "^6.2.1",
     "lucide-react": "^0.350.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.1",
