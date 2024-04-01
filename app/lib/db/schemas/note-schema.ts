@@ -35,6 +35,11 @@ const noteSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  status: {
+    type: String,
+    enum: ['active', 'archived'],
+    default: 'active',
+  },
 });
 
 export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);

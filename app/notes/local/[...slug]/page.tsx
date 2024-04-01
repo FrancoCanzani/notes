@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     const notes = await getCloudNotes(userId);
 
     return (
-      <main className='flex'>
+      <main className='flex bg-gray-100'>
         <Sidebar cloudNotes={notes} />
         <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
           <Editor noteId={noteId} />
@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <main className='flex'>
+    <main className='flex bg-gray-100'>
       <Sidebar />
       <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
         <Editor noteId={noteId} />

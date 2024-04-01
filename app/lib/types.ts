@@ -8,5 +8,6 @@ export interface Note {
   created?: string;
   lastSaved: Date;
   type: 'local' | 'cloud';
+  status: 'active' | 'archived';
   __v?: number;
 }

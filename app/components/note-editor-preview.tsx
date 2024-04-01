@@ -2,7 +2,6 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import { cn } from '../lib/utils';
 import { extensions } from '../lib/extensions';
 
-// todo: get the content type
 export default function NoteEditorPreview({
   content,
   className,

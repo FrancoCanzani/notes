@@ -126,3 +126,31 @@ export async function deleteCloudNote(
     throw error;
   }
 }
+
+export async function changeNoteStatus(
+  userId: string | undefined,
+  noteId: string,
+  newStatus: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for changeNoteStatus');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const note = await Note.findOne({ userId, id: noteId });
+
+    if (!note) {
+      throw new Error('Note not found');
+    }
+
+    note.status = newStatus;
+
+    await note.save();
+
+    return note;
+  } catch (error) {
+    throw error;
+  }
+}

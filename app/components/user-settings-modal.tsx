@@ -9,7 +9,7 @@ export default function UserSettingsModal() {
 
   return (
     <Dialog>
-      <DialogTrigger className='font-medium hover:bg-gray-200 p-4 rounded-xl capitalize w-full flex items-center justify-between'>
+      <DialogTrigger className='font-medium hover:bg-gray-100 p-3 rounded-md capitalize w-full flex items-center justify-between'>
         User Settings <GearIcon />
       </DialogTrigger>
       <DialogContent className='bg-gray-50 rounded-md'>
@@ -27,11 +27,9 @@ export default function UserSettingsModal() {
           </p>
         </div>
         <hr />
-        {/* <p className='text-sm'>{`Local storage in use: ${getLocalStorageSize()}/5000kb`}</p> */}
-        <hr />
         <Button
           variant={'destructive'}
-          className='font-medium text-red-700 bg-red-100 hover:bg-red-200 w-fit p-4 rounded-xl capitalize text-start flex items-center justify-between'
+          className='font-medium text-red-700 bg-red-100 hover:bg-red-200 w-fit p-3 rounded-md capitalize text-start flex items-center justify-between'
           onClick={() => signOut({ callbackUrl: '/' })}
         >
           Sign Out

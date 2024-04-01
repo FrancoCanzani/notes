@@ -49,12 +49,14 @@ export default function MenuBar({
   }, [editor]);
 
   return (
-    <div className='flex items-center bg-gray-50 no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-md'>
-      <span
-        className={cn('hover:bg-gray-50 border-gray-100 p-1 border')}
+    <div className='flex items-center bg-white no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-md'>
+      <Button
+        variant={'menu'}
+        size={'sm'}
         title={!isSaved ? 'Saved' : 'Saving'}
+        disabled
       >
-        {!isSaved ? (
+        {isSaved ? (
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='1.2em'
@@ -79,7 +81,7 @@ export default function MenuBar({
             />
           </svg>
         )}
-      </span>
+      </Button>
       <Button
         variant={'menu'}
         size={'sm'}

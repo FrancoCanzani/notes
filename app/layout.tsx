@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { GeistSans } from 'geist/font/sans';
 import ClientProvider from './components/client-provider';
 import { auth } from './lib/auth';
+import { Inter } from 'next/font/google';
 
+// If loading a variable font, you don't need to specify the font weight
+const inter = Inter({ subsets: ['latin'] });
 const APP_NAME = 'QuickNotes';
 const APP_DESCRIPTION = 'The fastest way to jot down ideas';
 
@@ -43,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang='en' dir='ltr'>
-      <body className={`bg-materialBlue-200 ${GeistSans.className}`}>
+      <body className={`${inter.className}`}>
         <ClientProvider session={session}>
           <main className='min-h-screen'>{children}</main>
         </ClientProvider>

@@ -1,7 +1,7 @@
-import Sidebar from '../components/sidebar';
-import { getCloudNotes } from '../lib/actions';
-import { auth } from '../lib/auth';
-import ActiveNotes from '../components/active-notes';
+import Sidebar from '../../components/sidebar';
+import { getCloudNotes } from '../../lib/actions';
+import { auth } from '../../lib/auth';
+import ArchivedNotes from '../../components/archived-notes';
 
 export default async function Page() {
   const session = await auth();
@@ -13,7 +13,7 @@ export default async function Page() {
     return (
       <main className='flex'>
         <Sidebar cloudNotes={notes} />
-        <ActiveNotes cloudNotes={notes} />
+        <ArchivedNotes cloudNotes={notes} />
       </main>
     );
   }
@@ -21,7 +21,7 @@ export default async function Page() {
   return (
     <main className='flex'>
       <Sidebar />
-      <ActiveNotes />
+      <ArchivedNotes />
     </main>
   );
 }
