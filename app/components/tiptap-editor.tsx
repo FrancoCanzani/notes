@@ -27,7 +27,6 @@ export default function Editor({
   const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
 
   const editor = useEditor({
-    autofocus: true,
     extensions,
     editorProps: {
       attributes: {
