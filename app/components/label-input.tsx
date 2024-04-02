@@ -157,7 +157,7 @@ export default function LabelInput({
           </Label>
           <Swatch
             colors={colors}
-            className='mt-3'
+            className='mt-3 bg-gray-50 p-2 rounded-md'
             color={hex}
             rectProps={{
               style: {
