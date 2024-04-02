@@ -39,7 +39,6 @@ export default function Editor({
     const loadNote = async () => {
       if (noteType === 'local') {
         const note = await get(noteId);
-        console.log(note);
 
         if (note) {
           const { title: storedTitle, content } = note;
@@ -56,7 +55,7 @@ export default function Editor({
     };
 
     loadNote();
-  }, [noteId]);
+  }, [noteId, editor]);
 
   // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
