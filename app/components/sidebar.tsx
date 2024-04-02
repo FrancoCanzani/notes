@@ -11,7 +11,7 @@ import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
 import UserSettingsModal from './user-settings-modal';
-import { Archive, Home, Pencil } from 'lucide-react';
+import { Archive, Home, Terminal } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
@@ -89,11 +89,24 @@ export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
             Archived
           </Link>
         </div>
-        {session.data?.user ? (
-          <UserSettingsModal />
-        ) : (
-          <LoginButton className='cursor-pointer font-medium hover:bg-gray-200 p-4 rounded-xl capitalize w-full flex items-center justify-between' />
-        )}
+        <div>
+          <a
+            href='https://github.com/FrancoCanzani/notes'
+            target='_blank'
+            className='p-3 text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
+          >
+            <div className='inline-flex items-center gap-x-4'>
+              <Terminal size={16} />
+              Contribute
+            </div>
+            <span className='group-hover:block hidden'>↗</span>
+          </a>
+          {session.data?.user ? (
+            <UserSettingsModal />
+          ) : (
+            <LoginButton className='p-3 cursor-pointer text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150' />
+          )}
+        </div>
       </div>
     </>
   );

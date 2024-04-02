@@ -40,6 +40,10 @@ const noteSchema = new Schema({
     enum: ['active', 'archived'],
     default: 'active',
   },
+  label: {
+    text: String,
+    color: String,
+  },
 });
 
 export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);

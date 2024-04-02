@@ -127,13 +127,13 @@ export async function deleteCloudNote(
   }
 }
 
-export async function changeNoteStatus(
+export async function updateNoteStatus(
   userId: string | undefined,
   noteId: string,
   newStatus: string
 ) {
   if (!userId) {
-    throw new Error('Missing user id for changeNoteStatus');
+    throw new Error('Missing user id for updateNoteStatus');
   }
 
   try {
@@ -146,6 +146,38 @@ export async function changeNoteStatus(
     }
 
     note.status = newStatus;
+
+    await note.save();
+
+    return note;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateNoteLabel(
+  userId: string | undefined,
+  noteId: string,
+  labelText: string,
+  labelColor: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for updateNoteStatus');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const note = await Note.findOne({ userId, id: noteId });
+
+    if (!note) {
+      throw new Error('Note not found');
+    }
+
+    note.label = {
+      text: labelText,
+      color: labelColor,
+    };
 
     await note.save();
 

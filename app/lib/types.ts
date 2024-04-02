@@ -9,5 +9,9 @@ export interface Note {
   lastSaved: Date;
   type: 'local' | 'cloud';
   status: 'active' | 'archived';
+  label?: {
+    text: string;
+    color: string;
+  };
   __v?: number;
 }

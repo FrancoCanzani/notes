@@ -46,10 +46,7 @@ const InstallPWA = ({ className }: { className?: string }) => {
       {deferredPrompt && (
         <Button
           variant={'outline'}
-          className={cn(
-            'py-0.5 h-8 text-xs animate-shimmer hover:shadow shadow-gray-100 w-full text-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-3 font-medium text-white transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50',
-            className
-          )}
+          className={cn(className)}
           onClick={handleInstallClick}
         >
           Install App

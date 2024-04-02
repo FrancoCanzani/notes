@@ -27,11 +27,12 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
-import { deleteCloudNote, changeNoteStatus } from '../lib/actions';
+import { deleteCloudNote, updateNoteStatus } from '../lib/actions';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction } from 'react';
 import { del, set } from 'idb-keyval';
 import { MoreVertical, FileClock } from 'lucide-react';
+import LabelInput from './label-input';
 
 export default function NoteCard({
   note,
@@ -83,7 +84,7 @@ export default function NoteCard({
         setLocalNotes(updatedLocalNotes);
       } else if (session.data) {
         newStatus = note.status === 'active' ? 'archived' : 'active';
-        await changeNoteStatus(session.data.user.id, note.id, newStatus);
+        await updateNoteStatus(session.data.user.id, note.id, newStatus);
       }
       toast.success(
         `${newStatus === 'archived' ? 'Archived' : 'Restored'}: ${note.title}`
@@ -97,7 +98,7 @@ export default function NoteCard({
   return (
     <div
       className={cn(
-        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-56 md:w-60 lg:w-64 flex flex-col h-36'
+        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-56 md:w-60 lg:w-64 flex flex-col h-52 sm:h-60'
       )}
     >
       <div className='flex items-center justify-between'>
@@ -202,11 +203,17 @@ export default function NoteCard({
         content={note.content}
         className='block text-gray-600 overflow-y-auto no-scrollbar my-1 pb-1 text-xs outline-none grow'
       />
-      <div>
+      <div className='inline-flex py-1 justify-between'>
         <span className='text-xs text-gray-600 flex items-center justify-start gap-x-1'>
           <FileClock size={14} />
           {formatDistanceToNowStrict(note.lastSaved)}
         </span>
+        <LabelInput
+          note={note}
+          localNotes={localNotes}
+          setLocalNotes={setLocalNotes}
+          userId={session.data?.user.id}
+        />
       </div>
     </div>
   );
