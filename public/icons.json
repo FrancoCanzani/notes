@@ -1,11 +1,4 @@
 {
-  "name": "QuickNotes",
-  "short_name": "Notes",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",

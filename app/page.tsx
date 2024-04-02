@@ -14,12 +14,7 @@ export default function Page() {
           <h1 className='text-xl font-bold text-black'>QuickNotes</h1>
           <Image src={'/thunder-icon.png'} alt='Logo' width={30} height={30} />
         </div>
-        <div className='inline-flex justify-center items-center gap-x-4'>
-          <Link href={'#'} className='underline opacity-100 hover:opacity-85'>
-            About
-          </Link>
-          <InstallPWA className='bg-black p-3 rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
-        </div>
+        <InstallPWA className='bg-black p-3 rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
       </header>
       <div className='flex flex-col items-center justify-center space-y-4 bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-200 to-neutral-500 py-8'>
         <div>
@@ -35,11 +30,11 @@ export default function Page() {
         <div className='p-6 flex items-center justify-center gap-x-12'>
           <Link
             href={'/notes'}
-            className='p-3 rounded-md bg-gray-200 text-gray-600 font-medium opacity-100 hover:opacity-85'
+            className='px-2 py-2.5 rounded-md text-sm bg-gray-200 text-gray-600 font-medium opacity-100 hover:opacity-85'
           >
             Continue Local
           </Link>
-          <LoginButton className='bg-black p-3 rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
+          <LoginButton className='bg-black px-2 py-2.5 text-sm rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
         </div>
       </div>
     </div>
