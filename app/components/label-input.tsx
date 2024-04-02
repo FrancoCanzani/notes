@@ -116,14 +116,14 @@ export default function LabelInput({
     <Dialog>
       <DialogTrigger asChild>
         <button
-          className='text-xs text-gray-600 flex items-center justify-start gap-x-1'
+          className='text-xs text-gray-600 text-end max-w-[50%]'
           aria-label='Label'
         >
           {/* the note.label?.text.length check allows to reset the label when the input is '' */}
           {note.label?.text.length ? (
             <p
               style={{ backgroundColor: note.label.color }}
-              className='text-xs text-gray-600 px-1.5 py-0.5 rounded-sm font-medium'
+              className='text-xs text-gray-600 px-1.5 py-0.5 rounded-sm font-medium truncate'
             >
               {note.label.text}
             </p>
@@ -132,7 +132,7 @@ export default function LabelInput({
           )}
         </button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-md bg-white'>
+      <DialogContent className='sm:max-w-md rounded-md bg-white'>
         <DialogHeader>
           <DialogTitle>Label</DialogTitle>
           <DialogDescription>

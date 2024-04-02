@@ -1,6 +1,6 @@
 {
-  "name": "Flaming Notes",
-  "short_name": "Fla",
+  "name": "QuickNotes",
+  "short_name": "Notes",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#FFFFFF",
