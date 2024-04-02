@@ -200,7 +200,7 @@ export default function NoteCard({
       </div>
       <NoteEditorPreview
         content={note.content}
-        className='block rounded-md text-gray-600 overflow-y-auto no-scrollbar my-1 pb-1 text-xs outline-none grow'
+        className='block text-gray-600 overflow-y-auto no-scrollbar my-1 pb-1 text-xs outline-none grow'
       />
       <div>
         <span className='text-xs text-gray-600 flex items-center justify-start gap-x-1'>
