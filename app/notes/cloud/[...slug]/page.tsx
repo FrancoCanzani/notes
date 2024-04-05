@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     const notes = await getCloudNotes(userId);
 
     if (notes) {
-      const note: Note = notes.find((note) => note.id === noteId);
+      const note: Note = notes.find((note: Note) => note.id === noteId);
 
       return (
         <main className='flex bg-gray-100'>
