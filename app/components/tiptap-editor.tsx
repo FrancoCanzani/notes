@@ -89,19 +89,19 @@ export default function Editor({
   };
 
   return (
-    <div className='space-y-4 py-6 px-3'>
+    <div className='flex flex-col space-y-4 h-screen py-6 px-3 container'>
       <input
         type='text'
         placeholder='Title'
         onChange={handleTitleChange}
         value={title}
         autoFocus
-        className='relative bg-white rounded-md w-full sm:max-w-screen-2xl shadow outline-none px-3 py-2'
+        className='bg-white rounded-md shadow outline-none px-3 py-2'
       />
       <MenuBar editor={editor} isSaved={isSaved} />
       <EditorContent
         editor={editor}
-        className='relative bg-white min-h-[700px] sm:min-h-[525px] rounded-md w-full sm:max-w-screen-2xl shadow outline-none p-3'
+        className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
       />
       <div className='flex items-center justify-between'>
         <div className='text-xs text-gray-500'>
