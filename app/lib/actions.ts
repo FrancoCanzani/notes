@@ -39,22 +39,6 @@ export async function handleUser(user: UserProps) {
   }
 }
 
-export async function getCloudNote(userId: string | undefined, noteId: string) {
-  if (!userId) {
-    throw new Error('Missing user id for getCloudNote');
-  }
-
-  try {
-    await connectToDatabase();
-
-    const note = await Note.findOne({ userId, id: noteId });
-
-    return note;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function saveCloudNote(
   userId: string | undefined,
   noteId: string,
