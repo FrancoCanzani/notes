@@ -1,8 +1,8 @@
 import Sidebar from '../../../components/sidebar';
-import { getCloudNotes } from '../../../lib/actions';
 import { auth } from '../../../lib/auth';
 import Editor from '../../../components/tiptap-editor';
 import { Note } from '../../../lib/types';
+import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await auth();
@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
       return (
         <main className='flex bg-gray-100'>
-          <Sidebar cloudNotes={notes} />
+          <Sidebar />
           <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
             <Editor noteId={noteId} cloudNote={note} />
           </div>

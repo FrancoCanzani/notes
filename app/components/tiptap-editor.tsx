@@ -89,7 +89,7 @@ export default function Editor({
   };
 
   return (
-    <div className='flex flex-col space-y-4 h-screen py-6 px-3 container'>
+    <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
       <input
         type='text'
         placeholder='Title'

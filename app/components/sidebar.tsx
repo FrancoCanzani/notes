@@ -6,7 +6,6 @@ import { LoginButton } from './log-in';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
-import { Note } from '../lib/types';
 import AddNewNoteButton from './add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
@@ -14,7 +13,7 @@ import UserSettingsModal from './user-settings-modal';
 import { Archive, Home, Terminal } from 'lucide-react';
 import Image from 'next/image';
 
-export default function Sidebar({ cloudNotes }: { cloudNotes?: Note[] }) {
+export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const pathname = usePathname();
