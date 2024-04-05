@@ -12,7 +12,7 @@ export default async function Page() {
 
     return (
       <main className='flex'>
-        <Sidebar cloudNotes={notes} />
+        <Sidebar />
         <ActiveNotes cloudNotes={notes} />
       </main>
     );
