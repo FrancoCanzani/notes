@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../lib/actions';
 import { Note } from '../lib/types';
-import CommandList from './command-list';
+import Shortcuts from './shortcuts';
 import { get } from 'idb-keyval';
 import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
 
@@ -108,7 +108,7 @@ export default function Editor({
           {editor.storage.characterCount.characters()} characters /{' '}
           {editor.storage.characterCount.words()} words
         </div>
-        <CommandList />
+        <Shortcuts />
       </div>
     </div>
   );

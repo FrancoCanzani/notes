@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 
-export default function CommandList() {
-  const commands = [
+export default function Shortcuts() {
+  const shortcuts = [
     { command: 'Toggle Bold', windowsLinux: 'Control B', macOS: 'Cmd B' },
     {
       command: 'Toggle Blockquote',
@@ -49,7 +49,7 @@ export default function CommandList() {
     { command: 'Toggle Underline', windowsLinux: 'Control U', macOS: 'Cmd U' },
   ];
 
-  const sortedCommands = commands.sort((a, b) =>
+  const sortedCommands = shortcuts.sort((a, b) =>
     a.command.localeCompare(b.command)
   );
 
