@@ -182,27 +182,29 @@ class CommandList extends React.Component<
   render() {
     const { items } = this.props;
     return (
-      <Cmdk>
-        <Cmdk.List className='z-50 no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto scroll-smooth rounded-md border bg-white px-1 py-2 shadow transition-all'>
-          {items.map((item, index) => {
-            const isSelected = index === this.state.selectedIndex;
-            return (
-              <Cmdk.Item
-                key={index}
-                className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
-                  isSelected ? 'bg-gray-100 text-gray-900' : ''
-                }`}
-                onClick={() => this.selectItem(index)}
-              >
-                <div>
-                  <p className='font-medium'>{item.title}</p>
-                  <p className='text-xs text-gray-500'>{item.description}</p>
-                </div>{' '}
-              </Cmdk.Item>
-            );
-          })}
-        </Cmdk.List>
-      </Cmdk>
+      <div
+        id='slash-command'
+        className='z-50 h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
+      >
+        {items.map((item, index) => {
+          const isSelected = index === this.state.selectedIndex;
+          return (
+            <button
+              type='button'
+              key={index}
+              className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
+                isSelected ? 'bg-gray-100 text-gray-900' : ''
+              }`}
+              onClick={() => this.selectItem(index)}
+            >
+              <div>
+                <p className='font-medium'>{item.title}</p>
+                <p className='text-xs text-gray-500'>{item.description}</p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
     );
   }
 }
