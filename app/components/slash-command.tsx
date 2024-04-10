@@ -1,21 +1,10 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  ReactNode,
-  useRef,
-} from 'react';
+import React, { KeyboardEvent } from 'react';
 import { Editor, Range, Extension } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
 import tippy from 'tippy.js';
 import { Bold, Heading1, Italic, List, ListOrdered, Text } from 'lucide-react';
-
-interface CommandItemProps {
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
+import { Command as Cmdk } from 'cmdk';
 
 interface Command {
   editor: Editor;
@@ -120,117 +109,103 @@ const getSuggestionItems = ({ query }: { query: string }) => {
   });
 };
 
-export const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
-  const containerHeight = container.offsetHeight;
-  const itemHeight = item ? item.offsetHeight : 0;
+interface CommandListProps {
+  items: any[];
+  command: (item: any) => void;
+}
 
-  const top = item.offsetTop;
-  const bottom = top + itemHeight;
+// Enter event work differently in a class component compared to a functional component with Tiptap editor.
+// In Class Components Event handlers are defined as methods within the class. These methods have access to the component's state (this.state) directly.
+// When you bind the event handler to the element in the render method, you're passing the entire method reference.
 
-  if (top < container.scrollTop) {
-    container.scrollTop -= container.scrollTop - top + 5;
-  } else if (bottom > containerHeight + container.scrollTop) {
-    container.scrollTop += bottom - containerHeight - container.scrollTop + 5;
+class CommandList extends React.Component<
+  CommandListProps,
+  { selectedIndex: number }
+> {
+  state = {
+    selectedIndex: 0,
+  };
+
+  componentDidUpdate(oldProps: Readonly<CommandListProps>) {
+    if (this.props.items !== oldProps.items) {
+      this.setState({
+        selectedIndex: 0,
+      });
+    }
   }
-};
 
-const CommandList = ({
-  items,
-  command,
-}: {
-  items: CommandItemProps[];
-  command: any;
-}) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const commandListContainer = useRef<HTMLDivElement>(null);
-  const selectedButtonRef = useRef<HTMLButtonElement>(null);
-
-  const selectItem = useCallback(
-    (index: number) => {
-      const item = items[index];
-      if (item) {
-        command(item);
-      }
-    },
-    [command, items]
-  );
-
-  useEffect(() => {
-    const navigationKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (navigationKeys.includes(e.key)) {
-        e.preventDefault();
-        if (e.key === 'ArrowUp') {
-          setSelectedIndex((selectedIndex + items.length - 1) % items.length);
-          return true;
-        }
-        if (e.key === 'ArrowDown') {
-          setSelectedIndex((selectedIndex + 1) % items.length);
-          return true;
-        }
-        if (e.key === 'Enter') {
-          selectItem(selectedIndex);
-          return true;
-        }
-        return false;
-      }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [items, selectedIndex, setSelectedIndex, selectItem]);
-
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [items]);
-
-  useEffect(() => {
-    const container = commandListContainer.current;
-    const item = selectedButtonRef.current;
-
-    if (item && container) {
-      container.scrollTop = item.offsetTop - container.offsetTop;
-
-      item.focus();
+  onKeyDown({ event }: { event: KeyboardEvent<HTMLDivElement> }) {
+    if (event.key === 'ArrowUp') {
+      this.upHandler();
+      return true;
     }
 
-    if (selectedIndex === 0 && items.length > 0) {
-      setTimeout(() => {
-        selectedButtonRef.current?.focus();
-      }, 10);
+    if (event.key === 'ArrowDown') {
+      this.downHandler();
+      return true;
     }
-  }, [selectedIndex, items]);
 
-  return items.length > 0 ? (
-    <div
-      ref={commandListContainer}
-      className='z-50 no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto scroll-smooth rounded-md border bg-white px-1 py-2 shadow transition-all'
-    >
-      {items.map((item: CommandItemProps, index: number) => {
-        const isSelected = index === selectedIndex;
-        return (
-          <button
-            ref={isSelected ? selectedButtonRef : null}
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
-              isSelected ? 'bg-gray-100 text-gray-900' : ''
-            }`}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            <div className='flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 bg-white'>
-              {item.icon}
-            </div>
-            <div>
-              <p className='font-medium'>{item.title}</p>
-              <p className='text-xs text-gray-500'>{item.description}</p>
-            </div>
-          </button>
-        );
-      })}
-    </div>
-  ) : null;
-};
+    if (event.key === 'Enter') {
+      this.enterHandler();
+      return true;
+    }
+
+    return false;
+  }
+
+  upHandler() {
+    this.setState({
+      selectedIndex:
+        (this.state.selectedIndex + this.props.items.length - 1) %
+        this.props.items.length,
+    });
+  }
+
+  downHandler() {
+    this.setState({
+      selectedIndex: (this.state.selectedIndex + 1) % this.props.items.length,
+    });
+  }
+
+  enterHandler() {
+    this.selectItem(this.state.selectedIndex);
+  }
+
+  selectItem(index: number) {
+    const item = this.props.items[index];
+
+    if (item) {
+      this.props.command(item);
+    }
+  }
+
+  render() {
+    const { items } = this.props;
+    return (
+      <Cmdk>
+        <Cmdk.List className='z-50 no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto scroll-smooth rounded-md border bg-white px-1 py-2 shadow transition-all'>
+          {items.map((item, index) => {
+            const isSelected = index === this.state.selectedIndex;
+            return (
+              <Cmdk.Item
+                key={index}
+                className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
+                  isSelected ? 'bg-gray-100 text-gray-900' : ''
+                }`}
+                onClick={() => this.selectItem(index)}
+              >
+                <div>
+                  <p className='font-medium'>{item.title}</p>
+                  <p className='text-xs text-gray-500'>{item.description}</p>
+                </div>{' '}
+              </Cmdk.Item>
+            );
+          })}
+        </Cmdk.List>
+      </Cmdk>
+    );
+  }
+}
 
 const renderItems = () => {
   let component: ReactRenderer | null = null;
