@@ -8,6 +8,7 @@ import CharacterCount from '@tiptap/extension-character-count';
 import Link from '@tiptap/extension-link';
 import StarterKit from '@tiptap/starter-kit';
 import SlashCommand from '../components/slash-command';
+import Placeholder from '@tiptap/extension-placeholder';
 
 export const extensions = [
   Color,
@@ -20,4 +21,7 @@ export const extensions = [
   TaskList,
   StarterKit,
   SlashCommand,
+  Placeholder.configure({
+    placeholder: 'My Custom Placeholder',
+  }),
 ];

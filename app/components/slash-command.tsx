@@ -4,7 +4,6 @@ import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
 import tippy from 'tippy.js';
 import { Bold, Heading1, Italic, List, ListOrdered, Text } from 'lucide-react';
-import { Command as Cmdk } from 'cmdk';
 
 interface Command {
   editor: Editor;
@@ -67,22 +66,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           .deleteRange(range)
           .toggleNode('paragraph', 'paragraph')
           .run();
-      },
-    },
-    {
-      title: 'Bold',
-      description: 'Make text bold.',
-      icon: <Bold size={18} />,
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setMark('bold').run();
-      },
-    },
-    {
-      title: 'Italic',
-      description: 'Make text italic.',
-      icon: <Italic size={18} />,
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setMark('italic').run();
       },
     },
     {

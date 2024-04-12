@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../lib/actions';
 import { Note } from '../lib/types';
 import Shortcuts from './shortcuts';
+import BubbleMenu from './bubble-menu';
 import { get } from 'idb-keyval';
 import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
 
@@ -99,6 +100,7 @@ export default function Editor({
         className='bg-white rounded-md shadow outline-none px-3 py-2'
       />
       <MenuBar editor={editor} isSaved={isSaved} />
+      <BubbleMenu editor={editor} />
       <EditorContent
         editor={editor}
         className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
