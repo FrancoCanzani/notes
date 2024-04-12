@@ -22,6 +22,6 @@ export const extensions = [
   StarterKit,
   SlashCommand,
   Placeholder.configure({
-    placeholder: 'My Custom Placeholder',
+    placeholder: "Press '/' for commands",
   }),
 ];

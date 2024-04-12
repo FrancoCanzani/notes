@@ -7,6 +7,14 @@
     margin-top: 0.75em;
   }
 
+  .is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
   ul {
     list-style-type: circle;
     padding: 0 2rem;
@@ -97,15 +105,6 @@
         display: flex;
       }
     }
-  }
-
-  .tiptap p.is-editor-empty:first-child::before {
-    color: #adb5bd;
-    content: attr(data-placeholder);
-    background-color: red;
-    float: left;
-    height: 0;
-    pointer-events: none;
   }
 }
 
