@@ -153,13 +153,14 @@ export default function NoteCard({
                       ? `notes/local/${note.id}`
                       : `notes/cloud/${note.id}`
                   }
+                  className='text-sm hover:font-medium transition-all duration-150'
                 >
                   Edit
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleChangeStatus()}
-                className='cursor-pointer'
+                className='cursor-pointer text-sm hover:font-medium transition-all duration-150'
               >
                 {note.status === 'active' ? 'Archive' : 'Restore'}
               </DropdownMenuItem>
@@ -167,7 +168,7 @@ export default function NoteCard({
                 <AlertDialog>
                   <AlertDialogTrigger
                     onClick={(e) => e.stopPropagation()}
-                    className='cursor-pointer text-red-600'
+                    className='cursor-pointer text-red-600 text-sm hover:font-medium transition-all duration-150'
                   >
                     Delete
                   </AlertDialogTrigger>

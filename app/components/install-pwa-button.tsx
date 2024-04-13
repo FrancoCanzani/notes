@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
-import { Button } from './ui/button';
 
 const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -42,17 +41,30 @@ const InstallPWA = ({ className }: { className?: string }) => {
   };
 
   return (
-    <div>
+    <>
       {deferredPrompt && (
-        <Button
-          variant={'outline'}
-          className={cn(className)}
+        <button
+          className={cn(
+            'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
+            className
+          )}
           onClick={handleInstallClick}
         >
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='1.4em'
+            height='1.4em'
+            viewBox='0 0 32 32'
+          >
+            <path
+              fill='currentColor'
+              d='M15 4v16.563L9.719 15.28L8.28 16.72l7 7l.719.687l.719-.687l7-7l-1.438-1.438l-5.28 5.28V4zM7 26v2h18v-2z'
+            />
+          </svg>
           Install App
-        </Button>
+        </button>
       )}
-    </div>
+    </>
   );
 };
 
