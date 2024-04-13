@@ -4,9 +4,12 @@ import NoteCard from './note-card';
 import { Note } from '../lib/types';
 import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
+import { cn } from '../lib/utils';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);
+  const [sortingInput, setSortingInput] = useState('date');
 
   useEffect(() => {
     const fetchLocalNotes = async () => {
@@ -31,7 +34,30 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
     [localNotes, cloudNotes]
   );
 
-  if (activeNotes.length === 0) {
+  const sortedNotes =
+    sortingInput === 'date'
+      ? activeNotes.sort((a, b) => {
+          if (new Date(a.lastSaved) > new Date(b.lastSaved)) {
+            return -1;
+          }
+          if (new Date(a.lastSaved) < new Date(b.lastSaved)) {
+            return 1;
+          }
+          return 0;
+        })
+      : activeNotes.sort((a, b) => {
+          const titleA = a.title.toLowerCase();
+          const titleB = b.title.toLowerCase();
+          if (titleA < titleB) {
+            return -1;
+          }
+          if (titleA > titleB) {
+            return 1;
+          }
+          return 0;
+        });
+
+  if (sortedNotes.length === 0) {
     return (
       <div className='flex bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
         <p className='text-balance text-center p-4'>
@@ -44,9 +70,38 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   return (
     <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden sm:pl-60'>
-      <h2 className='px-5 pt-4 font-medium text-xl capitalize'>Active notes</h2>
+      <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
+        <h2>Active notes</h2>
+        <div
+          aria-label='sort'
+          className='border bg-white text-xs rounded-md inline-flex justify-between'
+        >
+          <button
+            onClick={() => setSortingInput('date')}
+            className={cn(
+              'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-200 font-normal',
+              sortingInput === 'date' &&
+                'bg-gray-100 hover:bg-gray-200 font-medium'
+            )}
+            disabled={sortingInput === 'date'}
+          >
+            Date
+          </button>
+          <button
+            onClick={() => setSortingInput('title')}
+            disabled={sortingInput === 'title'}
+            className={cn(
+              'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-200 font-normal',
+              sortingInput === 'title' &&
+                'bg-gray-100 hover:bg-gray-200 font-medium'
+            )}
+          >
+            Title
+          </button>
+        </div>
+      </div>
       <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
-        {activeNotes.map((note) => (
+        {sortedNotes.map((note) => (
           <NoteCard
             note={note}
             key={note.id || note._id}

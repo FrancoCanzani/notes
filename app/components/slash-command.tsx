@@ -3,7 +3,6 @@ import { Editor, Range, Extension } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
 import tippy from 'tippy.js';
-import { Bold, Heading1, Italic, List, ListOrdered, Text } from 'lucide-react';
 
 interface Command {
   editor: Editor;
@@ -45,7 +44,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     {
       title: 'Heading 1',
       description: 'Big section heading.',
-      icon: <Heading1 size={18} />,
       command: ({ editor, range }: Command) => {
         editor
           .chain()
@@ -58,7 +56,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     {
       title: 'Text',
       description: 'Just start typing with plain text.',
-      icon: <Text size={18} />,
       command: ({ editor, range }: Command) => {
         editor
           .chain()
@@ -71,7 +68,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     {
       title: 'Bullet List',
       description: 'Create a simple bullet list.',
-      icon: <List size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
@@ -79,9 +75,15 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     {
       title: 'Numbered List',
       description: 'Create a list with numbering.',
-      icon: <ListOrdered size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+      },
+    },
+    {
+      title: 'Task List',
+      description: 'Create a task list.',
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).toggleTaskList().run();
       },
     },
   ].filter((item) => {

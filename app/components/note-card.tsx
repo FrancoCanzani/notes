@@ -183,12 +183,12 @@ export default function NoteCard({
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className='flex items-center justify-center space-x-6'>
-                      <AlertDialogCancel className='bg-gray-200 hover:opacity-90 duration-150 font-medium rounded-md p-3'>
+                      <AlertDialogCancel className='bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-md p-3'>
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDeleteNote()}
-                        className='bg-black text-white hover:opacity-90 duration-150 font-medium rounded-md p-3'
+                        className='bg-black text-white hover:opacity-80 duration-150 font-medium rounded-md p-3'
                       >
                         Continue
                       </AlertDialogAction>

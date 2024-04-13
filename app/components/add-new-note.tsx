@@ -34,7 +34,7 @@ export default function AddNewNoteButton() {
       <AlertDialogContent className='bg-gray-50 rounded-xl'>
         <AlertDialogCancel className='absolute right-0 top-1'>
           <button
-            className='opacity-90 hover:opacity-100'
+            className='opacity-80 hover:opacity-100'
             type='button'
             aria-label='close dialog'
           >

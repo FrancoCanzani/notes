@@ -177,7 +177,7 @@ export default function LabelInput({
               type='submit'
               variant='outline'
               onClick={() => handleLabelUpdate()}
-              className='bg-black py-3 px-4 rounded-md opacity-100 hover:opacity-85 text-white font-medium'
+              className='bg-black py-3 px-4 rounded-md opacity-100 hover:opacity-80 text-white font-medium'
             >
               Save
             </Button>
