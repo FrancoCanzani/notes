@@ -7,7 +7,7 @@ import { cn } from '../lib/utils';
 import { type ButtonProps } from './ui/button';
 import { handleUser } from '../lib/actions';
 
-interface LoginButtonProps extends ButtonProps {
+interface SignInButtonProps extends ButtonProps {
   provider: 'github' | 'google';
   callbackUrl?: string;
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export function SignInButton({
   className,
   callbackUrl,
   ...props
-}: LoginButtonProps) {
+}: SignInButtonProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const session = useSession();

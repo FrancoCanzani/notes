@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
-import { LoginButton } from './sign-in';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
@@ -103,7 +102,12 @@ export default function Sidebar() {
           {session.data?.user ? (
             <UserSettingsModal />
           ) : (
-            <LoginButton className='p-3 cursor-pointer text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150' />
+            <Link
+              href={'/sign-in'}
+              className='p-3 cursor-pointer text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
+            >
+              Sign In
+            </Link>
           )}
         </div>
       </div>
