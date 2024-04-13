@@ -2,7 +2,7 @@
 
 import NoteCard from './note-card';
 import { Note } from '../lib/types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
@@ -23,9 +23,12 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
     fetchLocalNotes();
   }, []);
 
-  // Filter out only active notes
-  const activeNotes = [...localNotes, ...(cloudNotes || [])].filter(
-    (note) => note.status === 'active'
+  const filterActiveNotes = (notes: Note[]) =>
+    notes.filter((note: Note) => note.status === 'active');
+
+  const activeNotes = useMemo(
+    () => filterActiveNotes([...localNotes, ...(cloudNotes || [])]),
+    [localNotes, cloudNotes]
   );
 
   if (activeNotes.length === 0) {

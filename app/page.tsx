@@ -1,21 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import InstallPWA from './components/install-pwa-button';
-import { LoginButton } from './components/log-in';
 import React from 'react';
-import Image from 'next/image';
+import { Button } from './components/ui/button';
 
 export default function Page() {
   return (
     <div className='min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex flex-col items-center justify-center'>
-      <header className='inline-flex justify-between w-full px-6 fixed top-3'>
-        <div className='flex items-center justify-start'>
-          <h1 className='text-xl font-bold text-black'>QuickNotes</h1>
-          <Image src={'/thunder-icon.png'} alt='Logo' width={30} height={30} />
-        </div>
-        <InstallPWA className='bg-black p-3 rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
-      </header>
       <div className='flex flex-col items-center justify-center space-y-4 bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-200 to-neutral-500 py-8'>
         <div>
           <h1 className='text-6xl font-bold text-black'>QuickNotes</h1>
@@ -34,7 +25,12 @@ export default function Page() {
           >
             Continue Local
           </Link>
-          <LoginButton className='bg-black px-2 py-2.5 text-sm rounded-md opacity-100 hover:opacity-85 text-white font-medium' />
+          <Link
+            href={'/sign-in'}
+            className='bg-black px-2 py-2.5 text-sm rounded-md opacity-100 hover:opacity-85 text-white font-medium'
+          >
+            Sing In
+          </Link>
         </div>
       </div>
     </div>

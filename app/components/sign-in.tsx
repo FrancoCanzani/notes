@@ -4,18 +4,18 @@ import * as React from 'react';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 import { cn } from '../lib/utils';
-import { Button, type ButtonProps } from '../components/ui/button';
+import { type ButtonProps } from './ui/button';
 import { handleUser } from '../lib/actions';
 
 interface LoginButtonProps extends ButtonProps {
-  showGithubIcon?: boolean;
-  text?: string;
+  provider: 'github' | 'google';
   callbackUrl?: string;
+  children: React.ReactNode;
 }
 
-export function LoginButton({
-  text = 'Login with GitHub',
-  showGithubIcon = true,
+export function SignInButton({
+  children,
+  provider,
   className,
   callbackUrl,
   ...props
@@ -28,7 +28,7 @@ export function LoginButton({
   const handleLogin = async () => {
     setIsLoading(true);
     // next-auth signIn() function doesn't work yet at Edge Runtime due to usage of BroadcastChannel
-    await signIn('github', { callbackUrl: callbackUrl });
+    await signIn(provider, { callbackUrl: callbackUrl ?? '/notes' });
     if (user) {
       await handleUser(user);
     }
@@ -41,7 +41,7 @@ export function LoginButton({
       className={cn(className)}
       {...props}
     >
-      {isLoading ? <p>Loading</p> : text}
+      {isLoading ? <p>Loading...</p> : children}
     </button>
   );
 }

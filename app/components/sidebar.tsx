@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
-import { LoginButton } from './log-in';
+import { LoginButton } from './sign-in';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
