@@ -19,6 +19,7 @@ import {
 } from '@radix-ui/react-icons';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
+import AiMenu from './ai-menu';
 
 export default function MenuBar({
   editor,
@@ -82,6 +83,7 @@ export default function MenuBar({
           </svg>
         )}
       </Button>
+      <AiMenu editor={editor} />
       <Button
         variant={'menu'}
         size={'sm'}

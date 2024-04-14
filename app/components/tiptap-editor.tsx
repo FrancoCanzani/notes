@@ -13,7 +13,6 @@ import Shortcuts from './shortcuts';
 import BubbleMenu from './bubble-menu';
 import { get } from 'idb-keyval';
 import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
-import AiMenu from './ai-menu';
 
 export default function Editor({
   noteId,
@@ -101,7 +100,6 @@ export default function Editor({
         className='bg-white rounded-md shadow outline-none px-3 py-2'
       />
       <MenuBar editor={editor} isSaved={isSaved} />
-      <AiMenu editor={editor} />
       <BubbleMenu editor={editor} />
       <EditorContent
         editor={editor}
