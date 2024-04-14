@@ -78,9 +78,8 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           <button
             onClick={() => setSortingInput('date')}
             className={cn(
-              'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-200 font-normal',
-              sortingInput === 'date' &&
-                'bg-gray-100 hover:bg-gray-200 font-medium'
+              'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-100 font-normal',
+              sortingInput === 'title' && 'bg-gray-100 hover:bg-gray-200'
             )}
             disabled={sortingInput === 'date'}
           >
@@ -90,9 +89,8 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
             onClick={() => setSortingInput('title')}
             disabled={sortingInput === 'title'}
             className={cn(
-              'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-200 font-normal',
-              sortingInput === 'title' &&
-                'bg-gray-100 hover:bg-gray-200 font-medium'
+              'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-100 font-normal',
+              sortingInput === 'date' && 'bg-gray-100 hover:bg-gray-200'
             )}
           >
             Title
