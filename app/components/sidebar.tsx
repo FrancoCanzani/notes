@@ -27,7 +27,7 @@ export default function Sidebar() {
   return (
     <>
       <button
-        className='fixed z-20 right-5 top-4 rounded-full p-2 sm:hidden opacity-50 hover:opacity-100'
+        className='fixed z-20 right-5 bottom-16 bg-gray-50 rounded-full flex items-center justify-center h-12 w-12 sm:hidden opacity-50 hover:opacity-100'
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />

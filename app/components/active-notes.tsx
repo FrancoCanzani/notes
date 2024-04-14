@@ -5,7 +5,6 @@ import { Note } from '../lib/types';
 import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
 import { cn } from '../lib/utils';
-import { formatDistanceToNowStrict } from 'date-fns';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);

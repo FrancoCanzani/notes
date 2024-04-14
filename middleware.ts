@@ -10,5 +10,10 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(absoluteURL);
   }
 
+  if (!session && request.nextUrl.pathname.includes('cloud')) {
+    const absoluteURL = new URL('/sign-in', request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL);
+  }
+
   return NextResponse.next();
 }
