@@ -9,6 +9,7 @@ import Link from '@tiptap/extension-link';
 import StarterKit from '@tiptap/starter-kit';
 import SlashCommand from '../components/slash-command';
 import Placeholder from '@tiptap/extension-placeholder';
+import SearchAndReplace from '@sereneinserenade/tiptap-search-and-replace';
 
 export const extensions = [
   Color,
@@ -21,6 +22,7 @@ export const extensions = [
   TaskList,
   StarterKit,
   SlashCommand,
+  SearchAndReplace.configure(),
   Placeholder.configure({
     placeholder: "Press '/' for commands",
   }),
