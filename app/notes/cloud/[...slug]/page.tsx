@@ -13,22 +13,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
     if (note) {
       return (
-        <main className='flex bg-gray-100'>
+        <main className='flex'>
           <Sidebar />
-          <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
-            <Editor noteId={noteId} cloudNote={note} />
-          </div>
+          <Editor noteId={noteId} cloudNote={note} />
         </main>
       );
     }
   }
 
   return (
-    <main className='flex bg-gray-100'>
+    <main className='flex'>
       <Sidebar />
-      <div className='max-w-screen-xl m-auto overflow-x-hidden sm:pl-60'>
-        <Editor noteId={noteId} />
-      </div>
+      <Editor noteId={noteId} />
     </main>
   );
 }

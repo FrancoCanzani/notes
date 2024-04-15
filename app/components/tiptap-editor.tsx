@@ -90,27 +90,29 @@ export default function Editor({
   };
 
   return (
-    <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
-      <input
-        type='text'
-        placeholder='Title'
-        onChange={handleTitleChange}
-        value={title}
-        autoFocus
-        className='bg-white rounded-md shadow outline-none px-3 py-2'
-      />
-      <MenuBar editor={editor} isSaved={isSaved} />
-      <BubbleMenu editor={editor} />
-      <EditorContent
-        editor={editor}
-        className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
-      />
-      <div className='flex items-center justify-between'>
-        <div className='text-xs text-gray-500'>
-          {editor.storage.characterCount.characters()} characters /{' '}
-          {editor.storage.characterCount.words()} words
+    <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
+      <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
+        <input
+          type='text'
+          placeholder='Title'
+          onChange={handleTitleChange}
+          value={title}
+          autoFocus
+          className='bg-white rounded-md shadow outline-none px-3 py-2'
+        />
+        <MenuBar editor={editor} isSaved={isSaved} />
+        <BubbleMenu editor={editor} />
+        <EditorContent
+          editor={editor}
+          className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
+        />
+        <div className='flex items-center justify-between'>
+          <div className='text-xs text-gray-500'>
+            {editor.storage.characterCount.characters()} characters /{' '}
+            {editor.storage.characterCount.words()} words
+          </div>
+          <Shortcuts />
         </div>
-        <Shortcuts />
       </div>
     </div>
   );
