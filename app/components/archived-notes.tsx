@@ -24,11 +24,11 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }, []);
 
   // Filter out only archived notes
-  const activeNotes = [...localNotes, ...(cloudNotes || [])].filter(
+  const archivedNotes = [...localNotes, ...(cloudNotes || [])].filter(
     (note) => note.status === 'archived'
   );
 
-  if (activeNotes.length === 0) {
+  if (archivedNotes.length === 0) {
     return (
       <div className='flex flex-col bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
         <svg
@@ -56,7 +56,7 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
         Archived notes
       </h2>
       <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
-        {activeNotes.map((note) => (
+        {archivedNotes.map((note) => (
           <NoteCard
             note={note}
             key={note.id || note._id}

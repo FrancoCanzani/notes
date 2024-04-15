@@ -117,8 +117,6 @@ export async function POST(req: Request): Promise<Response> {
     n: 1,
   });
 
-  console.log(response);
-
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
 
