@@ -14,11 +14,6 @@ export default function NoteEditorPreview({
   const editor = useEditor({
     editable: false,
     extensions,
-    editorProps: {
-      attributes: {
-        class: 'focus:outline-none',
-      },
-    },
   });
 
   editor?.commands.setContent(JSON.parse(content));

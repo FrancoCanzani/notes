@@ -94,14 +94,14 @@ export default function Editor({
   return (
     <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
       <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
-        <div className='w-fit overflow-clip flex items-center justify-center gap-x-2'>
+        <div className='w-full overflow-x-clip flex items-center justify-center gap-x-2'>
           <input
             type='text'
             placeholder='Title'
             onChange={handleTitleChange}
             value={title}
             autoFocus
-            className='bg-white flex-grow rounded-md shadow outline-none px-3 py-2'
+            className='bg-white w-full rounded-md shadow outline-none px-3 py-2'
           />
           <PublishButton cloudNote={cloudNote} />
           {cloudNote?.published && (
