@@ -13,6 +13,8 @@ import Shortcuts from './shortcuts';
 import BubbleMenu from './bubble-menu';
 import { get } from 'idb-keyval';
 import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
+import PublishButton from './publish-button';
+import { SharePublication } from './share-publication';
 
 export default function Editor({
   noteId,
@@ -92,14 +94,22 @@ export default function Editor({
   return (
     <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
       <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
-        <input
-          type='text'
-          placeholder='Title'
-          onChange={handleTitleChange}
-          value={title}
-          autoFocus
-          className='bg-white rounded-md shadow outline-none px-3 py-2'
-        />
+        <div className='w-full flex items-center justify-center gap-x-2'>
+          <input
+            type='text'
+            placeholder='Title'
+            onChange={handleTitleChange}
+            value={title}
+            autoFocus
+            className='bg-white flex-grow rounded-md shadow outline-none px-3 py-2'
+          />
+          <PublishButton cloudNote={cloudNote} />
+          {cloudNote?.published && (
+            <SharePublication
+              shareValue={`notes-franco.vercel.app/notes/published/${cloudNote.id}`}
+            />
+          )}
+        </div>
         <MenuBar editor={editor} isSaved={isSaved} />
         <BubbleMenu editor={editor} />
         <EditorContent

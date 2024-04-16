@@ -155,3 +155,34 @@ export async function updateNoteLabel(
     throw error;
   }
 }
+
+export async function updatePublishedStatus(
+  userId: string | undefined,
+  noteId: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for updatePublishedStatus');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const note = await Note.findOne({ userId, id: noteId });
+
+    if (!note) {
+      throw new Error('Note not found');
+    }
+
+    if (note.published === undefined) {
+      note.published = true;
+    } else {
+      note.published = !note.published;
+    }
+
+    const updatedNote = await note.save();
+
+    return updatedNote;
+  } catch (error) {
+    throw error;
+  }
+}

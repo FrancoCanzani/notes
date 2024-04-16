@@ -19,12 +19,12 @@ const noteSchema = new Schema({
     default: 'cloud',
   },
   created: {
-    type: String,
-    default: Date.now(),
+    type: Date,
+    default: Date.now,
   },
   lastSaved: {
-    type: String,
-    default: Date.now(),
+    type: Date,
+    default: Date.now,
   },
   userId: {
     type: String,
@@ -32,6 +32,10 @@ const noteSchema = new Schema({
     required: true,
   },
   pinned: {
+    type: Boolean,
+    default: false,
+  },
+  published: {
     type: Boolean,
     default: false,
   },

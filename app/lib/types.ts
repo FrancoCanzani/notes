@@ -5,7 +5,8 @@ export interface Note {
   id: string;
   userId?: string;
   pinned: boolean;
-  created?: string;
+  published?: boolean;
+  created?: Date;
   lastSaved: Date;
   type: 'local' | 'cloud';
   status: 'active' | 'archived';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useEditor, EditorContent } from '@tiptap/react';
 import { cn } from '../lib/utils';
 import { extensions } from '../lib/extensions';
