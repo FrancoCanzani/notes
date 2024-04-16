@@ -94,7 +94,7 @@ export default function Editor({
   return (
     <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
       <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
-        <div className='w-full flex items-center justify-center gap-x-2'>
+        <div className='w-fit overflow-clip flex items-center justify-center gap-x-2'>
           <input
             type='text'
             placeholder='Title'
