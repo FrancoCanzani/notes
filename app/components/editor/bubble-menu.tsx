@@ -16,7 +16,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
         <Bubble
           editor={editor}
           tippyOptions={{ duration: 100 }}
-          className='flex h-10 items-center space-x-1 rounded-md border text-xs bg-white p-1'
+          className='flex h-10 items-center space-x-1 rounded-sm border text-xs bg-white p-1'
         >
           <Button
             variant={'menu'}

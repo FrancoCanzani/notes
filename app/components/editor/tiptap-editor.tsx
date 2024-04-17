@@ -10,10 +10,11 @@ import { saveCloudNote } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import Shortcuts from './shortcuts';
 import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
-import { get } from 'idb-keyval';
+import { get, del } from 'idb-keyval';
 import PublishButton from '../buttons/publish-button';
 import { SharePublication } from './share-publication';
 import BubbleMenu from './bubble-menu';
+import { toast } from 'sonner';
 
 export default function Editor({
   noteId,
@@ -37,16 +38,35 @@ export default function Editor({
 
   useEffect(() => {
     const loadNote = async () => {
-      if (cloudNote) {
-        const { title: storedTitle, content } = cloudNote;
-        setTitle(storedTitle);
-        editor?.commands.setContent(JSON.parse(content));
-      }
-      const note = await get(noteId);
-      if (note) {
-        const { title: storedTitle, content } = note;
-        setTitle(storedTitle);
-        editor?.commands.setContent(JSON.parse(content));
+      try {
+        if (cloudNote) {
+          const { title: storedTitle, content } = cloudNote;
+          setTitle(storedTitle);
+          editor?.commands.setContent(JSON.parse(content));
+        }
+        const note = await get(noteId);
+        if (note) {
+          const { title: storedTitle, content } = note;
+          setTitle(storedTitle);
+          editor?.commands.setContent(JSON.parse(content));
+
+          if (session && session.data) {
+            // Convert the local note to cloud when there's a user
+            const syncedCloudNote = await saveCloudNote(
+              session.data.user.id,
+              noteId,
+              title,
+              content
+            );
+            if (syncedCloudNote) {
+              await del(noteId);
+            } else {
+              throw new Error('Failed to sync note to the cloud.');
+            }
+          }
+        }
+      } catch (error) {
+        toast.error('Error loading and syncing note.');
       }
     };
 
@@ -65,7 +85,7 @@ export default function Editor({
         JSON.stringify(jsonContent)
       );
     } else {
-      await handleIndexedDBSave(noteId, title, JSON.stringify(jsonContent)); // Changed to JSON.stringify(jsonContent)
+      await handleIndexedDBSave(noteId, title, JSON.stringify(jsonContent));
     }
   }, 1000);
 
@@ -84,15 +104,15 @@ export default function Editor({
 
   return (
     <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
-      <div className='flex flex-col space-y-4 min-h-screen py-6 px-3 container'>
+      <div className='flex flex-col min-h-screen pt-6 pb-3 px-3 container'>
         <div className='w-full overflow-x-clip flex items-center justify-center gap-x-2'>
           <input
             type='text'
-            placeholder='Title'
+            placeholder='Enter a Title'
             onChange={handleTitleChange}
             value={title}
             autoFocus
-            className='bg-white w-full rounded-md shadow outline-none px-3 py-2'
+            className='bg-gray-50 w-full rounded-sm outline-none px-3 py-2'
           />
           <PublishButton cloudNote={cloudNote} />
           {cloudNote?.published && (
@@ -105,9 +125,9 @@ export default function Editor({
         <BubbleMenu editor={editor} />
         <EditorContent
           editor={editor}
-          className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
+          className='flex-grow bg-white rounded-sm w-full outline-none p-3'
         />
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between pt-4'>
           <div className='text-xs text-gray-500'>
             {editor.storage.characterCount.characters()} characters /{' '}
             {editor.storage.characterCount.words()} words

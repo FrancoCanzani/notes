@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
 import AddNewNoteButton from './buttons/add-new-note';
 import { useSession } from 'next-auth/react';
-import { nanoid } from 'nanoid';
 import UserSettingsModal from './user-settings-modal';
 import { Archive, Home, Terminal } from 'lucide-react';
 import Image from 'next/image';
@@ -18,7 +17,6 @@ export default function Sidebar() {
 
   const pathname = usePathname();
   const session = useSession();
-  const newNoteId = nanoid(7);
 
   useEffect(() => {
     setShowSidebar(false);
@@ -49,24 +47,7 @@ export default function Sidebar() {
               height={30}
             />
           </div>
-          {session.status === 'authenticated' ? (
-            <AddNewNoteButton />
-          ) : (
-            <div className='p-3 text-sm flex items-center justify-start gap-x-3 w-full rounded-md hover:bg-amber-200 hover:font-medium bg-amber-100 transition-all duration-150'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='1.4em'
-                height='1.4em'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  fill='currentColor'
-                  d='M8 21V7.994h13v8.583L16.577 21zm12-5h-4v4zM5.012 17.806L2.752 5.012l12.794-2.26l.504 2.863H5.618v12.083z'
-                />
-              </svg>{' '}
-              <Link href={`/notes/local/new/${newNoteId}`}>New Note</Link>
-            </div>
-          )}
+          <AddNewNoteButton />
           <Link
             href={'/notes'}
             className={cn(

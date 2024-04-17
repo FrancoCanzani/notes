@@ -50,7 +50,7 @@ export default function MenuBar({
   }, [editor]);
 
   return (
-    <div className='flex items-center bg-white no-scrollbar shadow justify-start space-x-3 overflow-x-auto py-1 px-2 rounded-md'>
+    <div className='flex items-center bg-gray-50 no-scrollbar justify-start space-x-3 overflow-x-auto py-2 px-2'>
       <Button
         variant={'menu'}
         size={'sm'}
