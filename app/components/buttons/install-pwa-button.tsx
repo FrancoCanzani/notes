@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);

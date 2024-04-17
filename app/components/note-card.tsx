@@ -148,11 +148,7 @@ export default function NoteCard({
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link
-                  href={
-                    note.type === 'local'
-                      ? `/notes/local/${note.id}`
-                      : `/notes/cloud/${note.id}`
-                  }
+                  href={`/notes/${note.id}`}
                   className='text-sm hover:font-medium transition-all duration-150'
                 >
                   Edit

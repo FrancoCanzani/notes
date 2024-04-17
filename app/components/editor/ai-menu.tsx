@@ -1,14 +1,14 @@
 import { Editor } from '@tiptap/core';
 import { useCompletion } from 'ai/react';
 import { toast } from 'sonner';
-import { buttonVariants } from './ui/button';
+import { buttonVariants } from '../ui/button';
 import { useCallback } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+} from '../ui/dropdown-menu';
 
 export default function AiMenu({ editor }: { editor: Editor | null }) {
   const { complete, isLoading } = useCompletion({

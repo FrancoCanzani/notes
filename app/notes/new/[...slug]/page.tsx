@@ -1,5 +1,5 @@
 import Sidebar from '../../../components/sidebar';
-import Editor from '../../../components/tiptap-editor';
+import Editor from '../../../components/editor/tiptap-editor';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const noteId = params.slug[0];

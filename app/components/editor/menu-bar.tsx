@@ -17,8 +17,8 @@ import {
   QuoteIcon,
   UnderlineIcon,
 } from '@radix-ui/react-icons';
-import { cn } from '../lib/utils';
-import { Button } from './ui/button';
+import { cn } from '../../lib/utils';
+import { Button } from '../ui/button';
 import AiMenu from './ai-menu';
 
 export default function MenuBar({

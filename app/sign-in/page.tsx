@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { SignInButton } from '../components/sign-in';
+import { SignInButton } from '../components/buttons/sign-in';
 import Link from 'next/link';
 
 export default function SignIn() {

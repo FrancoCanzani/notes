@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 
 export default function Shortcuts() {
   const shortcuts = [

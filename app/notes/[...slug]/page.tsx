@@ -1,7 +1,7 @@
-import Sidebar from '../../../components/sidebar';
-import { auth } from '../../../lib/auth';
-import Editor from '../../../components/tiptap-editor';
-import { getCloudNote } from '../../../lib/helpers/get-cloud-note';
+import Sidebar from '../../components/sidebar';
+import { auth } from '../../lib/auth';
+import Editor from '../../components/editor/tiptap-editor';
+import { getCloudNote } from '../../lib/helpers/get-cloud-note';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await auth();

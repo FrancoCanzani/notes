@@ -1,9 +1,9 @@
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
-import { Button } from './ui/button';
-import { updatePublishedStatus } from '../lib/actions';
-import { Note } from '../lib/types';
+import { Button } from '../ui/button';
+import { updatePublishedStatus } from '../../lib/actions';
+import { Note } from '../../lib/types';
 import { useRouter } from 'next/navigation';
 
 export default function PublishButton({ cloudNote }: { cloudNote?: Note }) {

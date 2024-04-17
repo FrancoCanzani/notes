@@ -2,19 +2,18 @@
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import MenuBar from './menu-bar';
-import { extensions } from '../lib/extensions';
+import { extensions } from '../../lib/extensions';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { saveCloudNote } from '../lib/actions';
-import { Note } from '../lib/types';
+import { saveCloudNote } from '../../lib/actions';
+import { Note } from '../../lib/types';
 import Shortcuts from './shortcuts';
-import BubbleMenu from './bubble-menu';
+import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
 import { get } from 'idb-keyval';
-import handleIndexedDBSave from '../lib/helpers/handle-index-db-save';
-import PublishButton from './publish-button';
+import PublishButton from '../buttons/publish-button';
 import { SharePublication } from './share-publication';
+import BubbleMenu from './bubble-menu';
 
 export default function Editor({
   noteId,
@@ -26,8 +25,6 @@ export default function Editor({
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const [isSaved, setIsSaved] = useState(false);
   const session = useSession();
-  const pathname = usePathname();
-  const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
 
   const editor = useEditor({
     extensions,
@@ -40,20 +37,16 @@ export default function Editor({
 
   useEffect(() => {
     const loadNote = async () => {
-      if (noteType === 'local') {
-        const note = await get(noteId);
-
-        if (note) {
-          const { title: storedTitle, content } = note;
-          setTitle(storedTitle);
-          editor?.commands.setContent(JSON.parse(content));
-        }
-      } else {
-        if (cloudNote) {
-          const { title: storedTitle, content } = cloudNote;
-          setTitle(storedTitle);
-          editor?.commands.setContent(JSON.parse(content));
-        }
+      if (cloudNote) {
+        const { title: storedTitle, content } = cloudNote;
+        setTitle(storedTitle);
+        editor?.commands.setContent(JSON.parse(content));
+      }
+      const note = await get(noteId);
+      if (note) {
+        const { title: storedTitle, content } = note;
+        setTitle(storedTitle);
+        editor?.commands.setContent(JSON.parse(content));
       }
     };
 
@@ -64,17 +57,15 @@ export default function Editor({
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     setIsSaved(true);
     const jsonContent = editor.getJSON();
-    if (noteType === 'local') {
-      await handleIndexedDBSave(noteId, title, JSON.stringify(jsonContent)); // Changed to JSON.stringify(jsonContent)
+    if (session && session.data) {
+      await saveCloudNote(
+        session.data?.user?.id,
+        noteId,
+        title,
+        JSON.stringify(jsonContent)
+      );
     } else {
-      if (session.data) {
-        await saveCloudNote(
-          session.data?.user?.id,
-          noteId,
-          title,
-          JSON.stringify(jsonContent)
-        );
-      }
+      await handleIndexedDBSave(noteId, title, JSON.stringify(jsonContent)); // Changed to JSON.stringify(jsonContent)
     }
   }, 1000);
 

@@ -5,13 +5,13 @@ import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
-import AddNewNoteButton from './add-new-note';
+import AddNewNoteButton from './buttons/add-new-note';
 import { useSession } from 'next-auth/react';
 import { nanoid } from 'nanoid';
 import UserSettingsModal from './user-settings-modal';
 import { Archive, Home, Terminal } from 'lucide-react';
 import Image from 'next/image';
-import InstallPWA from './install-pwa-button';
+import InstallPWA from './buttons/install-pwa-button';
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);

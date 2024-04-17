@@ -3,9 +3,9 @@
 import * as React from 'react';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
-import { cn } from '../lib/utils';
-import { type ButtonProps } from './ui/button';
-import { handleUser } from '../lib/actions';
+import { cn } from '../../lib/utils';
+import { type ButtonProps } from '../ui/button';
+import { handleUser } from '../../lib/actions';
 
 interface SignInButtonProps extends ButtonProps {
   provider: 'github' | 'google';

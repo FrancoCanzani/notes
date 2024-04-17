@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core';
 import { BubbleMenu as Bubble } from '@tiptap/react';
-import { cn } from '../lib/utils';
-import { Button } from './ui/button';
+import { cn } from '../../lib/utils';
+import { Button } from '../ui/button';
 import {
   FontBoldIcon,
   FontItalicIcon,
