@@ -118,3 +118,21 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/*       ScrollBar 2        */
+#scrollbar2::-webkit-scrollbar {
+  width: 5px;
+}
+
+#scrollbar2::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: #eeeeee;
+  border: 1px solid #eeeeee;
+  box-shadow: inset 0 0 6px rgba(135, 135, 135, 0.3);
+}
+
+#scrollbar2::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #363636;
+  height: 10px;
+}

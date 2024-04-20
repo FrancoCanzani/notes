@@ -169,7 +169,7 @@ class CommandList extends React.Component<
     return (
       <div
         id='slash-command'
-        className='z-50 h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
+        className='z-50 h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-sm border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
       >
         {items.map((item, index) => {
           const isSelected = index === this.state.selectedIndex;
@@ -177,7 +177,7 @@ class CommandList extends React.Component<
             <button
               type='button'
               key={index}
-              className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
+              className={`flex w-full items-center space-x-2 rounded-sm px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
                 isSelected ? 'bg-gray-100 text-gray-900' : ''
               }`}
               onClick={() => this.selectItem(index)}

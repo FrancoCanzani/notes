@@ -73,7 +73,7 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
         <h2>Active notes</h2>
         <div
           aria-label='sort'
-          className='border bg-white text-xs rounded-md inline-flex justify-between'
+          className='border bg-white text-xs rounded-sm inline-flex justify-between'
         >
           <button
             onClick={() => setSortingInput('date')}

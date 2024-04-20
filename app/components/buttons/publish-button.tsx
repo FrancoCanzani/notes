@@ -34,7 +34,7 @@ export default function PublishButton({ cloudNote }: { cloudNote?: Note }) {
         <Button
           variant={'outline'}
           onClick={() => handleUpdatePublishedStatus()}
-          className='hover:opacity-80 rounded-md shadow outline-none px-3 py-2'
+          className='hover:opacity-80 rounded-sm shadow outline-none px-3 py-2'
           type='button'
         >
           {cloudNote?.published ? 'Withdraw' : 'Publish'}

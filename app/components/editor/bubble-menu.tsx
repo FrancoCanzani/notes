@@ -8,14 +8,20 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from '@radix-ui/react-icons';
+import isMobile from '../../lib/helpers/is-mobile';
 
 export default function BubbleMenu({ editor }: { editor: Editor }) {
+  const usesMobile = isMobile();
+
   return (
     <>
       {editor && (
         <Bubble
           editor={editor}
-          tippyOptions={{ duration: 100 }}
+          tippyOptions={{
+            duration: 100,
+            placement: usesMobile ? 'bottom' : 'top',
+          }}
           className='flex h-10 items-center space-x-1 rounded-sm border text-xs bg-white p-1'
         >
           <Button

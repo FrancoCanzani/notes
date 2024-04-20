@@ -58,10 +58,10 @@ export default function Shortcuts() {
       <DialogTrigger className='text-gray-500 text-xs underline hover:text-gray-800'>
         Commands
       </DialogTrigger>
-      <DialogContent className='bg-white rounded-md'>
+      <DialogContent className='bg-white rounded-sm'>
         <div className='relative overflow-x-auto pt-6'>
           <table className='w-full text-sm text-left rtl:text-right'>
-            <thead className='text-xs bg-gray-50 rounded-md'>
+            <thead className='text-xs bg-gray-50 rounded-sm'>
               <tr>
                 <th scope='col' className='px-2 sm:px-4 md:px-6 py-2'>
                   Command

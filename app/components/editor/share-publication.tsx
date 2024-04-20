@@ -27,7 +27,7 @@ export function SharePublication({ shareValue }: { shareValue: string }) {
       <DialogTrigger asChild>
         <Button
           variant={'outline'}
-          className='hover:opacity-80 rounded-md shadow outline-none px-3 py-2'
+          className='hover:opacity-80 rounded-sm shadow outline-none px-3 py-2'
         >
           <Share2 size={16} />
         </Button>

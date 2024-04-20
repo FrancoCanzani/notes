@@ -45,7 +45,7 @@ const InstallPWA = ({ className }: { className?: string }) => {
       {deferredPrompt && (
         <button
           className={cn(
-            'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
+            'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-sm hover:bg-gray-100 hover:font-medium transition-all duration-150',
             className
           )}
           onClick={handleInstallClick}
