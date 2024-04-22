@@ -9,11 +9,12 @@ export default async function Page() {
   if (session && session.user) {
     const userId = session.user.id;
     const notes = await getCloudNotes(userId);
+    const parsedNotes = JSON.parse(JSON.stringify(notes));
 
     return (
       <main className='flex'>
         <Sidebar />
-        <ActiveNotes cloudNotes={notes} />
+        <ActiveNotes cloudNotes={parsedNotes} />
       </main>
     );
   }

@@ -8,9 +8,7 @@ export default async function getCloudNotes(userId: string | undefined) {
   try {
     await connectToDatabase();
     const notes = await Note.find({ userId });
-    // We need to parse this because only plain objects can be passed to Client Components from Server Components.
-    const parsedNotes = JSON.parse(JSON.stringify(notes));
-    return parsedNotes;
+    return notes;
   } catch (error) {
     throw error;
   }
