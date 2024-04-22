@@ -24,6 +24,6 @@ export const extensions = [
   SlashCommand,
   SearchAndReplace.configure(),
   Placeholder.configure({
-    placeholder: "Press '/' for commands",
+    placeholder: "Press '/' for commands. Select text for styles.",
   }),
 ];

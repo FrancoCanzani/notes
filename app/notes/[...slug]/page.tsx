@@ -1,7 +1,8 @@
 import Sidebar from '../../components/sidebar';
 import { auth } from '../../lib/auth';
-import Editor from '../../components/editor/tiptap-editor';
+import Editor from '../../components/editor/editor';
 import { getCloudNote } from '../../lib/helpers/get-cloud-note';
+import { Note } from '../../lib/types';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await auth();
@@ -9,13 +10,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   if (session && session.user) {
     const userId = session.user.id;
-    const note = await getCloudNote(userId, noteId);
+    const note: Note = await getCloudNote(userId, noteId);
+    const parsedNote = JSON.parse(JSON.stringify(note));
 
     if (note) {
       return (
         <main className='flex'>
           <Sidebar />
-          <Editor noteId={noteId} cloudNote={note} />
+          <Editor noteId={noteId} cloudNote={parsedNote} />
         </main>
       );
     }

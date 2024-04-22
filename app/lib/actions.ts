@@ -51,6 +51,7 @@ export async function saveCloudNote(
 
   try {
     await connectToDatabase();
+    console.log(content);
 
     let note = await Note.findOne({ userId, id: noteId });
 
@@ -71,7 +72,7 @@ export async function saveCloudNote(
     await note.save();
     revalidatePath('/notes', 'page');
 
-    return note;
+    return JSON.parse(JSON.stringify(note));
   } catch (error) {
     throw error;
   }

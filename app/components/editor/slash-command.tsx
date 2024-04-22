@@ -42,7 +42,7 @@ const Command = Extension.create({
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
-      title: 'Heading 1',
+      title: 'Heading',
       description: 'Big section heading.',
       command: ({ editor, range }: Command) => {
         editor
@@ -63,6 +63,20 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           .deleteRange(range)
           .toggleNode('paragraph', 'paragraph')
           .run();
+      },
+    },
+    {
+      title: 'Code',
+      description: 'Mark the start and end of a piece of code.',
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).toggleCodeBlock().run();
+      },
+    },
+    {
+      title: 'Blockquote',
+      description: 'Text quoted from another source.',
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).toggleBlockquote().run();
       },
     },
     {
