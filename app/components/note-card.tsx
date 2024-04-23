@@ -98,7 +98,7 @@ export default function NoteCard({
   return (
     <div
       className={cn(
-        'rounded-sm p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-56 md:w-60 lg:w-64 flex flex-col h-52 sm:h-60'
+        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-56 md:w-60 lg:w-64 flex flex-col h-52 sm:h-60'
       )}
     >
       <div className='flex items-center justify-between'>
@@ -179,12 +179,12 @@ export default function NoteCard({
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className='flex items-center justify-center space-x-6'>
-                      <AlertDialogCancel className='bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-sm p-3'>
+                      <AlertDialogCancel className='bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-md p-3'>
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDeleteNote()}
-                        className='bg-black text-white hover:opacity-80 duration-150 font-medium rounded-sm p-3'
+                        className='bg-black text-white hover:opacity-80 duration-150 font-medium rounded-md p-3'
                       >
                         Continue
                       </AlertDialogAction>

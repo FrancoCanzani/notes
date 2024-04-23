@@ -20,7 +20,6 @@ export default function NoteEditorPreview({
   useEffect(() => {
     try {
       const parsedContent = JSON.parse(content) as PartialBlock[];
-      console.log(initialContent);
 
       setInitialContent(parsedContent);
     } catch (error) {

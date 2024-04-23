@@ -32,7 +32,8 @@ export async function handleUser(user: UserProps) {
     });
 
     const savedUser = await newUser.save();
-    return savedUser;
+    const parsedResponse = JSON.parse(JSON.stringify(savedUser));
+    return parsedResponse;
   } catch (error) {
     console.error('Error handling user:', error);
     throw error;
@@ -72,7 +73,8 @@ export async function saveCloudNote(
     await note.save();
     revalidatePath('/notes', 'page');
 
-    return JSON.parse(JSON.stringify(note));
+    const parsedResponse = JSON.parse(JSON.stringify(note));
+    return parsedResponse;
   } catch (error) {
     throw error;
   }
@@ -91,7 +93,8 @@ export async function deleteCloudNote(
 
     const note = await Note.findOneAndDelete({ userId, id: noteId });
 
-    return note;
+    const parsedResponse = JSON.parse(JSON.stringify(note));
+    return parsedResponse;
   } catch (error) {
     throw error;
   }
@@ -119,7 +122,8 @@ export async function updateNoteStatus(
 
     await note.save();
 
-    return note;
+    const parsedResponse = JSON.parse(JSON.stringify(note));
+    return parsedResponse;
   } catch (error) {
     throw error;
   }
@@ -150,8 +154,8 @@ export async function updateNoteLabel(
     };
 
     await note.save();
-
-    return note;
+    const parsedResponse = JSON.parse(JSON.stringify(note));
+    return parsedResponse;
   } catch (error) {
     throw error;
   }
@@ -181,8 +185,8 @@ export async function updatePublishedStatus(
     }
 
     const updatedNote = await note.save();
-
-    return updatedNote;
+    const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
+    return parsedResponse;
   } catch (error) {
     throw error;
   }

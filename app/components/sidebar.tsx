@@ -51,7 +51,7 @@ export default function Sidebar() {
           <Link
             href={'/notes'}
             className={cn(
-              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-sm hover:bg-gray-100 hover:font-medium transition-all duration-150',
+              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
               pathname === '/notes' && 'bg-gray-100 font-medium'
             )}
           >
@@ -61,7 +61,7 @@ export default function Sidebar() {
           <Link
             href={'/notes/archived'}
             className={cn(
-              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-sm hover:bg-gray-100 hover:font-medium transition-all duration-150',
+              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
               pathname.includes('archive') && 'bg-gray-100 font-medium'
             )}
           >
@@ -74,7 +74,7 @@ export default function Sidebar() {
           <a
             href='https://github.com/FrancoCanzani/notes'
             target='_blank'
-            className='p-3 text-sm group flex items-center justify-between gap-x-4 w-full rounded-sm hover:bg-gray-100 hover:font-medium transition-all duration-150'
+            className='p-3 text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
           >
             <div className='inline-flex items-center gap-x-4'>
               <Terminal size={16} />
@@ -87,7 +87,7 @@ export default function Sidebar() {
           ) : (
             <Link
               href={'/sign-in'}
-              className='p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-sm hover:bg-gray-100 hover:font-medium transition-all duration-150'
+              className='p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
             >
               <div className='inline-flex items-center gap-x-4'>
                 <svg

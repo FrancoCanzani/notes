@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <div className='py-6 px-3'>
             <NoteEditorPreview
               content={note.content}
-              className='flex-grow bg-white rounded-sm w-full shadow outline-none p-3'
+              className='flex-grow bg-white rounded-md w-full shadow outline-none p-3'
             />
           </div>
         </div>

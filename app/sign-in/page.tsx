@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function SignIn() {
   return (
     <div className='container w-full h-screen m-auto flex flex-col items-center justify-center'>
-      <div className='flex flex-col items-start justify-between rounded-sm bg-white px-8 py-12 shadow w-3/4 lg:max-w-md'>
+      <div className='flex flex-col items-start justify-between rounded-md bg-white px-8 py-12 shadow w-3/4 lg:max-w-md'>
         <div className='flex flex-col gap-2'>
           <div className='flex items-center justify-start'>
             <h1 className='text-3xl font-bold text-black'>QuickNotes</h1>

@@ -1,15 +1,19 @@
 import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
-import { Button } from '../ui/button';
 import { updatePublishedStatus } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import { useRouter } from 'next/navigation';
+import { cn } from '../../lib/utils';
+import { BookCheck, MoreHorizontal, BookDashed } from 'lucide-react';
 
-export default function PublishButton({ cloudNote }: { cloudNote?: Note }) {
+export default function PublishButton({
+  cloudNote,
+  className,
+}: {
+  cloudNote: Note;
+  className?: string;
+}) {
   const session = useSession();
-  const pathname = usePathname();
-  const noteType = pathname.includes('cloud') ? 'cloud' : 'local';
   const router = useRouter();
 
   const handleUpdatePublishedStatus = async () => {
@@ -29,17 +33,17 @@ export default function PublishButton({ cloudNote }: { cloudNote?: Note }) {
   };
 
   return (
-    <>
-      {noteType === 'cloud' && (
-        <Button
-          variant={'outline'}
-          onClick={() => handleUpdatePublishedStatus()}
-          className='hover:opacity-80 rounded-sm shadow outline-none px-3 py-2'
-          type='button'
-        >
-          {cloudNote?.published ? 'Withdraw' : 'Publish'}
-        </Button>
-      )}
-    </>
+    <button
+      onClick={() => handleUpdatePublishedStatus()}
+      className={cn(className)}
+      type='button'
+    >
+      {cloudNote?.published ? (
+        <BookDashed size={13} />
+      ) : (
+        <BookCheck size={13} />
+      )}{' '}
+      {cloudNote?.published ? 'Withdraw Note' : 'Publish Note'}
+    </button>
   );
 }

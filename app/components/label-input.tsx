@@ -132,7 +132,7 @@ export default function LabelInput({
           )}
         </button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-md rounded-sm bg-white'>
+      <DialogContent className='sm:max-w-md rounded-md bg-white'>
         <DialogHeader>
           <DialogTitle>Label</DialogTitle>
           <DialogDescription>
@@ -157,7 +157,7 @@ export default function LabelInput({
           </Label>
           <Swatch
             colors={colors}
-            className='mt-3 bg-gray-50 p-2 rounded-sm'
+            className='mt-3 bg-gray-50 p-2 rounded-md'
             color={hex}
             rectProps={{
               style: {
@@ -177,14 +177,14 @@ export default function LabelInput({
               type='submit'
               variant='outline'
               onClick={() => handleLabelUpdate()}
-              className='bg-black py-3 px-4 rounded-sm opacity-100 hover:opacity-80 text-white font-medium'
+              className='bg-black py-3 px-4 rounded-md opacity-100 hover:opacity-80 text-white font-medium'
             >
               Save
             </Button>
           </DialogClose>
           <p
             style={{ backgroundColor: hex }}
-            className='text-xs flex items-center justify-center max-w-52 h-10 px-4 py-2 rounded-sm font-medium text-ellipsis overflow-hidden'
+            className='text-xs flex items-center justify-center max-w-52 h-10 px-4 py-2 rounded-md font-medium text-ellipsis overflow-hidden'
           >
             Your label
           </p>
