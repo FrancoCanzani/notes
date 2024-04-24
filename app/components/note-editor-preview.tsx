@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
+import { extensions } from '../lib/extensions';
 import { cn } from '../lib/utils';
-import { PartialBlock, BlockNoteEditor } from '@blocknote/core';
-import { BlockNoteView } from '@blocknote/react';
 import { Skeleton } from './ui/skeleton';
+import { EditorContent, useEditor } from '@tiptap/react';
+import { toast } from 'sonner';
 
 export default function NoteEditorPreview({
   content,
@@ -13,28 +14,25 @@ export default function NoteEditorPreview({
   content: string;
   className?: string;
 }) {
-  const [initialContent, setInitialContent] = useState<
-    PartialBlock[] | undefined | 'loading'
-  >('loading');
+  const editor = useEditor({
+    extensions,
+    editable: false,
+    editorProps: {
+      attributes: {
+        class: 'focus:outline-none',
+      },
+    },
+  });
 
   useEffect(() => {
     try {
-      const parsedContent = JSON.parse(content) as PartialBlock[];
-
-      setInitialContent(parsedContent);
+      editor?.commands.setContent(JSON.parse(content));
     } catch (error) {
-      setInitialContent([]);
+      toast.error('Error getting preview editor content!');
     }
-  }, [content]);
+  }, [content, editor]);
 
-  const editor = useMemo(() => {
-    if (initialContent === 'loading') {
-      return undefined;
-    }
-    return BlockNoteEditor.create({ initialContent });
-  }, [initialContent]);
-
-  if (editor === undefined || initialContent === 'loading') {
+  if (!editor) {
     return (
       <div className='flex flex-col grow space-y-2 py-2'>
         <Skeleton className='h-4 w-full bg-gray-200' />
@@ -44,7 +42,5 @@ export default function NoteEditorPreview({
     );
   }
 
-  return (
-    <BlockNoteView className={cn(className)} editor={editor} editable={false} />
-  );
+  return <EditorContent className={cn(className)} editor={editor} />;
 }

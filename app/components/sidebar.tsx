@@ -25,7 +25,7 @@ export default function Sidebar() {
   return (
     <>
       <button
-        className='fixed z-30 right-5 bottom-12 bg-gray-50 rounded-full flex items-center justify-center h-12 w-12 sm:hidden opacity-50 hover:opacity-100'
+        className='fixed z-[99] right-5 bottom-12 bg-gray-50 rounded-full flex items-center justify-center h-12 w-12 sm:hidden opacity-50 hover:opacity-100'
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <Menu width={20} />
@@ -35,7 +35,7 @@ export default function Sidebar() {
           showSidebar
             ? 'w-80 shadow sm:shadow-none sm:w-full translate-x-0'
             : '-translate-x-full'
-        } fixed flex bg-white border-r flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-10 h-full p-4 transition-all sm:w-60 sm:translate-x-0`}
+        } fixed flex bg-white border-r flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-[98] h-full p-4 transition-all sm:w-60 sm:translate-x-0`}
       >
         <div className='space-y-4'>
           <div className='flex items-center justify-start'>

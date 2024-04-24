@@ -22,7 +22,7 @@ export default function EditorOptionsDropdown({
       <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
-          className='h-0 w-8 p-0 hover:bg-gray-100 font-bold rounded-md'
+          className='h-0 w-8 p-0 outline-none hover:bg-gray-100 font-bold rounded-md'
         >
           <span className='sr-only'>Open menu</span>
           <MoreHorizontal size={16} />
