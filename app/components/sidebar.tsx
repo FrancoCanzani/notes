@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Menu } from 'lucide-react';
+import { useEffect } from 'react';
+import { ChevronsLeft } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
@@ -9,14 +9,14 @@ import AddNewNoteButton from './buttons/add-new-note';
 import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
 import { Archive, Home, Terminal } from 'lucide-react';
-import Image from 'next/image';
 import InstallPWA from './buttons/install-pwa-button';
+import { Note } from '../lib/types';
+import { useSidebar } from './sidebar-provider';
 
-export default function Sidebar() {
-  const [showSidebar, setShowSidebar] = useState(false);
-
+export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
   const session = useSession();
+  const { showSidebar, setShowSidebar } = useSidebar();
 
   useEffect(() => {
     setShowSidebar(false);
@@ -24,32 +24,27 @@ export default function Sidebar() {
 
   return (
     <>
-      <button
-        className='fixed z-[99] right-5 bottom-12 bg-gray-50 rounded-full flex items-center justify-center h-12 w-12 sm:hidden opacity-50 hover:opacity-100'
-        onClick={() => setShowSidebar(!showSidebar)}
-      >
-        <Menu width={20} />
-      </button>
       <div
+        style={{ zIndex: 60 }}
         className={`transform ${
           showSidebar
             ? 'w-80 shadow sm:shadow-none sm:w-full translate-x-0'
             : '-translate-x-full'
-        } fixed flex bg-white border-r flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 z-[98] h-full p-4 transition-all sm:w-60 sm:translate-x-0`}
+        } fixed flex bg-white border-r flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 h-full p-4 transition-all sm:w-80 sm:translate-x-0`}
       >
         <div className='space-y-4'>
-          <div className='flex items-center justify-start'>
-            <h1 className='text-xl font-bold text-black'>QuickNotes</h1>
-            <Image
-              src={'/thunder-icon.png'}
-              alt='Logo'
-              width={30}
-              height={30}
-            />
+          <div className='flex items-center justify-between'>
+            <h1 className=''>QuickNotes</h1>
+            <button
+              className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
+              onClick={() => setShowSidebar(!showSidebar)}
+            >
+              <ChevronsLeft width={16} />
+            </button>
           </div>
           <AddNewNoteButton />
           <Link
-            href={'/notes'}
+            href={`/dashboard/notes`}
             className={cn(
               'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
               pathname === '/notes' && 'bg-gray-100 font-medium'
@@ -59,7 +54,7 @@ export default function Sidebar() {
             Home
           </Link>
           <Link
-            href={'/notes/archived'}
+            href={'dashboard/notes/archived'}
             className={cn(
               'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
               pathname.includes('archive') && 'bg-gray-100 font-medium'

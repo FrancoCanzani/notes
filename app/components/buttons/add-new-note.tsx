@@ -6,7 +6,7 @@ export default function AddNewNoteButton() {
 
   return (
     <Link
-      href={`/notes/new/${newNoteId}`}
+      href={`dashboard/notes/new/${newNoteId}`}
       className='p-3 text-sm flex items-center justify-start gap-x-3 w-full rounded-md hover:bg-amber-200 hover:font-medium bg-amber-100 transition-all duration-150'
     >
       <svg

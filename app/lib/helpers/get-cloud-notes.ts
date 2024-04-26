@@ -3,8 +3,9 @@ import connectToDatabase from '../db/connect-to-db';
 
 export default async function getCloudNotes(userId: string | undefined) {
   if (!userId) {
-    return;
+    throw new Error('Missing user id for getCloudNote');
   }
+
   try {
     await connectToDatabase();
     const notes = await Note.find({ userId });

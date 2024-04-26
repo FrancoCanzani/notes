@@ -1,9 +1,8 @@
-'use client';
-
+import React, { ReactNode } from 'react';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
-import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
+import { SidebarProvider } from './sidebar-provider';
 
 export default function ClientProvider({
   children,
@@ -15,8 +14,10 @@ export default function ClientProvider({
   return (
     <>
       <SessionProvider session={session}>
-        {children}
-        <Toaster />
+        <SidebarProvider>
+          {children}
+          <Toaster />
+        </SidebarProvider>
       </SessionProvider>
     </>
   );

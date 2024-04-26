@@ -148,7 +148,7 @@ export default function NoteCard({
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link
-                  href={`/notes/${note.id}`}
+                  href={`/dashboard/notes/${note.id}`}
                   className='text-sm hover:font-medium transition-all duration-150'
                 >
                   Edit

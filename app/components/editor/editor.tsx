@@ -1,7 +1,7 @@
 'use client';
 
 import { extensions } from '../../lib/extensions';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../../lib/actions';
@@ -13,6 +13,8 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import EditorOptionsDropdown from './editor-options-dropdown';
 import { formatDistanceToNowStrict } from 'date-fns';
 import BubbleMenu from './bubble-menu';
+import { ChevronsLeft } from 'lucide-react';
+import { useSidebar } from '../sidebar-provider';
 
 export default function Editor({
   noteId,
@@ -23,6 +25,7 @@ export default function Editor({
 }) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const session = useSession();
+  const { showSidebar, setShowSidebar } = useSidebar();
 
   const editor = useEditor({
     extensions,
@@ -95,31 +98,43 @@ export default function Editor({
   };
 
   return (
-    <div className='max-w-screen-xl flex-grow overflow-clip m-auto sm:pl-60'>
-      <div className='flex flex-col min-h-screen pt-6 pb-3 px-3 container'>
-        <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
-          <input
-            type='text'
-            placeholder='Title'
-            onChange={(e) => handleTitleChange(e.target.value)}
-            value={title}
-            autoFocus
-            className='outline-none'
-          />
-          {cloudNote && (
-            <div className='flex items-center justify-end p-1 gap-x-2'>
-              <p className='capitalize text-gray-400 hidden md:block'>
-                Edited {formatDistanceToNowStrict(cloudNote?.lastSaved)} ago
-              </p>
-              <EditorOptionsDropdown cloudNote={cloudNote} />
+    <div className='flex-grow overflow-clip m-auto sm:pl-80'>
+      <div className='flex flex-col min-h-screen p-3 container max-w-screen-xl'>
+        <div className='bg-white flex-grow rounded-md'>
+          <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
+            <div className='flex items-center justify-start gap-x-2'>
+              {setShowSidebar && (
+                <button
+                  className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
+                  onClick={() => setShowSidebar(!showSidebar)}
+                >
+                  <ChevronsLeft width={16} />
+                </button>
+              )}
+              <input
+                type='text'
+                placeholder='Title'
+                onChange={(e) => handleTitleChange(e.target.value)}
+                value={title}
+                autoFocus
+                className='outline-none'
+              />
             </div>
-          )}
+            {cloudNote && (
+              <div className='flex items-center justify-end p-1 gap-x-2'>
+                <p className='text-gray-400 hidden sm:block'>
+                  Edited {formatDistanceToNowStrict(cloudNote?.lastSaved)} ago
+                </p>
+                <EditorOptionsDropdown cloudNote={cloudNote} />
+              </div>
+            )}
+          </div>
+          <BubbleMenu editor={editor} />
+          <EditorContent
+            editor={editor}
+            className='flex-grow bg-white rounded-b-md w-full max-w-screen-lg m-auto outline-none p-4'
+          />
         </div>
-        <BubbleMenu editor={editor} />
-        <EditorContent
-          editor={editor}
-          className='flex-grow bg-white rounded-b-md w-full outline-none p-3'
-        />
       </div>
     </div>
   );

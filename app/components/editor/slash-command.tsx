@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { Editor, Range, Extension } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
@@ -8,6 +8,13 @@ interface Command {
   editor: Editor;
   range: Range;
 }
+
+const stopPrevent = <T extends Event>(e: T): T => {
+  (e as Event).stopPropagation();
+  (e as Event).preventDefault();
+
+  return e;
+};
 
 const Command = Extension.create({
   name: 'slash-command',
@@ -42,7 +49,7 @@ const Command = Extension.create({
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
-      title: 'Heading',
+      title: 'Heading 1',
       description: 'Big section heading.',
       command: ({ editor, range }: Command) => {
         editor
@@ -63,20 +70,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           .deleteRange(range)
           .toggleNode('paragraph', 'paragraph')
           .run();
-      },
-    },
-    {
-      title: 'Code',
-      description: 'Mark the start and end of a piece of code.',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).toggleCodeBlock().run();
-      },
-    },
-    {
-      title: 'Blockquote',
-      description: 'Text quoted from another source.',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).toggleBlockquote().run();
       },
     },
     {
@@ -110,103 +103,124 @@ const getSuggestionItems = ({ query }: { query: string }) => {
 
 interface CommandListProps {
   items: any[];
-  command: (item: any) => void;
+  command: (...args: any[]) => any;
 }
 
-// Enter event work differently in a class component compared to a functional component with Tiptap editor.
-// In Class Components Event handlers are defined as methods within the class. These methods have access to the component's state (this.state) directly.
-// When you bind the event handler to the element in the render method, you're passing the entire method reference.
+const CommandList = React.forwardRef(
+  ({ items, command }: CommandListProps, ref) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-class CommandList extends React.Component<
-  CommandListProps,
-  { selectedIndex: number }
-> {
-  state = {
-    selectedIndex: 0,
-  };
+    useEffect(() => {
+      setSelectedIndex(0);
+    }, [items]);
 
-  componentDidUpdate(oldProps: Readonly<CommandListProps>) {
-    if (this.props.items !== oldProps.items) {
-      this.setState({
-        selectedIndex: 0,
-      });
-    }
-  }
+    useEffect(() => {
+      scrollSelectedItemIntoView();
+    }, [selectedIndex]);
 
-  onKeyDown({ event }: { event: KeyboardEvent<HTMLDivElement> }) {
-    if (event.key === 'ArrowUp') {
-      this.upHandler();
-      return true;
-    }
+    useImperativeHandle(ref, () => ({
+      onKeyDown: ({ event }: { event: KeyboardEvent }) => {
+        if (event.key === 'ArrowUp') {
+          stopPrevent(event);
+          upHandler();
+          return true;
+        }
 
-    if (event.key === 'ArrowDown') {
-      this.downHandler();
-      return true;
-    }
+        if (event.key === 'ArrowDown') {
+          stopPrevent(event);
+          downHandler();
+          return true;
+        }
 
-    if (event.key === 'Enter') {
-      this.enterHandler();
-      return true;
-    }
+        if (event.key === 'Enter') {
+          stopPrevent(event);
+          enterHandler();
+          return true;
+        }
 
-    return false;
-  }
+        return false;
+      },
+    }));
 
-  upHandler() {
-    this.setState({
-      selectedIndex:
-        (this.state.selectedIndex + this.props.items.length - 1) %
-        this.props.items.length,
-    });
-  }
+    const upHandler = () => {
+      setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+    };
 
-  downHandler() {
-    this.setState({
-      selectedIndex: (this.state.selectedIndex + 1) % this.props.items.length,
-    });
-  }
+    const downHandler = () => {
+      setSelectedIndex((selectedIndex + 1) % items.length);
+    };
 
-  enterHandler() {
-    this.selectItem(this.state.selectedIndex);
-  }
+    const enterHandler = () => {
+      selectItem(selectedIndex);
+    };
 
-  selectItem(index: number) {
-    const item = this.props.items[index];
+    const selectItem = (index: number) => {
+      const item = items[index];
 
-    if (item) {
-      this.props.command(item);
-    }
-  }
+      if (item) setTimeout(() => command(item));
+    };
 
-  render() {
-    const { items } = this.props;
+    const scrollSelectedItemIntoView = () => {
+      const container = scrollContainerRef.current;
+      const selectedItem = container?.querySelector(
+        `div:nth-child(${selectedIndex + 1})`
+      );
+      if (container && selectedItem) {
+        const containerRect = container.getBoundingClientRect();
+        const selectedItemRect = selectedItem.getBoundingClientRect();
+
+        if (selectedItemRect.bottom > containerRect.bottom) {
+          // Scroll down
+          container.scrollTop += selectedItemRect.bottom - containerRect.bottom;
+        } else if (selectedItemRect.top < containerRect.top) {
+          // Scroll up
+          container.scrollTop -= containerRect.top - selectedItemRect.top;
+        }
+      }
+    };
+
     return (
       <div
+        ref={scrollContainerRef}
         id='slash-command'
-        className='z-50 h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
+        className='h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
       >
-        {items.map((item, index) => {
-          const isSelected = index === this.state.selectedIndex;
-          return (
-            <button
-              type='button'
-              key={index}
-              className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
-                isSelected ? 'bg-gray-100 text-gray-900' : ''
-              }`}
-              onClick={() => this.selectItem(index)}
-            >
-              <div>
-                <p className='font-medium'>{item.title}</p>
-                <p className='text-xs text-gray-500'>{item.description}</p>
-              </div>
-            </button>
-          );
-        })}
+        {items.length ? (
+          <>
+            {items.map((item, index) => {
+              const isSelected = index === selectedIndex;
+
+              return (
+                <button
+                  className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
+                    isSelected ? 'bg-gray-100 text-gray-900' : ''
+                  }`}
+                  key={item.title}
+                  onClick={() => selectItem(index)}
+                  onMouseEnter={() => setSelectedIndex(index)}
+                  onKeyDown={(e) => {
+                    e.code === 'Enter' && selectItem(index);
+                  }}
+                  tabIndex={0}
+                >
+                  <div>
+                    <p className='font-medium'>{item.title}</p>
+                    <p className='text-xs text-gray-500'>{item.description}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </>
+        ) : (
+          <div>
+            <div>No result</div>
+          </div>
+        )}
       </div>
     );
   }
-}
+);
 
 const renderItems = () => {
   let component: ReactRenderer | null = null;

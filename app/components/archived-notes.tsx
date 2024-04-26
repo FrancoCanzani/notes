@@ -30,7 +30,7 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   if (archivedNotes.length === 0) {
     return (
-      <div className='flex flex-col bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-60 min-h-screen'>
+      <div className='flex flex-col bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-80 min-h-screen'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='4em'
@@ -51,7 +51,7 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }
 
   return (
-    <div className='min-h-screen w-full bg-gray-100 overflow-x-hidden sm:pl-60'>
+    <div className='min-h-screen w-full bg-gray-100 overflow-x-hidden sm:pl-80'>
       <h2 className='px-5 pt-4 font-medium text-xl capitalize'>
         Archived notes
       </h2>
