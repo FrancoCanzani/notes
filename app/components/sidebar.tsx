@@ -1,22 +1,24 @@
 'use client';
 
-import { useEffect } from 'react';
-import { ChevronsLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ChevronsLeft, StickyNote, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
-import AddNewNoteButton from './buttons/add-new-note';
 import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
 import { Archive, Home, Terminal } from 'lucide-react';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
 import { useSidebar } from './sidebar-provider';
+import { nanoid } from 'nanoid';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
   const session = useSession();
   const { showSidebar, setShowSidebar } = useSidebar();
+  const [openNotes, setOpenNotes] = useState(false);
+  const newNoteId = nanoid(7);
 
   useEffect(() => {
     setShowSidebar(false);
@@ -35,34 +37,69 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
             <h1 className=''>QuickNotes</h1>
-            <button
-              className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
-              onClick={() => setShowSidebar(!showSidebar)}
-            >
-              <ChevronsLeft width={16} />
-            </button>
+            <div className='flex items-center justify-end gap-x-2'>
+              <Link
+                href={`/dashboard/notes`}
+                aria-label='home'
+                className={cn(
+                  'rounded-md hover:bg-gray-100 p-1.5',
+                  pathname === '/dashboard/notes' && 'bg-gray-100 font-medium'
+                )}
+              >
+                <Home size={15} />
+              </Link>
+              <button
+                className='rounded-md hover:bg-gray-100 px-1 py-0.5 sm:hidden'
+                onClick={() => setShowSidebar(!showSidebar)}
+              >
+                <ChevronsLeft width={16} />
+              </button>
+            </div>
           </div>
-          <AddNewNoteButton />
-          <Link
-            href={`/dashboard/notes`}
-            className={cn(
-              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
-              pathname === '/notes' && 'bg-gray-100 font-medium'
+          <div className={cn('')}>
+            <div
+              className={cn(
+                'text-sm flex items-center cursor-pointer justify-between gap-x-2 hover:bg-gray-50 px-2 py-1.5 w-full text-start rounded-md font-medium truncate'
+              )}
+            >
+              <div className='flex items-center justify-start gap-x-2'>
+                <ChevronRight
+                  size={14}
+                  className={cn(
+                    'transition-all duration-150 opacity-75 hover:opacity-100',
+                    openNotes && 'rotate-90 bg-gray-50'
+                  )}
+                  onClick={() => setOpenNotes(!openNotes)}
+                />
+                <Link
+                  href={`/dashboard/notes`}
+                  className='flex items-center justify-start w-full gap-x-2'
+                >
+                  <StickyNote size={12} />
+                  Notes
+                </Link>
+              </div>
+              <span>{notes?.length}</span>
+              <Link
+                href={`/dashboard/notes/new/${newNoteId}`}
+                className='px-1.5 py-0.5 opacity-75 hover:opacity-100 bg-white rounded-md'
+              >
+                +
+              </Link>
+            </div>
+            {openNotes && (
+              <Link
+                href={'/dashboard/notes/archived'}
+                className={cn(
+                  'px-2 py-1.5 rounded-md pl-10 text-sm flex items-center hover:bg-gray-50 justify-start gap-x-2 w-full hover:font-medium',
+                  pathname.includes('archive') && 'font-medium'
+                )}
+              >
+                <Archive size={12} />
+                Archived
+              </Link>
             )}
-          >
-            <Home size={16} />
-            Home
-          </Link>
-          <Link
-            href={'dashboard/notes/archived'}
-            className={cn(
-              'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
-              pathname.includes('archive') && 'bg-gray-100 font-medium'
-            )}
-          >
-            <Archive size={16} />
-            Archived
-          </Link>
+          </div>
         </div>
         <div>
           <InstallPWA />

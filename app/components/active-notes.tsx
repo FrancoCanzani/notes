@@ -5,10 +5,13 @@ import { Note } from '../lib/types';
 import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
 import { cn } from '../lib/utils';
+import { useSidebar } from './sidebar-provider';
+import { ChevronsLeft } from 'lucide-react';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);
   const [sortingInput, setSortingInput] = useState('date');
+  const { showSidebar, setShowSidebar } = useSidebar();
 
   useEffect(() => {
     const fetchLocalNotes = async () => {
@@ -70,7 +73,17 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   return (
     <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden sm:pl-80'>
       <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
-        <h2>Active notes</h2>
+        <div className='flex items-center justify-start gap-x-2'>
+          {setShowSidebar && (
+            <button
+              className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
+              onClick={() => setShowSidebar(!showSidebar)}
+            >
+              <ChevronsLeft width={16} />
+            </button>
+          )}
+          <h2>Active notes</h2>
+        </div>
         <div
           aria-label='sort'
           className='border bg-white text-xs rounded-md inline-flex justify-between'
