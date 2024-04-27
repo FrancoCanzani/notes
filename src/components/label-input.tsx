@@ -132,7 +132,7 @@ export default function LabelInput({
           )}
         </button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-md rounded-md bg-white'>
+      <DialogContent className='sm:max-w-md z-[99] rounded-md bg-white'>
         <DialogHeader>
           <DialogTitle>Label</DialogTitle>
           <DialogDescription>

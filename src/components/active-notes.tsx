@@ -6,11 +6,14 @@ import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
 import { cn } from '../lib/utils';
 import { useSidebar } from './sidebar-provider';
-import { ChevronsLeft } from 'lucide-react';
+import { ChevronsLeft, Grid2X2, Rows3 } from 'lucide-react';
+import NoteRow from './note-row';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);
   const [sortingInput, setSortingInput] = useState('date');
+  const [view, setView] = useState('card');
+
   const { showSidebar, setShowSidebar } = useSidebar();
 
   useEffect(() => {
@@ -84,42 +87,84 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           )}
           <h2>Active notes</h2>
         </div>
-        <div
-          aria-label='sort'
-          className='border bg-white text-xs rounded-md inline-flex justify-between'
-        >
-          <button
-            onClick={() => setSortingInput('date')}
-            className={cn(
-              'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-100 font-normal',
-              sortingInput === 'title' && 'bg-gray-100 hover:bg-gray-200'
-            )}
-            disabled={sortingInput === 'date'}
+        <div className='flex items-center justify-end gap-x-3'>
+          <div
+            aria-label='view'
+            className='border bg-white text-xs rounded-md inline-flex justify-between'
           >
-            Date
-          </button>
-          <button
-            onClick={() => setSortingInput('title')}
-            disabled={sortingInput === 'title'}
-            className={cn(
-              'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-100 font-normal',
-              sortingInput === 'date' && 'bg-gray-100 hover:bg-gray-200'
-            )}
+            <button
+              onClick={() => setView('card')}
+              disabled={view === 'card'}
+              title='cards view'
+              className={cn(
+                'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-100 font-normal',
+                view === 'row' && 'bg-gray-100 hover:bg-gray-200'
+              )}
+            >
+              <Grid2X2 size={14} />
+            </button>
+            <button
+              onClick={() => setView('row')}
+              title='row view'
+              className={cn(
+                'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-100 font-normal',
+                view === 'card' && 'bg-gray-100 hover:bg-gray-200'
+              )}
+              disabled={view === 'row'}
+            >
+              <Rows3 size={14} />
+            </button>
+          </div>
+          <div
+            aria-label='sort'
+            className='border bg-white text-xs rounded-md inline-flex justify-between'
           >
-            Title
-          </button>
+            <button
+              onClick={() => setSortingInput('date')}
+              className={cn(
+                'p-1.5 px-2 border rounded-l-md ring-1 ring-gray-100 font-normal',
+                sortingInput === 'title' && 'bg-gray-100 hover:bg-gray-200'
+              )}
+              disabled={sortingInput === 'date'}
+            >
+              Date
+            </button>
+            <button
+              onClick={() => setSortingInput('title')}
+              disabled={sortingInput === 'title'}
+              className={cn(
+                'p-1.5 px-2 border rounded-r-md ring-1 ring-gray-100 font-normal',
+                sortingInput === 'date' && 'bg-gray-100 hover:bg-gray-200'
+              )}
+            >
+              Title
+            </button>
+          </div>
         </div>
       </div>
-      <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
-        {sortedNotes.map((note) => (
-          <NoteCard
-            note={note}
-            key={note.id || note._id}
-            localNotes={localNotes}
-            setLocalNotes={setLocalNotes}
-          />
-        ))}
-      </div>
+      {view === 'card' ? (
+        <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
+          {sortedNotes.map((note) => (
+            <NoteCard
+              note={note}
+              key={note.id || note._id}
+              localNotes={localNotes}
+              setLocalNotes={setLocalNotes}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 pb-5 px-5 pt-3 gap-3 w-full'>
+          {sortedNotes.map((note) => (
+            <NoteRow
+              note={note}
+              key={note.id || note._id}
+              localNotes={localNotes}
+              setLocalNotes={setLocalNotes}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
