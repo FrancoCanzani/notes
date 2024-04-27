@@ -102,7 +102,10 @@ export default function NoteCard({
       )}
     >
       <div className='flex items-center justify-between'>
-        <h3 className={cn('font-medium rounded-t-lg truncate text-sm')}>
+        <h3
+          className={cn('font-medium rounded-t-lg truncate text-xs pr-2')}
+          title={note.title}
+        >
           {note.title}
         </h3>
         <div className='flex items-center justify-end gap-x-0.5'>

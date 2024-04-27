@@ -1,7 +1,7 @@
-import Sidebar from '../../../components/sidebar';
-import { auth } from '../../../lib/auth';
-import ArchivedNotes from '../../../components/archived-notes';
-import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
+import getCloudNotes from '../../../../lib/helpers/get-cloud-notes';
+import ArchivedNotes from '../../../../components/archived-notes';
+import { auth } from '../../../../lib/auth';
+import Sidebar from '../../../../components/sidebar';
 
 export default async function Page() {
   const session = await auth();

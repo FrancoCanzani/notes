@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import ClientProvider from './components/client-provider';
-import { auth } from './lib/auth';
+import ClientProvider from '../components/client-provider';
+import { auth } from '../lib/auth';
 import { Inter } from 'next/font/google';
 
 // If loading a variable font, you don't need to specify the font weight

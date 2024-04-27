@@ -1,7 +1,7 @@
-import Sidebar from '../../../../components/sidebar';
-import NoteEditorPreview from '../../../../components/note-editor-preview';
-import { getPublishedNote } from '../../../../lib/helpers/getPublishedNote';
-import { Note } from '../../../../lib/types';
+import Sidebar from '../../../../../components/sidebar';
+import NoteEditorPreview from '../../../../../components/note-editor-preview';
+import { getPublishedNote } from '../../../../../lib/helpers/getPublishedNote';
+import { Note } from '../../../../../lib/types';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const noteId = params.slug[0];

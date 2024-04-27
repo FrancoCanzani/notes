@@ -79,7 +79,6 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
                   Notes
                 </Link>
               </div>
-              <span>{notes?.length}</span>
               <Link
                 href={`/dashboard/notes/new/${newNoteId}`}
                 className='px-1.5 py-0.5 opacity-75 hover:opacity-100 bg-white rounded-md'

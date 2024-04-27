@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { SignInButton } from '../components/buttons/sign-in';
 import Link from 'next/link';
+import { SignInButton } from '../../components/buttons/sign-in';
 
 export default function SignIn() {
   return (
