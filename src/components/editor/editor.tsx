@@ -1,7 +1,7 @@
 'use client';
 
 import { extensions } from '../../lib/extensions';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../../lib/actions';
@@ -17,6 +17,7 @@ import { ChevronsLeft } from 'lucide-react';
 import { useSidebar } from '../sidebar-provider';
 import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
+import { useCompletion } from 'ai/react';
 
 export default function Editor({
   noteId,
@@ -33,6 +34,34 @@ export default function Editor({
     editorProps: { ...defaultEditorProps },
     extensions,
   });
+
+  const { completion, isLoading } = useCompletion({
+    id: 'editor',
+    api: '/api/ai',
+    onFinish: (_prompt, completion) => {
+      editor?.commands.setTextSelection({
+        from: editor.state.selection.from - completion.length,
+        to: editor.state.selection.from,
+      });
+    },
+    onError: (err) => {
+      toast.error('Failed to execute command');
+    },
+  });
+
+  const prev = useRef('');
+
+  // Insert chunks of the generated text
+  useEffect(() => {
+    const diff = completion.slice(prev.current.length);
+    prev.current = completion;
+    editor?.commands.insertContent(diff);
+  }, [isLoading, editor, completion]);
+
+  editor &&
+    editor.on('update', ({ editor }) => {
+      debouncedUpdates(editor);
+    });
 
   useEffect(() => {
     const loadNote = async () => {
@@ -80,10 +109,6 @@ export default function Editor({
   }, 1000);
 
   if (!editor) return null;
-
-  editor.on('update', ({ editor }) => {
-    debouncedUpdates(editor);
-  });
 
   const handleTitleChange = (input: string) => {
     setTitle(input);

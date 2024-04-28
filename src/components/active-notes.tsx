@@ -64,7 +64,7 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   if (sortedNotes.length === 0) {
     return (
-      <div className='flex bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-80 min-h-screen'>
+      <div className='flex bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-72 md:pl-80 min-h-screen'>
         <p className='text-balance text-center p-4'>
           Nothing to see here. Tap{' '}
           <strong className='underline'>New Note</strong> to start creating.
@@ -74,7 +74,7 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }
 
   return (
-    <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden sm:pl-80'>
+    <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden sm:pl-72 md:pl-80'>
       <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
         <div className='flex items-center justify-start gap-x-2'>
           {setShowSidebar && (

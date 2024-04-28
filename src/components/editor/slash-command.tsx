@@ -23,7 +23,7 @@ import {
   CheckSquare,
   CircleDashed,
 } from 'lucide-react';
-import { LoadingCircle, Magic } from '../../lib/icons';
+import { Magic } from '../../lib/icons';
 import { getPrevText } from '../../lib/helpers/get-prev-text';
 import { toast } from 'sonner';
 
@@ -228,18 +228,11 @@ const CommandList = ({
     onResponse: (response) => {
       editor.chain().focus().deleteRange(range).run();
     },
-    onFinish: async (_prompt, completion) => {
-      const currentContent = editor.getHTML();
-      const currentContentLength = currentContent.length;
-      await editor.chain().focus().insertContent(completion).run();
-      const newContent = editor.getHTML();
-      const newContentLength = newContent.length;
-      const offset = newContentLength - currentContentLength;
-      const adjustedRange = {
-        from: range.from + offset,
-        to: range.to + offset,
-      };
-      editor.commands.setTextSelection(adjustedRange);
+    onFinish: (_prompt, completion) => {
+      editor.commands.setTextSelection({
+        from: range.from,
+        to: range.from + completion.length,
+      });
     },
     onError: (e) => {
       toast.error('Failed to execute command');
@@ -247,7 +240,7 @@ const CommandList = ({
   });
 
   const selectItem = useCallback(
-    async (index: number) => {
+    (index: number) => {
       const item = items[index];
       if (item) {
         if (item.title === 'Write Magic') {
@@ -256,7 +249,7 @@ const CommandList = ({
             chars: 5000,
             offset: 1,
           });
-          await complete(text, {
+          complete(text, {
             body: { option: 'continue' },
           });
         } else {
@@ -301,9 +294,7 @@ const CommandList = ({
 
   useLayoutEffect(() => {
     const container = commandListContainer?.current;
-
     const item = container?.children[selectedIndex] as HTMLElement;
-
     if (item && container) updateScrollView(container, item);
   }, [selectedIndex]);
 
