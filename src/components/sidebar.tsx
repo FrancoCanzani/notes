@@ -32,7 +32,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           showSidebar
             ? 'w-80 shadow sm:shadow-none sm:w-full translate-x-0'
             : '-translate-x-full'
-        } fixed flex bg-white border-r z-10 flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 h-full p-4 transition-all sm:w-80 sm:translate-x-0`}
+        } fixed flex bg-white border-r z-10 flex-col overflow-y-scroll no-scrollbar justify-between space-y-10 h-full p-4 transition-all sm:w-72 md:w-80 sm:translate-x-0`}
       >
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>

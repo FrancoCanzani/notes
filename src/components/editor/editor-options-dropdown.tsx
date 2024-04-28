@@ -29,14 +29,14 @@ export default function EditorOptionsDropdown({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='bg-white text-sm'>
-        <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full font-light'>
+        <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
           <PublishButton
             cloudNote={cloudNote}
             className='flex items-center justify-start gap-x-2'
           />
         </DropdownMenuItem>
         {cloudNote.published && (
-          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full font-light'>
+          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
             <NavigatorShareButton
               className='flex items-center justify-start gap-x-2'
               publicationUrl={`notes-franco.vercel.app/notes/published/${cloudNote.id}`}

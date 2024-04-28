@@ -1,20 +1,42 @@
-import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+  useRef,
+  useLayoutEffect,
+} from 'react';
 import { Editor, Range, Extension } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
+import { useCompletion } from 'ai/react';
 import tippy from 'tippy.js';
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  List,
+  ListOrdered,
+  Text,
+  TextQuote,
+  Code,
+  CheckSquare,
+  CircleDashed,
+} from 'lucide-react';
+import { LoadingCircle, Magic } from '../../lib/icons';
+import { getPrevText } from '../../lib/helpers/get-prev-text';
+import { toast } from 'sonner';
 
-interface Command {
+interface CommandItemProps {
+  title: string;
+  description: string;
+  icon: ReactNode;
+}
+
+interface CommandProps {
   editor: Editor;
   range: Range;
 }
-
-const stopPrevent = <T extends Event>(e: T): T => {
-  (e as Event).stopPropagation();
-  (e as Event).preventDefault();
-
-  return e;
-};
 
 const Command = Extension.create({
   name: 'slash-command',
@@ -49,21 +71,17 @@ const Command = Extension.create({
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
-      title: 'Heading 1',
-      description: 'Big section heading.',
-      command: ({ editor, range }: Command) => {
-        editor
-          .chain()
-          .focus()
-          .deleteRange(range)
-          .setNode('heading', { level: 1 })
-          .run();
-      },
+      title: 'Write Magic',
+      description: 'Use AI to expand your thoughts.',
+      searchTerms: ['gpt'],
+      icon: <Magic className='w-7' />,
     },
     {
       title: 'Text',
       description: 'Just start typing with plain text.',
-      command: ({ editor, range }: Command) => {
+      searchTerms: ['p', 'paragraph'],
+      icon: <Text size={18} />,
+      command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
           .focus()
@@ -73,154 +91,254 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
+      title: 'To-do List',
+      description: 'Track tasks with a to-do list.',
+      searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
+      icon: <CheckSquare size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).toggleTaskList().run();
+      },
+    },
+    {
+      title: 'Heading 1',
+      description: 'Big section heading.',
+      searchTerms: ['title', 'big', 'large'],
+      icon: <Heading1 size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 1 })
+          .run();
+      },
+    },
+    {
+      title: 'Heading 2',
+      description: 'Medium section heading.',
+      searchTerms: ['subtitle', 'medium'],
+      icon: <Heading2 size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 2 })
+          .run();
+      },
+    },
+    {
+      title: 'Heading 3',
+      description: 'Small section heading.',
+      searchTerms: ['subtitle', 'small'],
+      icon: <Heading3 size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setNode('heading', { level: 3 })
+          .run();
+      },
+    },
+    {
       title: 'Bullet List',
       description: 'Create a simple bullet list.',
-      command: ({ editor, range }: Command) => {
+      searchTerms: ['unordered', 'point'],
+      icon: <List size={18} />,
+      command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
     },
     {
       title: 'Numbered List',
       description: 'Create a list with numbering.',
-      command: ({ editor, range }: Command) => {
+      searchTerms: ['ordered'],
+      icon: <ListOrdered size={18} />,
+      command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
       },
     },
     {
-      title: 'Task List',
-      description: 'Create a task list.',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).toggleTaskList().run();
-      },
+      title: 'Quote',
+      description: 'Capture a quote.',
+      searchTerms: ['blockquote'],
+      icon: <TextQuote size={18} />,
+      command: ({ editor, range }: CommandProps) =>
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .toggleNode('paragraph', 'paragraph')
+          .toggleBlockquote()
+          .run(),
+    },
+    {
+      title: 'Code',
+      description: 'Capture a code snippet.',
+      searchTerms: ['codeblock'],
+      icon: <Code size={18} />,
+      command: ({ editor, range }: CommandProps) =>
+        editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
   ].filter((item) => {
     if (typeof query === 'string' && query.length > 0) {
-      return item.title.toLowerCase().includes(query.toLowerCase());
+      const search = query.toLowerCase();
+      return (
+        item.title.toLowerCase().includes(search) ||
+        item.description.toLowerCase().includes(search) ||
+        (item.searchTerms &&
+          item.searchTerms.some((term: string) => term.includes(search)))
+      );
     }
     return true;
   });
 };
 
-interface CommandListProps {
-  items: any[];
-  command: (...args: any[]) => any;
-}
+export const updateScrollView = (container: HTMLElement, item: HTMLElement) => {
+  const containerHeight = container.offsetHeight;
+  const itemHeight = item ? item.offsetHeight : 0;
 
-const CommandList = React.forwardRef(
-  ({ items, command }: CommandListProps, ref) => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const top = item.offsetTop;
+  const bottom = top + itemHeight;
 
-    useEffect(() => {
-      setSelectedIndex(0);
-    }, [items]);
+  if (top < container.scrollTop) {
+    container.scrollTop -= container.scrollTop - top + 5;
+  } else if (bottom > containerHeight + container.scrollTop) {
+    container.scrollTop += bottom - containerHeight - container.scrollTop + 5;
+  }
+};
 
-    useEffect(() => {
-      scrollSelectedItemIntoView();
-    }, [selectedIndex]);
+const CommandList = ({
+  items,
+  command,
+  editor,
+  range,
+}: {
+  items: CommandItemProps[];
+  command: any;
+  editor: any;
+  range: any;
+}) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-    useImperativeHandle(ref, () => ({
-      onKeyDown: ({ event }: { event: KeyboardEvent }) => {
-        if (event.key === 'ArrowUp') {
-          stopPrevent(event);
-          upHandler();
-          return true;
-        }
+  const { complete, isLoading } = useCompletion({
+    id: 'editor',
+    api: '/api/ai',
+    onResponse: (response) => {
+      editor.chain().focus().deleteRange(range).run();
+    },
+    onFinish: async (_prompt, completion) => {
+      const currentContent = editor.getHTML();
+      const currentContentLength = currentContent.length;
+      await editor.chain().focus().insertContent(completion).run();
+      const newContent = editor.getHTML();
+      const newContentLength = newContent.length;
+      const offset = newContentLength - currentContentLength;
+      const adjustedRange = {
+        from: range.from + offset,
+        to: range.to + offset,
+      };
+      editor.commands.setTextSelection(adjustedRange);
+    },
+    onError: (e) => {
+      toast.error('Failed to execute command');
+    },
+  });
 
-        if (event.key === 'ArrowDown') {
-          stopPrevent(event);
-          downHandler();
-          return true;
-        }
-
-        if (event.key === 'Enter') {
-          stopPrevent(event);
-          enterHandler();
-          return true;
-        }
-
-        return false;
-      },
-    }));
-
-    const upHandler = () => {
-      setSelectedIndex((selectedIndex + items.length - 1) % items.length);
-    };
-
-    const downHandler = () => {
-      setSelectedIndex((selectedIndex + 1) % items.length);
-    };
-
-    const enterHandler = () => {
-      selectItem(selectedIndex);
-    };
-
-    const selectItem = (index: number) => {
+  const selectItem = useCallback(
+    async (index: number) => {
       const item = items[index];
-
-      if (item) setTimeout(() => command(item));
-    };
-
-    const scrollSelectedItemIntoView = () => {
-      const container = scrollContainerRef.current;
-      const selectedItem = container?.querySelector(
-        `div:nth-child(${selectedIndex + 1})`
-      );
-      if (container && selectedItem) {
-        const containerRect = container.getBoundingClientRect();
-        const selectedItemRect = selectedItem.getBoundingClientRect();
-
-        if (selectedItemRect.bottom > containerRect.bottom) {
-          // Scroll down
-          container.scrollTop += selectedItemRect.bottom - containerRect.bottom;
-        } else if (selectedItemRect.top < containerRect.top) {
-          // Scroll up
-          container.scrollTop -= containerRect.top - selectedItemRect.top;
+      if (item) {
+        if (item.title === 'Write Magic') {
+          if (isLoading) return;
+          const text = getPrevText(editor, {
+            chars: 5000,
+            offset: 1,
+          });
+          await complete(text, {
+            body: { option: 'continue' },
+          });
+        } else {
+          command(item);
         }
       }
+    },
+    [complete, isLoading, command, editor, items]
+  );
+
+  useEffect(() => {
+    const navigationKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (navigationKeys.includes(e.key)) {
+        e.preventDefault();
+        if (e.key === 'ArrowUp') {
+          setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+          return true;
+        }
+        if (e.key === 'ArrowDown') {
+          setSelectedIndex((selectedIndex + 1) % items.length);
+          return true;
+        }
+        if (e.key === 'Enter') {
+          selectItem(selectedIndex);
+          return true;
+        }
+        return false;
+      }
     };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
-    return (
-      <div
-        ref={scrollContainerRef}
-        id='slash-command'
-        className='h-auto max-h-[330px] w-72 overflow-y-auto no-scrollbar scroll-smooth rounded-md border border-gray-200 bg-white px-1 py-2 shadow-md transition-all'
-      >
-        {items.length ? (
-          <>
-            {items.map((item, index) => {
-              const isSelected = index === selectedIndex;
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [items]);
 
-              return (
-                <button
-                  className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-gray-900 hover:bg-gray-100 ${
-                    isSelected ? 'bg-gray-100 text-gray-900' : ''
-                  }`}
-                  key={item.title}
-                  onClick={() => selectItem(index)}
-                  onMouseEnter={() => setSelectedIndex(index)}
-                  onKeyDown={(e) => {
-                    e.code === 'Enter' && selectItem(index);
-                  }}
-                  tabIndex={0}
-                >
-                  <div>
-                    <p className='font-medium'>{item.title}</p>
-                    <p className='text-xs text-gray-500'>{item.description}</p>
-                  </div>
-                </button>
-              );
-            })}
-          </>
-        ) : (
-          <div>
-            <div>No result</div>
-          </div>
-        )}
-      </div>
-    );
-  }
-);
+  const commandListContainer = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const container = commandListContainer?.current;
+
+    const item = container?.children[selectedIndex] as HTMLElement;
+
+    if (item && container) updateScrollView(container, item);
+  }, [selectedIndex]);
+
+  return items.length > 0 ? (
+    <div
+      id='slash-command'
+      ref={commandListContainer}
+      className='z-50 no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-white px-1 py-2 shadow-md transition-all'
+    >
+      {items.map((item: CommandItemProps, index: number) => {
+        return (
+          <button
+            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-stone-100 ${
+              index === selectedIndex ? 'bg-stone-100 text-stone-900' : ''
+            }`}
+            key={index}
+            onClick={() => selectItem(index)}
+          >
+            <div className='flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-white'>
+              {item.title === 'Write Magic' && isLoading ? (
+                <CircleDashed className='animate-spin' size={16} />
+              ) : (
+                item.icon
+              )}
+            </div>
+            <div>
+              <p className='font-medium'>{item.title}</p>
+              <p className='text-xs text-stone-500'>{item.description}</p>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  ) : null;
+};
 
 const renderItems = () => {
   let component: ReactRenderer | null = null;

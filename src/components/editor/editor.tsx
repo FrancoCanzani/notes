@@ -15,6 +15,8 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import BubbleMenu from './bubble-menu';
 import { ChevronsLeft } from 'lucide-react';
 import { useSidebar } from '../sidebar-provider';
+import AiMenu from './ai-menu';
+import { defaultEditorProps } from '../../lib/editor-props';
 
 export default function Editor({
   noteId,
@@ -28,12 +30,8 @@ export default function Editor({
   const { showSidebar, setShowSidebar } = useSidebar();
 
   const editor = useEditor({
+    editorProps: { ...defaultEditorProps },
     extensions,
-    editorProps: {
-      attributes: {
-        class: 'focus:outline-none',
-      },
-    },
   });
 
   useEffect(() => {
@@ -98,11 +96,11 @@ export default function Editor({
   };
 
   return (
-    <div className='flex-grow overflow-clip m-auto sm:pl-80'>
+    <div className='flex-grow overflow-clip m-auto sm:pl-72 md:pl-80'>
       <div className='flex flex-col min-h-screen p-3 container max-w-screen-xl'>
         <div className='bg-white flex-grow rounded-md'>
           <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
-            <div className='flex items-center justify-start gap-x-2 flex-grow'>
+            <div className='flex items-center justify-start gap-x-2 w-1/2'>
               {setShowSidebar && (
                 <button
                   className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
@@ -117,12 +115,13 @@ export default function Editor({
                 onChange={(e) => handleTitleChange(e.target.value)}
                 value={title}
                 autoFocus
-                className='outline-none w-full'
+                className='outline-none font-medium truncate w-full'
               />
             </div>
             {cloudNote && (
-              <div className='flex items-center justify-end p-1 gap-x-2'>
-                <p className='text-gray-400 hidden sm:block'>
+              <div className='flex items-center justify-end w-1/2 p-1 gap-x-2 md:gap-x-3'>
+                <AiMenu editor={editor} />
+                <p className='text-gray-400 hidden lg:block'>
                   Edited {formatDistanceToNowStrict(cloudNote?.lastSaved)} ago
                 </p>
                 <EditorOptionsDropdown cloudNote={cloudNote} />

@@ -52,7 +52,6 @@ export async function saveCloudNote(
 
   try {
     await connectToDatabase();
-    console.log(content);
 
     let note = await Note.findOne({ userId, id: noteId });
 
