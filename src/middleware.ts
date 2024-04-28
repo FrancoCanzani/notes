@@ -6,7 +6,7 @@ export default async function middleware(request: NextRequest) {
   const session = await auth();
 
   if (session && request.nextUrl.pathname === '/') {
-    const absoluteURL = new URL('/dashboard', request.nextUrl.origin);
+    const absoluteURL = new URL('/dashboard/notes', request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL);
   }
 
