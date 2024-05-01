@@ -2,7 +2,6 @@ import Editor from '../../../../components/editor/editor';
 import { getCloudNote } from '../../../../lib/helpers/get-cloud-note';
 import getCloudNotes from '../../../../lib/helpers/get-cloud-notes';
 import { auth } from '../../../../lib/auth';
-import Sidebar from '../../../../components/sidebar';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await auth();
@@ -16,16 +15,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
     const parsedNotes = JSON.parse(JSON.stringify(notes));
 
     return (
-      <main className='flex'>
-        <Sidebar notes={parsedNotes} />
+      <main>
         <Editor noteId={noteId} cloudNote={parsedNote} />
       </main>
     );
   }
 
   return (
-    <main className='flex'>
-      <Sidebar />
+    <main>
       <Editor noteId={noteId} />
     </main>
   );

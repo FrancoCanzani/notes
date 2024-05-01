@@ -13,11 +13,10 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import EditorOptionsDropdown from './editor-options-dropdown';
 import { formatDistanceToNowStrict } from 'date-fns';
 import BubbleMenu from './bubble-menu';
-import { ChevronsLeft } from 'lucide-react';
-import { useSidebar } from '../sidebar-provider';
 import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
+import NavDrawer from '../nav-drawer';
 
 export default function Editor({
   noteId,
@@ -28,7 +27,6 @@ export default function Editor({
 }) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const session = useSession();
-  const { showSidebar, setShowSidebar } = useSidebar();
 
   const editor = useEditor({
     editorProps: { ...defaultEditorProps },
@@ -121,19 +119,12 @@ export default function Editor({
   };
 
   return (
-    <div className='flex-grow overflow-clip m-auto sm:pl-72 md:pl-80'>
+    <div className='flex-grow overflow-clip m-auto'>
       <div className='flex flex-col min-h-screen p-3 container max-w-screen-xl'>
         <div className='bg-white flex-grow rounded-md'>
           <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
             <div className='flex items-center justify-start gap-x-2 w-1/2'>
-              {setShowSidebar && (
-                <button
-                  className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
-                  onClick={() => setShowSidebar(!showSidebar)}
-                >
-                  <ChevronsLeft width={16} />
-                </button>
-              )}
+              <NavDrawer />
               <input
                 type='text'
                 placeholder='Title'

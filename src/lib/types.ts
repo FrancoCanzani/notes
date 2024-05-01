@@ -16,3 +16,18 @@ export interface Note {
   };
   __v?: number;
 }
+
+export interface Weblink {
+  title?: string;
+  description?: string;
+  image?: string;
+  id: string;
+  url: string;
+  created?: Date;
+  userId: string;
+  pinned?: boolean;
+  label?: {
+    text: string;
+    color: string;
+  };
+}

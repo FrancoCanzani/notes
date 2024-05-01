@@ -98,7 +98,7 @@ export default function NoteCard({
   return (
     <div
       className={cn(
-        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-52 md:w-56 lg:w-64 flex flex-col h-52 sm:h-60'
+        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-48 md:w-56 lg:w-64 flex flex-col h-52 sm:h-60'
       )}
     >
       <div className='flex items-center justify-between'>

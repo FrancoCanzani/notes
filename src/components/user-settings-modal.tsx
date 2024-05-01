@@ -9,8 +9,9 @@ export default function UserSettingsModal() {
 
   return (
     <Dialog>
-      <DialogTrigger className='font-medium hover:bg-gray-100 p-3 rounded-md capitalize w-full flex items-center justify-between'>
-        User Settings <GearIcon />
+      <DialogTrigger className='text-sm p-3 flex items-center cursor-pointer justify-start gap-x-2 hover:bg-gray-50 px-2 py-1.5 w-full text-start rounded-md font-medium truncate'>
+        <GearIcon />
+        Settings
       </DialogTrigger>
       <DialogContent className='bg-gray-50 rounded-md'>
         <h3 className='font-medium'>Settings</h3>

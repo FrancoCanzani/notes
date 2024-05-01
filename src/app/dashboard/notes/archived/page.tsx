@@ -1,7 +1,6 @@
 import getCloudNotes from '../../../../lib/helpers/get-cloud-notes';
 import ArchivedNotes from '../../../../components/archived-notes';
 import { auth } from '../../../../lib/auth';
-import Sidebar from '../../../../components/sidebar';
 
 export default async function Page() {
   const session = await auth();
@@ -12,16 +11,14 @@ export default async function Page() {
     const parsedNotes = JSON.parse(JSON.stringify(notes));
 
     return (
-      <main className='flex'>
-        <Sidebar notes={notes} />
+      <main>
         <ArchivedNotes cloudNotes={parsedNotes} />
       </main>
     );
   }
 
   return (
-    <main className='flex'>
-      <Sidebar />
+    <main>
       <ArchivedNotes />
     </main>
   );

@@ -4,6 +4,9 @@ import { User } from './db/schemas/user-schema';
 import connectToDatabase from './db/connect-to-db';
 import { Note } from './db/schemas/note-schema';
 import { revalidatePath } from 'next/cache';
+import { Weblink } from './db/schemas/weblink-schema';
+import getLinkPreview from './helpers/get-link-preview';
+import { nanoid } from 'nanoid';
 
 interface UserProps {
   id: string;
@@ -70,7 +73,7 @@ export async function saveCloudNote(
     }
 
     await note.save();
-    revalidatePath('/notes', 'page');
+    revalidatePath('/dashboard/notes', 'page');
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -185,6 +188,40 @@ export async function updatePublishedStatus(
 
     const updatedNote = await note.save();
     const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
+    return parsedResponse;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function saveWeblink(userId: string | undefined, url: string) {
+  if (!userId) {
+    throw new Error('Missing user id for saveWeblink');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const weblinkData = await getLinkPreview(url);
+
+    console.log(weblinkData);
+
+    const newWeblink = new Weblink({
+      userId,
+      title: weblinkData.title,
+      description: weblinkData.description,
+      image: weblinkData.image,
+      id: nanoid(7),
+      url,
+      pinned: false,
+    });
+
+    const savedWeblink = await newWeblink.save();
+
+    revalidatePath('/dashboard/weblink', 'page');
+
+    const parsedResponse = JSON.parse(JSON.stringify(savedWeblink));
+
     return parsedResponse;
   } catch (error) {
     throw error;

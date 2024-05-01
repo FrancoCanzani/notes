@@ -8,13 +8,12 @@ import { cn } from '../lib/utils';
 import { useSidebar } from './sidebar-provider';
 import { ChevronsLeft, Grid2X2, Rows3 } from 'lucide-react';
 import NoteRow from './note-row';
+import NavDrawer from './nav-drawer';
 
 export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);
   const [sortingInput, setSortingInput] = useState('date');
   const [view, setView] = useState('card');
-
-  const { showSidebar, setShowSidebar } = useSidebar();
 
   useEffect(() => {
     const fetchLocalNotes = async () => {
@@ -64,7 +63,7 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
 
   if (sortedNotes.length === 0) {
     return (
-      <div className='flex bg-gray-100 font-medium opacity-50 items-center justify-center w-full sm:pl-72 md:pl-80 min-h-screen'>
+      <div className='flex bg-gray-100 font-medium opacity-50 items-center justify-center w-full min-h-screen'>
         <p className='text-balance text-center p-4'>
           Nothing to see here. Tap{' '}
           <strong className='underline'>New Note</strong> to start creating.
@@ -74,17 +73,10 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }
 
   return (
-    <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden sm:pl-72 md:pl-80'>
+    <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden '>
       <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
-        <div className='flex items-center justify-start gap-x-2'>
-          {setShowSidebar && (
-            <button
-              className='rounded-md hover:bg-gray-100 px-1 py-0.5 flex items-center justify-center sm:hidden'
-              onClick={() => setShowSidebar(!showSidebar)}
-            >
-              <ChevronsLeft width={16} />
-            </button>
-          )}
+        <div className='flex items-center justify-start gap-x-3'>
+          <NavDrawer />
           <h2>Active notes</h2>
         </div>
         <div className='flex items-center justify-end gap-x-3'>

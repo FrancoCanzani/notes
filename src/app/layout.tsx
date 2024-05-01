@@ -4,6 +4,7 @@ import './globals.css';
 import ClientProvider from '../components/client-provider';
 import { auth } from '../lib/auth';
 import { Inter } from 'next/font/google';
+import ShowTailwindBreakpoint from '../components/show-tailwind-breakpoint';
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({ subsets: ['latin'] });
@@ -48,6 +49,9 @@ export default async function RootLayout({
       <body className={`${inter.className}`}>
         <ClientProvider session={session}>
           <main className='min-h-screen bg-gray-100'>{children}</main>
+          {process.env.DEV_ENVIRONMENT === 'development' && (
+            <ShowTailwindBreakpoint />
+          )}
         </ClientProvider>
       </body>
     </html>
