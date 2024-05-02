@@ -28,7 +28,7 @@ export function SignInButton({
   const handleLogin = async () => {
     setIsLoading(true);
     // next-auth signIn() function doesn't work yet at Edge Runtime due to usage of BroadcastChannel
-    await signIn(provider, { callbackUrl: callbackUrl ?? '/notes' });
+    await signIn(provider, { callbackUrl: callbackUrl ?? '/dashboard/notes' });
     if (user) {
       await handleUser(user);
     }
