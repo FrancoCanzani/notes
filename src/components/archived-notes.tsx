@@ -4,6 +4,7 @@ import NoteCard from './note-card';
 import { Note } from '../lib/types';
 import { useState, useEffect } from 'react';
 import { values } from 'idb-keyval';
+import NavDrawer from './nav-drawer';
 
 export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   const [localNotes, setLocalNotes] = useState<Note[]>([]);
@@ -51,10 +52,13 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }
 
   return (
-    <div className='min-h-screen w-full bg-gray-100 overflow-x-hidden sm:pl-80'>
-      <h2 className='px-5 pt-4 font-medium text-xl capitalize'>
-        Archived notes
-      </h2>
+    <div className='min-h-screen w-full overflow-x-hidden'>
+      <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
+        <div className='flex items-center justify-start gap-x-3'>
+          <NavDrawer notes={cloudNotes} />
+          <h2>Archived notes</h2>
+        </div>
+      </div>
       <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
         {archivedNotes.map((note) => (
           <NoteCard

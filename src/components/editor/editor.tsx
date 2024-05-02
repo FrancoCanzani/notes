@@ -20,10 +20,12 @@ import NavDrawer from '../nav-drawer';
 
 export default function Editor({
   noteId,
-  cloudNote,
+  note,
+  notes,
 }: {
   noteId: string;
-  cloudNote?: Note;
+  note?: Note;
+  notes?: Note[];
 }) {
   const [title, setTitle] = useState(`New note - ${noteId}`);
   const session = useSession();
@@ -64,8 +66,8 @@ export default function Editor({
   useEffect(() => {
     const loadNote = async () => {
       try {
-        if (cloudNote) {
-          const { title: storedTitle, content } = cloudNote;
+        if (note) {
+          const { title: storedTitle, content } = note;
           setTitle(storedTitle);
           editor?.commands.setContent(JSON.parse(content));
         } else {
@@ -124,7 +126,7 @@ export default function Editor({
         <div className='bg-white flex-grow rounded-md'>
           <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
             <div className='flex items-center justify-start gap-x-2 w-1/2'>
-              <NavDrawer />
+              <NavDrawer notes={notes} />
               <input
                 type='text'
                 placeholder='Title'
@@ -134,13 +136,13 @@ export default function Editor({
                 className='outline-none font-medium truncate w-full'
               />
             </div>
-            {cloudNote && (
+            {note && (
               <div className='flex items-center justify-end w-1/2 p-1 gap-x-2 md:gap-x-3'>
                 <AiMenu editor={editor} />
                 <p className='text-gray-400 hidden lg:block'>
-                  Edited {formatDistanceToNowStrict(cloudNote?.lastSaved)} ago
+                  Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
                 </p>
-                <EditorOptionsDropdown cloudNote={cloudNote} />
+                <EditorOptionsDropdown cloudNote={note} />
               </div>
             )}
           </div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '../../lib/utils';
+import { DownloadIcon } from '@radix-ui/react-icons';
 
 const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -45,22 +46,12 @@ const InstallPWA = ({ className }: { className?: string }) => {
       {deferredPrompt && (
         <button
           className={cn(
-            'p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150',
+            'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
             className
           )}
           onClick={handleInstallClick}
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='1.4em'
-            height='1.4em'
-            viewBox='0 0 32 32'
-          >
-            <path
-              fill='currentColor'
-              d='M15 4v16.563L9.719 15.28L8.28 16.72l7 7l.719.687l.719-.687l7-7l-1.438-1.438l-5.28 5.28V4zM7 26v2h18v-2z'
-            />
-          </svg>
+          <DownloadIcon />
           Install App
         </button>
       )}

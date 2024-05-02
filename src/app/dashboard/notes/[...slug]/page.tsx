@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
     return (
       <main>
-        <Editor noteId={noteId} cloudNote={parsedNote} />
+        <Editor noteId={noteId} note={parsedNote} notes={parsedNotes} />
       </main>
     );
   }

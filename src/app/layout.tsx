@@ -48,7 +48,7 @@ export default async function RootLayout({
     <html lang='en' dir='ltr'>
       <body className={`${inter.className}`}>
         <ClientProvider session={session}>
-          <main className='min-h-screen bg-gray-100'>{children}</main>
+          <main className='min-h-screen'>{children}</main>
           {process.env.DEV_ENVIRONMENT === 'development' && (
             <ShowTailwindBreakpoint />
           )}

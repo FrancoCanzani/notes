@@ -1,18 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ChevronsLeft, StickyNote, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
-import { Archive, Home, Terminal } from 'lucide-react';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
-import { useSidebar } from './sidebar-provider';
 import { nanoid } from 'nanoid';
-import { Button } from './ui/button';
 import {
   Drawer,
   DrawerClose,
@@ -23,90 +18,108 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './ui/drawer';
+import {
+  FileIcon,
+  PlusIcon,
+  ChevronRightIcon,
+  GitHubLogoIcon,
+  HomeIcon,
+  BackpackIcon,
+} from '@radix-ui/react-icons';
 import { ChevronUp } from 'lucide-react';
 
-export default function NavDrawer() {
+export default function NavDrawer({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
   const session = useSession();
-  const [openNotes, setOpenNotes] = useState(false);
   const newNoteId = nanoid(7);
+
+  const filteredNotes = notes
+    ? notes.filter((note: Note) => note.status === 'active')
+    : [];
 
   return (
     <Drawer>
-      <DrawerTrigger asChild className='md:hidden'>
+      <DrawerTrigger asChild className='sm:hidden'>
         <button>
           <ChevronUp size={14} />
           <span className='sr-only'>Toggle Menu</span>
         </button>
       </DrawerTrigger>
-      <DrawerContent className='bg-white'>
+      <DrawerContent className='bg-stone-100'>
         <div className='mx-auto w-full max-w-sm'>
           <DrawerHeader>
             <DrawerTitle>
-              <h3 className='font-medium'>QuickNotes</h3>
-            </DrawerTitle>
-            {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
-          </DrawerHeader>
-          <div
-            className={`bg-white flex flex-col justify-between space-y-10 px-5 py-4`}
-          >
-            <div className='space-y-4'>
-              <div>
-                <div
-                  className={cn(
-                    'text-sm flex items-center cursor-pointer justify-between gap-x-2 hover:bg-gray-50 px-2 py-1.5 w-full text-start rounded-md font-medium truncate'
-                  )}
-                >
-                  <div className='flex items-center justify-start gap-x-2'>
-                    <ChevronRight
-                      size={14}
-                      className={cn(
-                        'transition-all duration-150 opacity-75 hover:opacity-100',
-                        openNotes && 'rotate-90 bg-gray-50'
-                      )}
-                      onClick={() => setOpenNotes(!openNotes)}
-                    />
-                    <Link
-                      href={`/dashboard/notes`}
-                      className='flex items-center justify-start w-full gap-x-2'
-                    >
-                      <StickyNote size={12} />
-                      Notes
-                    </Link>
-                  </div>
+              <div className='flex items-center justify-between'>
+                <h1 className='font-semibold'>QuickNotes</h1>
+                <div className='flex items-center justify-end gap-x-2'>
                   <Link
-                    href={`/dashboard/notes/new/${newNoteId}`}
-                    className='px-1.5 py-0.5 opacity-75 hover:opacity-100 bg-white rounded-md'
-                  >
-                    +
-                  </Link>
-                </div>
-                {openNotes && (
-                  <Link
-                    href={'/dashboard/notes/archived'}
+                    href={`/dashboard/notes`}
+                    aria-label='home'
                     className={cn(
-                      'px-2 py-1.5 rounded-md pl-10 text-sm flex items-center hover:bg-gray-50 justify-start gap-x-2 w-full hover:font-medium',
-                      pathname.includes('archive') && 'font-medium'
+                      'rounded-md hover:bg-stone-200 p-1.5',
+                      pathname === '/dashboard/notes' &&
+                        'bg-stone-200 font-medium'
                     )}
                   >
-                    <Archive size={12} />
-                    Archived
+                    <HomeIcon />
                   </Link>
-                )}
+                  <Link
+                    aria-label='new note'
+                    href={`/dashboard/notes/new/${newNoteId}`}
+                    className='rounded-md hover:bg-stone-200 p-1.5'
+                  >
+                    <PlusIcon className='font-semibold' />
+                  </Link>
+                </div>
+              </div>{' '}
+            </DrawerTitle>
+          </DrawerHeader>
+          <div className='flex flex-col justify-between w-full px-5 py-4 min-h-60'>
+            <div className='space-y-6'>
+              <div>
+                {filteredNotes.map((note) => (
+                  <div
+                    key={note._id}
+                    className={cn(
+                      'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+                      pathname.includes(note.id) && 'opacity-100'
+                    )}
+                  >
+                    <FileIcon className='group-hover:hidden' />
+                    <ChevronRightIcon className='group-hover:block hidden' />
+                    <Link
+                      href={`/dashboard/notes/${note.id}`}
+                      className='w-full'
+                    >
+                      {note.title}
+                    </Link>
+                  </div>
+                ))}
+                <hr className='my-2' />
+                <Link
+                  href={'/dashboard/notes/archived'}
+                  className={cn(
+                    'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+                    pathname.includes('archive') && 'opacity-100'
+                  )}
+                >
+                  <BackpackIcon />
+                  Archived
+                </Link>
               </div>
             </div>
-            <div>
+            <hr className='my-2' />
+            <div className='space-y-1'>
               <InstallPWA />
               <a
                 href='https://github.com/FrancoCanzani/notes'
                 target='_blank'
-                className='text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
+                className={cn(
+                  'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100'
+                )}
               >
-                <div className='text-sm flex items-center cursor-pointer justify-start gap-x-2 hover:bg-gray-50 px-2 py-1.5 w-full text-start rounded-md font-medium truncate'>
-                  <Terminal size={16} />
-                  Contribute
-                </div>
-                <span className='group-hover:block hidden'>↗</span>
+                <GitHubLogoIcon />
+                Contribute
               </a>
               {session.data?.user ? (
                 <UserSettingsModal />
@@ -132,7 +145,7 @@ export default function NavDrawer() {
                 </Link>
               )}
             </div>
-          </div>{' '}
+          </div>
         </div>
       </DrawerContent>
     </Drawer>

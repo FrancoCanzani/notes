@@ -73,10 +73,10 @@ export default function ActiveNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
   }
 
   return (
-    <div className='min-h-screen bg-gray-100 w-full overflow-x-hidden '>
+    <div className='min-h-screen w-full overflow-x-hidden '>
       <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
         <div className='flex items-center justify-start gap-x-3'>
-          <NavDrawer />
+          <NavDrawer notes={cloudNotes} />
           <h2>Active notes</h2>
         </div>
         <div className='flex items-center justify-end gap-x-3'>

@@ -1,103 +1,100 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ChevronsLeft, StickyNote, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
-import { Archive, Home, Terminal } from 'lucide-react';
+import { Archive, Home } from 'lucide-react';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
-import { useSidebar } from './sidebar-provider';
 import { nanoid } from 'nanoid';
+import { ScrollArea } from './ui/scroll-area';
+import {
+  FileIcon,
+  PlusIcon,
+  ChevronRightIcon,
+  GitHubLogoIcon,
+  HomeIcon,
+  BackpackIcon,
+} from '@radix-ui/react-icons';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
   const session = useSession();
-  const { showSidebar, setShowSidebar } = useSidebar();
-  const [openNotes, setOpenNotes] = useState(false);
   const newNoteId = nanoid(7);
 
-  useEffect(() => {
-    setShowSidebar(false);
-  }, []);
+  const filteredNotes = notes
+    ? notes.filter((note: Note) => note.status === 'active')
+    : [];
 
   return (
-    <div className='bg-white flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
-      <div className='space-y-4'>
+    <div className='bg-stone-100 flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
+      <div className='space-y-6'>
         <div className='flex items-center justify-between'>
-          <h1 className='font-medium'>QuickNotes</h1>
+          <h1 className='font-semibold'>QuickNotes</h1>
           <div className='flex items-center justify-end gap-x-2'>
             <Link
               href={`/dashboard/notes`}
               aria-label='home'
               className={cn(
-                'rounded-md hover:bg-gray-100 p-1.5',
-                pathname === '/dashboard/notes' && 'bg-gray-100 font-medium'
+                'rounded-md hover:bg-stone-200 p-1.5',
+                pathname === '/dashboard/notes' && 'bg-stone-200 font-medium'
               )}
             >
-              <Home size={15} />
+              <HomeIcon />
+            </Link>
+            <Link
+              aria-label='new note'
+              href={`/dashboard/notes/new/${newNoteId}`}
+              className='rounded-md hover:bg-stone-200 p-1.5'
+            >
+              <PlusIcon className='font-semibold' />
             </Link>
           </div>
         </div>
         <div>
-          <div
+          <ScrollArea>
+            {filteredNotes.map((note) => (
+              <div
+                key={note._id}
+                className={cn(
+                  'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+                  pathname.includes(note.id) && 'opacity-100'
+                )}
+              >
+                <FileIcon className='group-hover:hidden' />
+                <ChevronRightIcon className='group-hover:block hidden' />
+                <Link href={`/dashboard/notes/${note.id}`} className='w-full'>
+                  {note.title}
+                </Link>
+              </div>
+            ))}
+          </ScrollArea>
+          <hr className='my-2' />
+          <Link
+            href={'/dashboard/notes/archived'}
             className={cn(
-              'text-sm flex items-center cursor-pointer justify-between gap-x-2 hover:bg-gray-50 px-2 py-1.5 w-full text-start rounded-md font-medium truncate'
+              'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+              pathname.includes('archive') && 'opacity-100'
             )}
           >
-            <div className='flex items-center justify-start gap-x-2'>
-              <ChevronRight
-                size={14}
-                className={cn(
-                  'transition-all duration-150 opacity-75 hover:opacity-100',
-                  openNotes && 'rotate-90 bg-gray-50'
-                )}
-                onClick={() => setOpenNotes(!openNotes)}
-              />
-              <Link
-                href={`/dashboard/notes`}
-                className='flex items-center justify-start w-full gap-x-2'
-              >
-                <StickyNote size={12} />
-                Notes
-              </Link>
-            </div>
-            <Link
-              href={`/dashboard/notes/new/${newNoteId}`}
-              className='px-1.5 py-0.5 opacity-75 hover:opacity-100 bg-white rounded-md'
-            >
-              +
-            </Link>
-          </div>
-          {openNotes && (
-            <Link
-              href={'/dashboard/notes/archived'}
-              className={cn(
-                'px-2 py-1.5 rounded-md pl-10 text-sm flex items-center hover:bg-gray-50 justify-start gap-x-2 w-full hover:font-medium',
-                pathname.includes('archive') && 'font-medium'
-              )}
-            >
-              <Archive size={12} />
-              Archived
-            </Link>
-          )}
+            <BackpackIcon />
+            Archived
+          </Link>
         </div>
       </div>
-      <div>
+      <div className='space-y-2'>
         <InstallPWA />
         <a
           href='https://github.com/FrancoCanzani/notes'
           target='_blank'
-          className='p-3 text-sm group flex items-center justify-between gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
+          className={cn(
+            'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100'
+          )}
         >
-          <div className='inline-flex items-center gap-x-4'>
-            <Terminal size={16} />
-            Contribute
-          </div>
-          <span className='group-hover:block hidden'>↗</span>
+          <GitHubLogoIcon />
+          Contribute
         </a>
         {session.data?.user ? (
           <UserSettingsModal />
