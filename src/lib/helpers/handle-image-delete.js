@@ -12,10 +12,6 @@ export async function handleImageDelete(transaction) {
   let currentSrcs = getImageSrcs(transaction.doc.content);
   let previousSrcs = getImageSrcs(transaction.before.content);
 
-  if (currentSrcs.size === 0 && previousSrcs.size === 0) {
-    return;
-  }
-
   // Determine which images were deleted
   let deletedImageSrcs = Array.from(previousSrcs).filter(
     (src) => !currentSrcs.has(src)
