@@ -10,12 +10,14 @@ import StarterKit from '@tiptap/starter-kit';
 import SlashCommand from '../components/editor/slash-command';
 import Placeholder from '@tiptap/extension-placeholder';
 import SearchAndReplace from '@sereneinserenade/tiptap-search-and-replace';
+import Image from '@tiptap/extension-image';
 
 export const extensions = [
   Color,
   TextStyle,
   Link,
   TaskItem,
+  Image,
   Underline,
   Highlight,
   CharacterCount,

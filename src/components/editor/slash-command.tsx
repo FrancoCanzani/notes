@@ -6,6 +6,7 @@ import React, {
   useRef,
   useLayoutEffect,
 } from 'react';
+import { upload } from '@vercel/blob/client';
 import { Editor, Range, Extension } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { ReactRenderer } from '@tiptap/react';
@@ -22,6 +23,7 @@ import {
   Code,
   CheckSquare,
   CircleDashed,
+  Image,
 } from 'lucide-react';
 import { Magic } from '../../lib/icons';
 import { getPrevText } from '../../lib/helpers/get-prev-text';
@@ -73,7 +75,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     {
       title: 'Write Magic',
       description: 'Use AI to expand your thoughts.',
-      searchTerms: ['gpt'],
+      searchTerms: ['gpt', 'ai'],
       icon: <Magic className='w-7' />,
     },
     {
@@ -180,6 +182,31 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       icon: <Code size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+    },
+    {
+      title: 'Image',
+      description: 'Add a local image.',
+      searchTerms: ['image', 'img'],
+      icon: <Image size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).run();
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async () => {
+          if (input.files?.length) {
+            const file = input.files[0];
+            const newBlob = await upload(file.name, file, {
+              access: 'public',
+              handleUploadUrl: '/api/images/upload',
+            });
+            if (newBlob) {
+              editor.chain().focus().setImage({ src: newBlob.url }).run();
+            }
+          }
+        };
+        input.click();
+      },
     },
   ].filter((item) => {
     if (typeof query === 'string' && query.length > 0) {
