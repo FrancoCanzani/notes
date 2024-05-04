@@ -11,11 +11,13 @@ import SlashCommand from '../components/editor/slash-command';
 import Placeholder from '@tiptap/extension-placeholder';
 import SearchAndReplace from '@sereneinserenade/tiptap-search-and-replace';
 import Image from '@tiptap/extension-image';
+import HardBreak from '@tiptap/extension-hard-break';
 
 export const extensions = [
   Color,
   TextStyle,
   Link,
+  HardBreak,
   TaskItem,
   Image,
   Underline,

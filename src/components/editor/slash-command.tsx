@@ -202,6 +202,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
             });
             if (newBlob) {
               editor.chain().focus().setImage({ src: newBlob.url }).run();
+              editor.chain().focus().setHardBreak().run();
             }
           }
         };
