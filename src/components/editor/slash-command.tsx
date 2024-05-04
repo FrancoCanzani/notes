@@ -192,17 +192,21 @@ const getSuggestionItems = ({ query }: { query: string }) => {
         editor.chain().focus().deleteRange(range).run();
         const input = document.createElement('input');
         input.type = 'file';
-        input.accept = 'image/*';
+        input.accept = 'image/gif, image/png, image/jpeg';
         input.onchange = async () => {
           if (input.files?.length) {
             const file = input.files[0];
-            const newBlob = await upload(file.name, file, {
-              access: 'public',
-              handleUploadUrl: '/api/images/upload',
-            });
-            if (newBlob) {
-              editor.chain().focus().setImage({ src: newBlob.url }).run();
-              editor.chain().focus().setHardBreak().run();
+            try {
+              const newBlob = await upload(file.name, file, {
+                access: 'public',
+                handleUploadUrl: '/api/images/upload',
+              });
+              if (newBlob) {
+                editor.chain().focus().setImage({ src: newBlob.url }).run();
+                // editor?.commands.insertContent(' ');
+              }
+            } catch (error) {
+              toast.error('Error uploading Image.');
             }
           }
         };

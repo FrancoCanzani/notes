@@ -33,9 +33,9 @@ export default function Editor({
 
   const editor = useEditor({
     editorProps: { ...defaultEditorProps },
-    onTransaction({ transaction }) {
-      handleImageDelete(transaction);
-    },
+    // onTransaction({ transaction }) {
+    //   handleImageDelete(transaction);
+    // },
     extensions,
   });
 
