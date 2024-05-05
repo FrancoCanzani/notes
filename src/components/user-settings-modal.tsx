@@ -11,7 +11,7 @@ export default function UserSettingsModal() {
     <Dialog>
       <DialogTrigger
         className={
-          'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100'
+          'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-fit hover:opacity-100'
         }
       >
         <GearIcon />

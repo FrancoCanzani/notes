@@ -17,7 +17,6 @@ import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
-import { handleImageDelete } from '../../lib/helpers/handle-image-delete';
 
 export default function Editor({
   noteId,
@@ -33,9 +32,6 @@ export default function Editor({
 
   const editor = useEditor({
     editorProps: { ...defaultEditorProps },
-    // onTransaction({ transaction }) {
-    //   handleImageDelete(transaction);
-    // },
     extensions,
   });
 

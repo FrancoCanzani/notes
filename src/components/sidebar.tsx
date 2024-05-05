@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
-import { Archive, Home } from 'lucide-react';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
 import { nanoid } from 'nanoid';
@@ -17,16 +16,27 @@ import {
   GitHubLogoIcon,
   HomeIcon,
   BackpackIcon,
+  ExitFullScreenIcon,
+  EnterFullScreenIcon,
 } from '@radix-ui/react-icons';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
   const session = useSession();
   const newNoteId = nanoid(7);
+  const isFullScreen = document.fullscreenElement;
 
   const filteredNotes = notes
     ? notes.filter((note: Note) => note.status === 'active')
     : [];
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
 
   return (
     <div className='bg-stone-100 flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
@@ -97,7 +107,16 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           Contribute
         </a>
         {session.data?.user ? (
-          <UserSettingsModal />
+          <div className='inline-flex justify-between w-full'>
+            <UserSettingsModal />
+            <button
+              onClick={toggleFullScreen}
+              className='rounded-md hover:bg-stone-200 p-1.5'
+              title='Full screen'
+            >
+              <EnterFullScreenIcon />
+            </button>
+          </div>
         ) : (
           <Link
             href={'/sign-in'}
