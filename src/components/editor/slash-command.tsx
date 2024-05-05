@@ -188,7 +188,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       description: 'Add a local image.',
       searchTerms: ['image', 'img'],
       icon: <Image size={18} />,
-      command: ({ editor, range }: CommandProps) => {
+      command: async ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).run();
         const input = document.createElement('input');
         input.type = 'file';
@@ -202,8 +202,13 @@ const getSuggestionItems = ({ query }: { query: string }) => {
                 handleUploadUrl: '/api/images/upload',
               });
               if (newBlob) {
-                editor.chain().focus().setImage({ src: newBlob.url }).run();
-                // editor?.commands.insertContent(' ');
+                editor.chain().setImage({ src: newBlob.url }).run();
+                const imageNode = editor.$node('image');
+                console.log(imageNode?.pos);
+                if (imageNode) {
+                  const imagePos = imageNode.pos;
+                  editor.commands.insertContentAt(imagePos + 1, '<br />');
+                }
               }
             } catch (error) {
               toast.error('Error uploading Image.');
