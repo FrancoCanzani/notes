@@ -17,6 +17,7 @@ import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
+import SpeechToText from './speech-recognition';
 
 export default function Editor({
   noteId,
@@ -122,7 +123,7 @@ export default function Editor({
 
   return (
     <div className='flex-grow overflow-clip m-auto'>
-      <div className='flex flex-col min-h-screen p-3 container max-w-screen-xl'>
+      <div className='flex flex-col min-h-screen container max-w-screen-xl'>
         <div className='bg-white flex-grow rounded-md'>
           <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
             <div className='flex items-center justify-start gap-x-2 w-1/2'>
@@ -138,6 +139,7 @@ export default function Editor({
             </div>
             {note && (
               <div className='flex items-center justify-end w-1/2 p-1 gap-x-2 md:gap-x-3'>
+                <SpeechToText editor={editor} />
                 <AiMenu editor={editor} />
                 <p className='text-gray-400 hidden lg:block'>
                   Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
