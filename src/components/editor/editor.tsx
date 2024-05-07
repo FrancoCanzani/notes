@@ -46,7 +46,7 @@ export default function Editor({
       });
     },
     onError: (err) => {
-      toast.error('Failed to execute command');
+      toast.error('Failed to execute action');
     },
   });
 

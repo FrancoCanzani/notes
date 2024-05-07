@@ -28,7 +28,7 @@ export default function EditorOptionsDropdown({
           <MoreHorizontal size={16} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='bg-white text-sm'>
+      <DropdownMenuContent align='end' className='bg-white'>
         <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
           <PublishButton
             cloudNote={cloudNote}
