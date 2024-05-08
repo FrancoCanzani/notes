@@ -1,7 +1,7 @@
-import Editor from '../../../../components/editor/editor';
-import { getCloudNote } from '../../../../lib/helpers/get-cloud-note';
-import getCloudNotes from '../../../../lib/helpers/get-cloud-notes';
-import { auth } from '../../../../lib/auth';
+import Editor from '../../../components/editor/editor';
+import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
+import { getCloudNote } from '../../../lib/helpers/get-cloud-note';
+import { auth } from '../../../lib/auth';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const session = await auth();

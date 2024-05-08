@@ -5,8 +5,7 @@ import { Note } from '../lib/types';
 import { useState, useEffect, useMemo } from 'react';
 import { values } from 'idb-keyval';
 import { cn } from '../lib/utils';
-import { useSidebar } from './sidebar-provider';
-import { ChevronsLeft, Grid2X2, Rows3 } from 'lucide-react';
+import { Grid2X2, Rows3 } from 'lucide-react';
 import NoteRow from './note-row';
 import NavDrawer from './nav-drawer';
 

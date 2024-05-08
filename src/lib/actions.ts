@@ -73,7 +73,7 @@ export async function saveCloudNote(
     }
 
     await note.save();
-    revalidatePath('/dashboard/notes', 'page');
+    revalidatePath('/notes', 'page');
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -218,7 +218,7 @@ export async function saveWeblink(userId: string | undefined, url: string) {
 
     const savedWeblink = await newWeblink.save();
 
-    revalidatePath('/dashboard/weblink', 'page');
+    revalidatePath('/weblink', 'page');
 
     const parsedResponse = JSON.parse(JSON.stringify(savedWeblink));
 

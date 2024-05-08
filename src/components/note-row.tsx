@@ -132,7 +132,7 @@ export default function NoteRow({
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link
-                href={`/dashboard/notes/${note.id}`}
+                href={`/notes/${note.id}`}
                 className='text-sm hover:font-medium transition-all duration-150'
               >
                 Edit

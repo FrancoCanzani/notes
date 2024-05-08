@@ -1,6 +1,6 @@
-import getCloudNotes from '../../../../lib/helpers/get-cloud-notes';
-import ArchivedNotes from '../../../../components/archived-notes';
-import { auth } from '../../../../lib/auth';
+import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
+import ArchivedNotes from '../../../components/archived-notes';
+import { auth } from '../../../lib/auth';
 
 export default async function Page() {
   const session = await auth();

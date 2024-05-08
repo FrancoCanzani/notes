@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import Sidebar from '../../../components/sidebar';
-import { auth } from '../../../lib/auth';
-import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
+import Sidebar from '../../components/sidebar';
+import { auth } from '../../lib/auth';
+import getCloudNotes from '../../lib/helpers/get-cloud-notes';
 
 export default async function NotesLayout({
   children,

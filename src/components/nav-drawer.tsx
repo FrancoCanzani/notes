@@ -20,13 +20,14 @@ import {
 } from './ui/drawer';
 import {
   FileIcon,
-  PlusIcon,
+  Pencil2Icon,
   ChevronRightIcon,
   GitHubLogoIcon,
   HomeIcon,
   BackpackIcon,
 } from '@radix-ui/react-icons';
 import { ChevronUp } from 'lucide-react';
+import SidebarNoteOptions from './sidebar-note-options';
 
 export default function NavDrawer({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
@@ -51,26 +52,13 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
             <DrawerTitle>
               <div className='flex items-center justify-between'>
                 <h1 className='font-semibold'>QuickNotes</h1>
-                <div className='flex items-center justify-end gap-x-2'>
-                  <Link
-                    href={`/dashboard/notes`}
-                    aria-label='home'
-                    className={cn(
-                      'rounded-md hover:bg-stone-200 p-1.5',
-                      pathname === '/dashboard/notes' &&
-                        'bg-stone-200 font-medium'
-                    )}
-                  >
-                    <HomeIcon />
-                  </Link>
-                  <Link
-                    aria-label='new note'
-                    href={`/dashboard/notes/new/${newNoteId}`}
-                    className='rounded-md hover:bg-stone-200 p-1.5'
-                  >
-                    <PlusIcon className='font-semibold' />
-                  </Link>
-                </div>
+                <Link
+                  aria-label='new note'
+                  href={`/notes/new/${newNoteId}`}
+                  className='rounded-md hover:bg-stone-200 p-1.5'
+                >
+                  <Pencil2Icon className='font-semibold' />
+                </Link>
               </div>{' '}
             </DrawerTitle>
           </DrawerHeader>
@@ -81,23 +69,30 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                   <div
                     key={note._id}
                     className={cn(
-                      'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+                      'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
                       pathname.includes(note.id) && 'opacity-100'
                     )}
                   >
-                    <FileIcon className='group-hover:hidden' />
-                    <ChevronRightIcon className='group-hover:block hidden' />
-                    <Link
-                      href={`/dashboard/notes/${note.id}`}
-                      className='w-full'
-                    >
-                      {note.title}
-                    </Link>
+                    <div className='flex items-center w-auto justify-start gap-x-2'>
+                      <FileIcon className='group-hover:hidden' />
+                      <ChevronRightIcon className='group-hover:block hidden' />
+                      <Link
+                        href={`/notes/${note.id}`}
+                        title={note.title}
+                        className='truncate max-w-44 pr-2'
+                      >
+                        {note.title}
+                      </Link>
+                    </div>
+                    <SidebarNoteOptions
+                      note={note}
+                      className='group-hover:visible invisible'
+                    />
                   </div>
                 ))}
                 <hr className='my-2' />
                 <Link
-                  href={'/dashboard/notes/archived'}
+                  href={'/notes/archived'}
                   className={cn(
                     'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
                     pathname.includes('archive') && 'opacity-100'

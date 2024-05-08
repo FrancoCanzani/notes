@@ -131,7 +131,7 @@ export default function NoteCard({
             <DropdownMenuContent align='end' className='bg-white text-xs'>
               <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
                 <Link
-                  href={`/dashboard/notes/${note.id}`}
+                  href={`/notes/${note.id}`}
                   className='w-full cursor-pointer flex items-center justify-start gap-x-2'
                 >
                   <FilePenLine size={13} />
