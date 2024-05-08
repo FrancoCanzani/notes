@@ -44,7 +44,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
     <div className='bg-stone-100 flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
       <div className='space-y-6'>
         <div className='flex items-center justify-between'>
-          <h1 className='font-semibold'>QuickNotes</h1>
+          <h1 className='font-semibold p-1.5'>QuickNotes</h1>
           <Link
             aria-label='new note'
             title='New note'
