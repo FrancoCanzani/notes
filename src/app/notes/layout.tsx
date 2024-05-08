@@ -11,11 +11,12 @@ export default async function NotesLayout({
   const session = await auth();
 
   const notes = session ? await getCloudNotes(session.user.id) : [];
+  const parsedNotes = JSON.parse(JSON.stringify(notes));
 
   return (
     <div className='w-full sm:flex items-start'>
       <aside className='self-start sticky top-0 w-72 z-30 hidden h-[calc(100vh)] shrink-0 sm:sticky sm:block'>
-        <Sidebar notes={notes} />
+        <Sidebar notes={parsedNotes} />
       </aside>
       <main className='flex-1 relative overflow-y-auto'>{children}</main>
     </div>

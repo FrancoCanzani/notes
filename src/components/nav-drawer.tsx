@@ -51,7 +51,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
           <DrawerHeader>
             <DrawerTitle>
               <div className='flex items-center justify-between'>
-                <h1 className='font-semibold'>QuickNotes</h1>
+                <h1 className='font-semibold p-1.5'>QuickNotes</h1>
                 <Link
                   aria-label='new note'
                   href={`/notes/new/${newNoteId}`}
