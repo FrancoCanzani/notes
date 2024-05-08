@@ -84,10 +84,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                         {note.title}
                       </Link>
                     </div>
-                    <SidebarNoteOptions
-                      note={note}
-                      className='group-hover:visible invisible'
-                    />
+                    <SidebarNoteOptions note={note} />
                   </div>
                 ))}
                 <hr className='my-2' />
