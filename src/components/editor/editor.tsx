@@ -81,7 +81,7 @@ export default function Editor({
 
       loadNote();
     }
-  }, [noteId, note, editor]);
+  }, [noteId, editor]);
 
   // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
