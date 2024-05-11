@@ -26,7 +26,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.js",
-    "src/lib/helpers/handle-image-delete.js"
+    "src/lib/helpers/handle-image-delete.js",
+    "src/lib/hooks/use-export-to-docx.ts"
   ],
   "exclude": ["node_modules"]
 }

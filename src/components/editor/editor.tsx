@@ -121,7 +121,7 @@ export default function Editor({
                   <p className='text-gray-400 block text-sm'>
                     Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
                   </p>
-                  <EditorOptionsDropdown note={note} />
+                  <EditorOptionsDropdown note={note} editor={editor} />
                 </>
               )}
             </div>
