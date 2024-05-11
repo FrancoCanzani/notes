@@ -19,14 +19,13 @@ import {
 } from '@radix-ui/react-icons';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
-import AiMenu from './ai-menu';
 
 export default function MenuBar({
   editor,
-  isSaved,
+  className,
 }: {
   editor: Editor | null;
-  isSaved: boolean;
+  className?: string;
 }) {
   if (!editor) {
     return null;
@@ -50,40 +49,12 @@ export default function MenuBar({
   }, [editor]);
 
   return (
-    <div className='flex items-center bg-gray-50 no-scrollbar justify-start space-x-3 overflow-x-auto py-2 px-2'>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        title={!isSaved ? 'Saved' : 'Saving'}
-        disabled
-      >
-        {isSaved ? (
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='1.2em'
-            height='1.2em'
-            viewBox='0 0 24 24'
-          >
-            <path
-              fill='currentColor'
-              d='M18.5 20a.5.5 0 0 1-.5.5h-5v1c0 .171-.017.338-.05.5H18a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138a.56.56 0 0 1-.059-.007a.605.605 0 0 0-.082-.007H6a2 2 0 0 0-2 2v7h1.5V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5zM5 12h3v2H5zm-2.5 0H4v2.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5V12h.379a1.5 1.5 0 0 1 1.06.44l1.122 1.12A1.5 1.5 0 0 1 12 14.622V21.5a1.5 1.5 0 0 1-1.5 1.5H10v-5.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0-.5.5V23h-.5A1.5 1.5 0 0 1 1 21.5v-8A1.5 1.5 0 0 1 2.5 12M9 18v5H4v-5z'
-            />
-          </svg>
-        ) : (
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='1.2em'
-            height='1.2em'
-            viewBox='0 0 24 24'
-          >
-            <path
-              fill='currentColor'
-              d='M18.5 20a.5.5 0 0 1-.5.5h-5.732A6.518 6.518 0 0 1 11.19 22H18a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414l-5.829-5.828a.491.491 0 0 0-.049-.04a.63.63 0 0 1-.036-.03a2.072 2.072 0 0 0-.219-.18a.652.652 0 0 0-.08-.044l-.048-.024l-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138a.56.56 0 0 1-.059-.007a.605.605 0 0 0-.082-.007H6a2 2 0 0 0-2 2v7.498a6.451 6.451 0 0 1 1.5-.422V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5zM1 17.5a5.5 5.5 0 1 0 11 0a5.5 5.5 0 0 0-11 0M9.5 14a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h1a2.496 2.496 0 0 0-2-1c-.833 0-1.572.407-2.027 1.036a.5.5 0 1 1-.81-.586A3.496 3.496 0 0 1 6.5 14c.98 0 1.865.403 2.5 1.05v-.55a.5.5 0 0 1 .5-.5M4 19.95v.55a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-1c.456.608 1.183 1 2 1c.766 0 1.452-.344 1.911-.888a.5.5 0 0 1 .764.645A3.493 3.493 0 0 1 6.5 21A3.49 3.49 0 0 1 4 19.95'
-            />
-          </svg>
-        )}
-      </Button>
-      <AiMenu editor={editor} />
+    <div
+      className={cn(
+        'flex items-center bg-stone-100 no-scrollbar justify-start space-x-3 overflow-x-auto',
+        className
+      )}
+    >
       <Button
         variant={'menu'}
         size={'sm'}
@@ -177,31 +148,6 @@ export default function MenuBar({
       <Button
         variant={'menu'}
         size={'sm'}
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={
-          editor.isActive('codeBlock') ? 'font-bold bg-gray-50 shadow' : ''
-        }
-        aria-label='code block'
-        title='Code'
-      >
-        <CodeIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={
-          editor.isActive('blockquote') ? 'font-bold bg-gray-50 shadow' : ''
-        }
-        aria-label='blockquote'
-        title='Blockquote'
-      >
-        <QuoteIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
         onClick={
           editor.isActive('link')
             ? () => editor.chain().focus().unsetLink().run()
@@ -225,93 +171,11 @@ export default function MenuBar({
       <Button
         variant={'menu'}
         size={'sm'}
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={cn(
-          'font-serif text-[14px]',
-          editor.isActive('heading', { level: 1 })
-            ? 'font-bold bg-gray-50 shadow'
-            : ''
-        )}
-        aria-label='heading'
-        title='Heading'
-      >
-        <HeadingIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().toggleTaskList().run()}
-        className={
-          editor.isActive('taskList') ? 'font-bold bg-gray-50 shadow' : ''
-        }
-        aria-label='task list'
-        title='Task list'
-      >
-        <CheckboxIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={
-          editor.isActive('bulletList') ? 'font-bold bg-gray-50 shadow' : ''
-        }
-        aria-label='bullet list'
-        title='Bullet list'
-      >
-        <ListBulletIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={
-          editor.isActive('orderedList') ? 'font-bold bg-gray-50 shadow' : ''
-        }
-        aria-label='ordered list'
-        title='Ordered list'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='1em'
-          height='1em'
-          viewBox='0 0 16 16'
-        >
-          <path
-            fill='currentColor'
-            fillRule='evenodd'
-            d='M2.287 2.326L2.692 2h.677v3h-.708V2.792l-.374.281zM5 3h10v1H5zm0 4h10v1H5zm10 4H5v1h10zM3.742 7.626l.029-.039l.065-.09a.84.84 0 0 0 .156-.507c0-.12-.02-.24-.057-.354a.848.848 0 0 0-.492-.529a1.123 1.123 0 0 0-.452-.082a1.094 1.094 0 0 0-.458.087a.867.867 0 0 0-.479.522A1.038 1.038 0 0 0 2 6.957v.05h.81v-.05a.3.3 0 0 1 .046-.157a.174.174 0 0 1 .057-.054a.19.19 0 0 1 .172 0a.188.188 0 0 1 .056.06a.24.24 0 0 1 .031.081a.445.445 0 0 1-.036.29a1.309 1.309 0 0 1-.12.182l-1 1.138l-.012.013v.54h1.988v-.7h-.9zm-.037 3.817c.046.032.086.07.12.114a.841.841 0 0 1 .167.55c0 .107-.017.213-.05.314a.792.792 0 0 1-.487.5a1.288 1.288 0 0 1-.48.079c-.115 0-.23-.016-.341-.049a.94.94 0 0 1-.258-.123a.751.751 0 0 1-.182-.177a1.063 1.063 0 0 1-.116-.2A1.038 1.038 0 0 1 2 12.078v-.049h.814v.049c0 .027.003.055.009.082a.207.207 0 0 0 .03.074a.14.14 0 0 0 .053.052a.2.2 0 0 0 .157.008a.159.159 0 0 0 .056-.039a.22.22 0 0 0 .042-.075a.417.417 0 0 0 .017-.126a.483.483 0 0 0-.022-.163a.2.2 0 0 0-.051-.08a.138.138 0 0 0-.06-.029a.537.537 0 0 0-.077-.007h-.161v-.645h.168a.241.241 0 0 0 .069-.011a.164.164 0 0 0 .065-.034a.175.175 0 0 0 .048-.067a.286.286 0 0 0 .021-.121a.28.28 0 0 0-.016-.1a.166.166 0 0 0-.097-.099a.2.2 0 0 0-.156.007a.164.164 0 0 0-.055.053a.344.344 0 0 0-.04.156v.049H2v-.049a.987.987 0 0 1 .18-.544a.8.8 0 0 1 .179-.186a.87.87 0 0 1 .262-.133c.114-.036.234-.053.354-.051c.116-.001.231.01.344.036c.092.021.18.055.263.1a.757.757 0 0 1 .32.318a.73.73 0 0 1 .09.347a.81.81 0 0 1-.167.528a.562.562 0 0 1-.12.114'
-            clipRule='evenodd'
-          />
-        </svg>{' '}
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         aria-label='horizontal rule'
         title='Horizontal rule'
       >
         <DividerHorizontalIcon />
-      </Button>
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        onClick={() => editor.chain().focus().setHardBreak().run()}
-        aria-label='break'
-        title='Break'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='1em'
-          height='1em'
-          viewBox='0 0 1024 1024'
-        >
-          <path
-            fill='currentColor'
-            d='M864 170h-60c-4.4 0-8 3.6-8 8v518H310v-73c0-6.7-7.8-10.5-13-6.3l-141.9 112a8 8 0 0 0 0 12.6l141.9 112c5.3 4.2 13 .4 13-6.3v-75h498c35.3 0 64-28.7 64-64V178c0-4.4-3.6-8-8-8'
-          />
-        </svg>{' '}
       </Button>
       <Button
         variant={'menu'}

@@ -17,6 +17,8 @@ import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
 import SpeechToText from './speech-recognition';
+import MenuBar from './menu-bar';
+import isMobile from '../../lib/helpers/is-mobile';
 
 export default function Editor({
   noteId,
@@ -29,6 +31,7 @@ export default function Editor({
 }) {
   const [title, setTitle] = useState('');
   const session = useSession();
+  const usesMobile = isMobile();
 
   const editor = useEditor({
     editorProps: { ...defaultEditorProps },
@@ -135,12 +138,18 @@ export default function Editor({
               autoFocus
               className='font-medium text-xl outline-none pb-4'
             />
-            <BubbleMenu editor={editor} />
+            {!usesMobile && <BubbleMenu editor={editor} />}
             <EditorContent
               editor={editor}
               className='grow rounded-b-md w-full max-w-screen-lg m-auto'
             />
           </div>
+          {usesMobile && editor.isFocused && (
+            <MenuBar
+              editor={editor}
+              className='w-full fixed bottom-0 px-2 py-2'
+            />
+          )}
         </div>
       </div>
     </div>
