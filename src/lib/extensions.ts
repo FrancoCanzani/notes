@@ -12,6 +12,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import SearchAndReplace from '@sereneinserenade/tiptap-search-and-replace';
 import Image from '@tiptap/extension-image';
 import HardBreak from '@tiptap/extension-hard-break';
+import { Markdown } from 'tiptap-markdown';
 
 export const extensions = [
   Color,
@@ -22,6 +23,7 @@ export const extensions = [
   Image,
   Underline,
   Highlight,
+  Markdown,
   CharacterCount,
   TaskList,
   StarterKit,
