@@ -48,7 +48,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           <Link
             aria-label='new note'
             title='New note'
-            href={`/notes/new/${newNoteId}`}
+            href={`/notes/${newNoteId}`}
             className='rounded-md hover:bg-stone-200 p-1.5'
           >
             <Pencil2Icon className='font-semibold' />

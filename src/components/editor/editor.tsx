@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
-import { get, del } from 'idb-keyval';
 import { toast } from 'sonner';
 import { EditorContent, useEditor } from '@tiptap/react';
 import EditorOptionsDropdown from './editor-options-dropdown';
@@ -28,7 +27,7 @@ export default function Editor({
   note?: Note;
   notes?: Note[];
 }) {
-  const [title, setTitle] = useState(`New note - ${noteId}`);
+  const [title, setTitle] = useState('');
   const session = useSession();
 
   const editor = useEditor({
@@ -65,39 +64,24 @@ export default function Editor({
     });
 
   useEffect(() => {
-    const loadNote = async () => {
-      try {
-        if (note) {
-          const { title: storedTitle, content } = note;
-          setTitle(storedTitle);
-          editor?.commands.setContent(JSON.parse(content));
-        } else {
-          const note = await get(noteId);
+    if (noteId) {
+      const loadNote = async () => {
+        try {
           if (note) {
             const { title: storedTitle, content } = note;
             setTitle(storedTitle);
             editor?.commands.setContent(JSON.parse(content));
-            if (session && session.data) {
-              // Convert the local note to cloud when there's a user
-              const syncedCloudNote = await saveCloudNote(
-                session.data.user.id,
-                noteId,
-                storedTitle,
-                content
-              );
-              if (syncedCloudNote) {
-                await del(noteId);
-              }
-            }
+          } else {
+            setTitle(`New note - ${noteId}`);
           }
+        } catch (error) {
+          toast.error('Error loading note.');
         }
-      } catch (error) {
-        toast.error('Error loading and syncing note.');
-      }
-    };
+      };
 
-    loadNote();
-  }, [noteId, editor]);
+      loadNote();
+    }
+  }, [noteId, note, editor]);
 
   // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
@@ -122,37 +106,41 @@ export default function Editor({
   };
 
   return (
-    <div className='flex-grow overflow-clip m-auto'>
+    <div className='grow overflow-clip m-auto'>
       <div className='flex flex-col min-h-screen container max-w-screen-xl'>
         <div className='bg-white flex-grow rounded-md'>
-          <div className='w-full bg-white rounded-t-md border-b text-gray-600 text-xs overflow-x-clip flex items-center justify-between p-2 gap-x-2'>
-            <div className='flex items-center justify-start gap-x-2 w-1/2'>
+          <div className='w-full bg-white rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
+            <div className='flex items-center justify-start gap-x-2'>
               <NavDrawer notes={notes} />
-              <input
-                type='text'
-                placeholder='Title'
-                onChange={(e) => handleTitleChange(e.target.value)}
-                value={title}
-                autoFocus
-                className='outline-none font-medium truncate w-full'
-              />
             </div>
-            {note && (
-              <div className='flex items-center justify-end w-1/2 p-1 gap-x-2 md:gap-x-3'>
-                <SpeechToText editor={editor} />
-                <AiMenu editor={editor} />
-                <p className='text-gray-400 hidden lg:block'>
-                  Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
-                </p>
-                <EditorOptionsDropdown cloudNote={note} />
-              </div>
-            )}
+            <div className='flex items-center justify-end gap-x-2 md:gap-x-3'>
+              <SpeechToText editor={editor} />
+              <AiMenu editor={editor} />
+              {note && (
+                <>
+                  <p className='text-gray-400 block text-sm'>
+                    Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
+                  </p>
+                  <EditorOptionsDropdown note={note} />
+                </>
+              )}
+            </div>
           </div>
-          <BubbleMenu editor={editor} />
-          <EditorContent
-            editor={editor}
-            className='flex-grow bg-white rounded-b-md w-full max-w-screen-lg m-auto outline-none p-4'
-          />
+          <div className='grow w-full max-w-screen-lg m-auto px-4 pb-4'>
+            <input
+              type='text'
+              placeholder='Title'
+              onChange={(e) => handleTitleChange(e.target.value)}
+              value={title}
+              autoFocus
+              className='font-medium text-xl outline-none pb-4'
+            />
+            <BubbleMenu editor={editor} />
+            <EditorContent
+              editor={editor}
+              className='grow rounded-b-md w-full max-w-screen-lg m-auto'
+            />
+          </div>
         </div>
       </div>
     </div>

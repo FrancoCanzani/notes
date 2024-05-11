@@ -42,7 +42,17 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
     <Drawer>
       <DrawerTrigger asChild className='sm:hidden'>
         <button>
-          <ChevronUp size={14} />
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='1.5rem'
+            height='1.5rem'
+            viewBox='0 0 16 16'
+          >
+            <path
+              fill='currentColor'
+              d='M10.01 8.5c0-.276.216-.5.495-.5h2.01c.243 0 .445.183.487.412l.008.088c0 .276-.216.5-.495.5h-2.01a.5.5 0 0 1-.487-.412zM12.5 12c.25 0 .459.183.502.412l.008.088c0 .276-.228.5-.51.5H3.52a.51.51 0 0 1-.502-.412L3.01 12.5c0-.276.228-.5.51-.5h3.987V4.208l-2.06 2.06a.5.5 0 1 1-.707-.707L6.86 3.44A1.5 1.5 0 0 1 7.974 3h.033q.06 0 .118.014c.314.043.616.185.857.426l2.122 2.12a.5.5 0 0 1-.708.708l-1.889-1.89V12zM3 8.5c0-.276.216-.5.495-.5h2.01c.243 0 .445.183.487.412L6 8.5c0 .276-.216.5-.495.5h-2.01a.5.5 0 0 1-.487-.412z'
+            />
+          </svg>{' '}
           <span className='sr-only'>Toggle Menu</span>
         </button>
       </DrawerTrigger>
@@ -51,10 +61,10 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
           <DrawerHeader>
             <DrawerTitle>
               <div className='flex items-center justify-between'>
-                <h1 className='font-semibold p-1.5'>QuickNotes</h1>
+                <h1 className='font-semibold py-1.5'>QuickNotes</h1>
                 <Link
                   aria-label='new note'
-                  href={`/notes/new/${newNoteId}`}
+                  href={`/notes/${newNoteId}`}
                   className='rounded-md hover:bg-stone-200 p-1.5'
                 >
                   <Pencil2Icon className='font-semibold' />
@@ -62,7 +72,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
               </div>{' '}
             </DrawerTitle>
           </DrawerHeader>
-          <div className='flex flex-col justify-between w-full px-5 py-4 min-h-60'>
+          <div className='flex flex-col justify-between w-full px-1.5 py-4 min-h-60'>
             <div className='space-y-6'>
               <div>
                 {filteredNotes.map((note) => (

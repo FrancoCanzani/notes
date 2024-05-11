@@ -72,7 +72,7 @@ export default function AiMenu({ editor }: { editor: Editor | null }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         disabled={isLoading || window.getSelection()?.toString().length === 0}
-        className='text-purple-600 p-0 text-xs cursor-pointer font-medium hover:text-purple-800 select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none'
+        className='text-purple-600 p-0 text-sm cursor-pointer font-medium hover:text-purple-800 select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none'
       >
         Ai Actions
       </DropdownMenuTrigger>

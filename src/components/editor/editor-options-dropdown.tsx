@@ -12,11 +12,7 @@ import PublishButton from '../buttons/publish-button';
 import { MoreHorizontal } from 'lucide-react';
 import { NavigatorShareButton } from '../buttons/navigator-share-button';
 
-export default function EditorOptionsDropdown({
-  cloudNote,
-}: {
-  cloudNote: Note;
-}) {
+export default function EditorOptionsDropdown({ note }: { note: Note }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,15 +27,15 @@ export default function EditorOptionsDropdown({
       <DropdownMenuContent align='end' className='bg-white'>
         <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
           <PublishButton
-            cloudNote={cloudNote}
+            cloudNote={note}
             className='flex items-center justify-start gap-x-2'
           />
         </DropdownMenuItem>
-        {cloudNote.published && (
+        {note.published && (
           <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
             <NavigatorShareButton
               className='flex items-center justify-start gap-x-2'
-              publicationUrl={`notes-franco.vercel.app/notes/published/${cloudNote.id}`}
+              publicationUrl={`notes-franco.vercel.app/notes/published/${note.id}`}
             />
           </DropdownMenuItem>
         )}
