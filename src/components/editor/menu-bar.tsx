@@ -19,6 +19,7 @@ import {
 } from '@radix-ui/react-icons';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
+import useToolbarPosition from '../../lib/hooks/use-toolbar-position';
 
 export default function MenuBar({
   editor,
@@ -27,6 +28,8 @@ export default function MenuBar({
   editor: Editor | null;
   className?: string;
 }) {
+  const toolbarTop = useToolbarPosition();
+
   if (!editor) {
     return null;
   }
