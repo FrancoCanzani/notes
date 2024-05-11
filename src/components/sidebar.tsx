@@ -55,7 +55,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           </Link>
         </div>
         <div>
-          <ScrollArea>
+          <ScrollArea className='h-[300px]'>
             {filteredNotes.map((note) => (
               <div
                 key={note._id}

@@ -44,8 +44,8 @@ export default function SpeechToText({ editor }: { editor: Editor }) {
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
-            height='2rem'
-            width='2rem'
+            height='1.2rem'
+            width='1.2rem'
             viewBox='0 -960 960 960'
             fill='black'
           >
