@@ -194,6 +194,39 @@ export async function updatePublishedStatus(
   }
 }
 
+export async function updatePinStatus(
+  userId: string | undefined,
+  noteId: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for updatePinStatus');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const note = await Note.findOne({ userId, id: noteId });
+
+    if (!note) {
+      throw new Error('Note not found');
+    }
+
+    if (note.pinned === undefined) {
+      note.pinned = false;
+    } else {
+      note.pinned = !note.pinned;
+    }
+
+    const updatedNote = await note.save();
+
+    const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
+
+    return parsedResponse;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function saveWeblink(userId: string | undefined, url: string) {
   if (!userId) {
     throw new Error('Missing user id for saveWeblink');
