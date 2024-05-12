@@ -1,35 +1,26 @@
 import { useEffect, useState } from 'react';
 
 function useToolbarPosition() {
-  const [toolbarBottom, setToolbarBottom] = useState(0);
+  const [toolbarTop, setToolbarTop] = useState(0);
 
   useEffect(() => {
     function fixPosition() {
-      const footer = document.querySelector('.stick-it-to-the-man');
-      if (footer && window.visualViewport) {
-        const vv = window.visualViewport;
-        const footerHeight = (footer as HTMLElement).offsetHeight; // Cast to HTMLElement to access offsetHeight
-        const toolbarBottomPosition = vv.height - footerHeight;
-        setToolbarBottom(toolbarBottomPosition);
-      }
+      const keyboardHeight =
+        parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            '--keyboard-inset-height'
+          ),
+          10
+        ) || 0;
+      setToolbarTop(keyboardHeight);
     }
 
-    const footer = document.querySelector('.stick-it-to-the-man');
-    if (footer && window.visualViewport) {
-      const vv = window.visualViewport;
-      vv.addEventListener('resize', fixPosition);
-      fixPosition();
-    }
-
-    return () => {
-      const vv = window.visualViewport;
-      if (vv) {
-        vv.removeEventListener('resize', fixPosition);
-      }
-    };
+    fixPosition();
+    window.addEventListener('resize', fixPosition);
+    return () => window.removeEventListener('resize', fixPosition);
   }, []);
 
-  return toolbarBottom;
+  return toolbarTop;
 }
 
 export default useToolbarPosition;

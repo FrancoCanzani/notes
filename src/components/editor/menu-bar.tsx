@@ -1,25 +1,19 @@
 'use client';
 
 import { Editor } from '@tiptap/core';
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import {
   FontBoldIcon,
   FontItalicIcon,
   StrikethroughIcon,
-  CodeIcon,
   EraserIcon,
   TextIcon,
-  ListBulletIcon,
   DividerHorizontalIcon,
   Link1Icon,
-  HeadingIcon,
-  CheckboxIcon,
-  QuoteIcon,
   UnderlineIcon,
 } from '@radix-ui/react-icons';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
-import useToolbarPosition from '../../lib/hooks/use-toolbar-position';
 
 export default function MenuBar({
   editor,
@@ -28,7 +22,31 @@ export default function MenuBar({
   editor: Editor | null;
   className?: string;
 }) {
-  const toolbarTop = useToolbarPosition();
+  const [menuBarBottom, setMenuBarBottom] = useState('0'); // State to hold the bottom position of the menu bar
+
+  useEffect(() => {
+    const handleKeyboardHeightChange = (event) => {
+      const keyboardHeight = event.target.boundingRect.height; // Retrieve the height of the virtual keyboard
+      const bottomPosition = `${keyboardHeight}px`; // Calculate the bottom position based on the keyboard height
+      setMenuBarBottom(bottomPosition); // Adjust the bottom position of the menu bar
+    };
+
+    if ('virtualKeyboard' in navigator) {
+      navigator.virtualKeyboard.addEventListener(
+        'geometrychange',
+        handleKeyboardHeightChange
+      );
+    }
+
+    return () => {
+      if ('virtualKeyboard' in navigator) {
+        navigator.virtualKeyboard.removeEventListener(
+          'geometrychange',
+          handleKeyboardHeightChange
+        );
+      }
+    };
+  }, []);
 
   if (!editor) {
     return null;
@@ -57,6 +75,7 @@ export default function MenuBar({
         'flex items-center bg-stone-100 no-scrollbar justify-start space-x-3 overflow-x-auto',
         className
       )}
+      style={{ bottom: menuBarBottom }} // Apply the dynamic bottom position to the menu bar
     >
       <Button
         variant={'menu'}

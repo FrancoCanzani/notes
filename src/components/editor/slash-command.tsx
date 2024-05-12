@@ -24,6 +24,7 @@ import {
   CheckSquare,
   CircleDashed,
   Image,
+  FileText,
 } from 'lucide-react';
 import { Magic } from '../../lib/icons';
 import { getPrevText } from '../../lib/helpers/get-prev-text';
@@ -216,6 +217,18 @@ const getSuggestionItems = ({ query }: { query: string }) => {
           }
         };
         input.click();
+      },
+    },
+    {
+      title: 'Insert Lorem Ipsum',
+      description: 'Insert a placeholder text.',
+      searchTerms: ['lorem', 'lorem ipsum'],
+      icon: <FileText className='w-7' />, // Assuming FileText is an icon component
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).run();
+        editor.commands.insertContent(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum nisi lorem, ut congue metus efficitur id. Nunc id quam sed lectus bibendum sodales. Aenean in facilisis turpis, vel tempor velit. Aliquam semper dolor eu aliquet cursus. Nulla sodales nisi purus, at laoreet erat tincidunt at. Proin convallis purus a condimentum ornare. Donec suscipit mauris sed vulputate aliquet. Phasellus gravida justo urna, id congue lacus dapibus quis.'
+        );
       },
     },
   ].filter((item) => {
