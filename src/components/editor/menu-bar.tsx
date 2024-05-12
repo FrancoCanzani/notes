@@ -15,6 +15,12 @@ import {
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
 
+interface KeyboardGeometryChangeEvent {
+  readonly target?: {
+    readonly boundingRect?: DOMRectReadOnly;
+  };
+}
+
 export default function MenuBar({
   editor,
   className,
@@ -22,48 +28,28 @@ export default function MenuBar({
   editor: Editor | null;
   className?: string;
 }) {
-  const [menuBarBottom, setMenuBarBottom] = useState('0'); // State to hold the bottom position of the menu bar
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
-    const handleKeyboardHeightChange = (event: CustomEvent) => {
-      const target = event.target as unknown as {
-        boundingRect: { height: number };
-      };
-      const keyboardHeight = target.boundingRect.height;
-      const bottomPosition = `${keyboardHeight}px`;
-      setMenuBarBottom(bottomPosition);
+    const handleGeometryChange = (event: KeyboardGeometryChangeEvent) => {
+      const newKeyboardHeight = event.target?.boundingRect?.height ?? 0;
+      setKeyboardHeight(newKeyboardHeight);
     };
 
     if ('virtualKeyboard' in navigator) {
-      (
-        navigator as {
-          virtualKeyboard: {
-            addEventListener: (
-              event: string,
-              handler: (event: CustomEvent) => void
-            ) => void;
-          };
-        }
-      ).virtualKeyboard.addEventListener(
+      (navigator as any).virtualKeyboard.overlaysContent = true;
+
+      (navigator as any).virtualKeyboard.addEventListener(
         'geometrychange',
-        handleKeyboardHeightChange
+        handleGeometryChange
       );
     }
 
     return () => {
       if ('virtualKeyboard' in navigator) {
-        (
-          navigator as {
-            virtualKeyboard: {
-              removeEventListener: (
-                event: string,
-                handler: (event: CustomEvent) => void
-              ) => void;
-            };
-          }
-        ).virtualKeyboard.removeEventListener(
+        (navigator as any).virtualKeyboard.removeEventListener(
           'geometrychange',
-          handleKeyboardHeightChange
+          handleGeometryChange
         );
       }
     };
@@ -96,7 +82,7 @@ export default function MenuBar({
         'flex items-center bg-stone-100 no-scrollbar justify-start space-x-3 overflow-x-auto',
         className
       )}
-      style={{ bottom: menuBarBottom }} // Apply the dynamic bottom position to the menu bar
+      style={{ position: 'fixed', bottom: `${keyboardHeight}px` }}
     >
       <Button
         variant={'menu'}

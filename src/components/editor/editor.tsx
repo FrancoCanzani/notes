@@ -145,10 +145,7 @@ export default function Editor({
             />
           </div>
           {usesMobile && editor.isFocused && (
-            <MenuBar
-              editor={editor}
-              className='w-full fixed bottom-0 px-2 py-2'
-            />
+            <MenuBar editor={editor} className='w-full px-2 py-2' />
           )}
         </div>
       </div>
