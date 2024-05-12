@@ -25,14 +25,26 @@ export default function MenuBar({
   const [menuBarBottom, setMenuBarBottom] = useState('0'); // State to hold the bottom position of the menu bar
 
   useEffect(() => {
-    const handleKeyboardHeightChange = (event) => {
-      const keyboardHeight = event.target.boundingRect.height; // Retrieve the height of the virtual keyboard
-      const bottomPosition = `${keyboardHeight}px`; // Calculate the bottom position based on the keyboard height
-      setMenuBarBottom(bottomPosition); // Adjust the bottom position of the menu bar
+    const handleKeyboardHeightChange = (event: CustomEvent) => {
+      const target = event.target as unknown as {
+        boundingRect: { height: number };
+      };
+      const keyboardHeight = target.boundingRect.height;
+      const bottomPosition = `${keyboardHeight}px`;
+      setMenuBarBottom(bottomPosition);
     };
 
     if ('virtualKeyboard' in navigator) {
-      navigator.virtualKeyboard.addEventListener(
+      (
+        navigator as {
+          virtualKeyboard: {
+            addEventListener: (
+              event: string,
+              handler: (event: CustomEvent) => void
+            ) => void;
+          };
+        }
+      ).virtualKeyboard.addEventListener(
         'geometrychange',
         handleKeyboardHeightChange
       );
@@ -40,7 +52,16 @@ export default function MenuBar({
 
     return () => {
       if ('virtualKeyboard' in navigator) {
-        navigator.virtualKeyboard.removeEventListener(
+        (
+          navigator as {
+            virtualKeyboard: {
+              removeEventListener: (
+                event: string,
+                handler: (event: CustomEvent) => void
+              ) => void;
+            };
+          }
+        ).virtualKeyboard.removeEventListener(
           'geometrychange',
           handleKeyboardHeightChange
         );
