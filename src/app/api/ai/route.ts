@@ -97,7 +97,7 @@ export async function POST(req: Request): Promise<Response> {
     .run() as ChatCompletionMessageParam[];
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
     stream: true,
     messages,
     temperature: 0.7,
