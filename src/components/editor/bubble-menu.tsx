@@ -14,7 +14,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
   const usesMobile = isMobile();
 
   return (
-    <>
+    <div>
       {editor && (
         <Bubble
           editor={editor}
@@ -112,6 +112,6 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
           </Button>
         </Bubble>
       )}
-    </>
+    </div>
   );
 }
