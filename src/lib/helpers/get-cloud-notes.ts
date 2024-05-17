@@ -1,5 +1,6 @@
-import { Note } from '../db/schemas/note-schema';
 import connectToDatabase from '../db/connect-to-db';
+import { Note } from '../db/schemas/note-schema';
+import { getUnifiedId } from './get-unified-id';
 
 class DatabaseConnectionError extends Error {
   code: string;
@@ -13,11 +14,12 @@ class DatabaseConnectionError extends Error {
 export default async function getCloudNotes(userId: string | undefined) {
   try {
     if (!userId) {
-      throw new Error('Missing user id for getCloudNote');
+      return null;
     }
 
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
-    const notes = await Note.find({ userId });
+    const notes = await Note.find({ userId: unifiedId });
 
     if (!notes) {
       throw new Error('No notes found for the user');

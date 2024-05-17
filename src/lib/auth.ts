@@ -9,15 +9,23 @@ export const {
 } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET as string,
   callbacks: {
-    async jwt({ token, profile }) {
-      if (profile && profile.id) {
-        token.id = profile.id;
+    jwt({ token, user }) {
+      if (user) {
+        return { ...token, id: user.id }; // Save id to token as docs says: https://next-auth.js.org/configuration/callbacks
       }
       return token;
     },
-    async session({ session, token, user }) {
-      session.user.id = token.id;
-      return session;
+    session: ({ session, token, user }) => {
+      console.log(session);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          // id: user.id, // This is copied from official docs which find user is undefined
+          id: token.id, // Get id from token instead
+        },
+      };
     },
   },
   session: { strategy: 'jwt' },

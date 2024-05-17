@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import { signIn } from 'next-auth/react';
-import { useSession } from 'next-auth/react';
 import { cn } from '../../lib/utils';
 import { type ButtonProps } from '../ui/button';
 import { handleUser } from '../../lib/actions';
+import { useSession } from 'next-auth/react';
+import { toast } from 'sonner';
 
 interface SignInButtonProps extends ButtonProps {
   provider: 'github' | 'google';
@@ -21,17 +22,27 @@ export function SignInButton({
   ...props
 }: SignInButtonProps) {
   const [isLoading, setIsLoading] = React.useState(false);
+  const { data: session } = useSession();
 
-  const session = useSession();
-  const user = session.data?.user;
+  React.useEffect(() => {
+    const handleUserData = async () => {
+      if (session?.user) {
+        const { email, id, name, image } = session.user;
+        if (email && id && name && image) {
+          try {
+            const newUserResult = await handleUser({ email, id, name, image });
+          } catch (error) {
+            toast.error('Error handling user');
+          }
+        }
+      }
+    };
+    handleUserData();
+  }, [session]);
 
   const handleLogin = async () => {
     setIsLoading(true);
-    // next-auth signIn() function doesn't work yet at Edge Runtime due to usage of BroadcastChannel
     await signIn(provider, { callbackUrl: callbackUrl ?? '/notes' });
-    if (user) {
-      await handleUser(user);
-    }
   };
 
   return (

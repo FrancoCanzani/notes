@@ -1,42 +1,45 @@
 'use server';
 
-import { User } from './db/schemas/user-schema';
+import { User as UserSchema } from './db/schemas/user-schema';
 import connectToDatabase from './db/connect-to-db';
 import { Note } from './db/schemas/note-schema';
-import { revalidatePath } from 'next/cache';
-import { Weblink } from './db/schemas/weblink-schema';
-import getLinkPreview from './helpers/get-link-preview';
 import { nanoid } from 'nanoid';
+import { getUnifiedId } from './helpers/get-unified-id';
 
-interface UserProps {
+interface UserData {
   id: string;
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
+  name: string;
+  email: string;
+  image: string;
 }
 
-export async function handleUser(user: UserProps) {
-  const { name, email, id, image } = user;
-
+export async function handleUser(userData: UserData) {
+  const { email, id, name, image } = userData;
   try {
     await connectToDatabase();
 
-    let existingUser = await User.findOne({ id });
+    let existingUser = await UserSchema.findOne({ email });
 
-    if (existingUser) {
-      return existingUser;
+    if (!existingUser) {
+      const newUnifiedId = nanoid(10);
+      existingUser = new UserSchema({
+        name,
+        email,
+        unifiedId: newUnifiedId,
+        linkedProviders: [id],
+        image,
+        creation: new Date(),
+        lastSaved: new Date(),
+      });
+    } else if (!existingUser.linkedProviders.includes(id)) {
+      existingUser.linkedProviders.push(id);
+      existingUser.lastSaved = new Date();
     }
 
-    const newUser = new User({
-      name,
-      email,
-      id,
-      image,
-    });
+    console.log(existingUser);
 
-    const savedUser = await newUser.save();
-    const parsedResponse = JSON.parse(JSON.stringify(savedUser));
-    return parsedResponse;
+    const savedUser = await existingUser.save();
+    return JSON.parse(JSON.stringify(savedUser));
   } catch (error) {
     console.error('Error handling user:', error);
     throw error;
@@ -44,7 +47,7 @@ export async function handleUser(user: UserProps) {
 }
 
 export async function saveCloudNote(
-  userId: string | undefined,
+  userId: string,
   noteId: string,
   title: string,
   content: string
@@ -54,13 +57,14 @@ export async function saveCloudNote(
   }
 
   try {
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    let note = await Note.findOne({ userId, id: noteId });
+    let note = await Note.findOne({ userId: unifiedId, id: noteId });
 
     if (!note) {
       note = new Note({
-        userId,
+        userId: unifiedId,
         id: noteId,
         title,
         content,
@@ -73,7 +77,6 @@ export async function saveCloudNote(
     }
 
     await note.save();
-    revalidatePath('/notes', 'page');
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -91,9 +94,10 @@ export async function deleteCloudNote(
   }
 
   try {
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    const note = await Note.findOneAndDelete({ userId, id: noteId });
+    const note = await Note.findOneAndDelete({ userId: unifiedId, id: noteId });
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -112,9 +116,10 @@ export async function updateNoteStatus(
   }
 
   try {
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: unifiedId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -142,9 +147,10 @@ export async function updateNoteLabel(
   }
 
   try {
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: unifiedId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -172,9 +178,10 @@ export async function updatePublishedStatus(
   }
 
   try {
+    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: unifiedId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -188,40 +195,6 @@ export async function updatePublishedStatus(
 
     const updatedNote = await note.save();
     const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
-    return parsedResponse;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function saveWeblink(userId: string | undefined, url: string) {
-  if (!userId) {
-    throw new Error('Missing user id for saveWeblink');
-  }
-
-  try {
-    await connectToDatabase();
-
-    const weblinkData = await getLinkPreview(url);
-
-    console.log(weblinkData);
-
-    const newWeblink = new Weblink({
-      userId,
-      title: weblinkData.title,
-      description: weblinkData.description,
-      image: weblinkData.image,
-      id: nanoid(7),
-      url,
-      pinned: false,
-    });
-
-    const savedWeblink = await newWeblink.save();
-
-    revalidatePath('/weblink', 'page');
-
-    const parsedResponse = JSON.parse(JSON.stringify(savedWeblink));
-
     return parsedResponse;
   } catch (error) {
     throw error;
