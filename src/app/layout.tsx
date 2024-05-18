@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Roboto_Mono } from 'next/font/google';
 import ShowTailwindBreakpoint from '../components/show-tailwind-breakpoint';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'sonner';
 
 // If loading a variable font, you don't need to specify the font weight
-const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto_Mono({ subsets: ['latin'] });
 const APP_NAME = 'QuickNotes';
 const APP_DESCRIPTION = 'The fastest way to jot down ideas';
 
@@ -44,7 +44,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en' dir='ltr'>
-      <body className={`${inter.className}`}>
+      <body className={`${roboto.className}`}>
         <ClerkProvider>
           <main className='min-h-screen'>{children}</main>
           {process.env.DEV_ENVIRONMENT === 'development' && (
