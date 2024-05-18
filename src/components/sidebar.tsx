@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
-import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
@@ -21,13 +20,13 @@ import {
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
 import useFullScreen from '../lib/hooks/use-full-screen';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
-  const session = useSession();
   const newNoteId = nanoid(7);
   const isFullScreen = useFullScreen();
-
+  const { isSignedIn, userId } = useAuth();
   const filteredNotes = notes
     ? notes.filter((note: Note) => note.status === 'active')
     : [];
@@ -107,7 +106,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           <GitHubLogoIcon />
           Contribute
         </a>
-        {session.data?.user ? (
+        {isSignedIn ? (
           <div className='inline-flex justify-between w-full'>
             <UserSettingsModal />
             <button

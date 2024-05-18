@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
-import { useSession } from 'next-auth/react';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
@@ -28,10 +27,11 @@ import {
 } from '@radix-ui/react-icons';
 import { ChevronUp } from 'lucide-react';
 import SidebarNoteOptions from './sidebar-note-options';
+import { useAuth } from '@clerk/nextjs';
 
 export default function NavDrawer({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
-  const session = useSession();
+  const { isSignedIn } = useAuth();
   const newNoteId = nanoid(7);
 
   const filteredNotes = notes
@@ -123,7 +123,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                 <GitHubLogoIcon />
                 Contribute
               </a>
-              {session.data?.user ? (
+              {isSignedIn ? (
                 <UserSettingsModal />
               ) : (
                 <Link

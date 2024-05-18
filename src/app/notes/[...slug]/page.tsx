@@ -1,14 +1,13 @@
 import Editor from '../../../components/editor/editor';
 import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
 import { getCloudNote } from '../../../lib/helpers/get-cloud-note';
-import { auth } from '../../../lib/auth';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const session = await auth();
+  const { userId } = auth();
   const noteId = params.slug[0];
 
-  if (session && session.user) {
-    const userId = session.user.id;
+  if (userId) {
     const note = await getCloudNote(userId, noteId);
     const parsedNote = JSON.parse(JSON.stringify(note));
     const notes = await getCloudNotes(userId);

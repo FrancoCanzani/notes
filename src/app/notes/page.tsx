@@ -1,17 +1,15 @@
-import { auth } from '../../lib/auth';
 import getCloudNotes from '../../lib/helpers/get-cloud-notes';
 import { Note } from '../../lib/types';
 import { nanoid } from 'nanoid';
 import { redirect } from 'next/navigation';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function Page() {
   try {
-    const session = await auth();
+    const { userId } = auth();
     const newNoteId = nanoid(7);
-    console.log(session);
 
-    if (session && session.user) {
-      const userId = session.user.id;
+    if (userId) {
       const notes = await getCloudNotes(userId);
       const parsedNotes: Note[] = JSON.parse(JSON.stringify(notes));
 

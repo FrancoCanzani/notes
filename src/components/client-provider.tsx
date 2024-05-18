@@ -1,21 +1,12 @@
 import React, { ReactNode } from 'react';
-import { Session } from 'next-auth';
-import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
+import { ClerkProvider } from '@clerk/nextjs';
 
-export default function ClientProvider({
-  children,
-  session,
-}: {
-  children: ReactNode;
-  session: Session | null;
-}) {
+export default function ClientProvider({ children }: { children: ReactNode }) {
   return (
-    <>
-      <SessionProvider session={session}>
-        {children}
-        <Toaster />
-      </SessionProvider>
-    </>
+    <ClerkProvider>
+      {children}
+      <Toaster />
+    </ClerkProvider>
   );
 }

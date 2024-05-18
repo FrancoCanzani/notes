@@ -8,10 +8,9 @@ export async function getCloudNote(userId: string | undefined, noteId: string) {
   }
 
   try {
-    const unifiedId = await getUnifiedId(userId);
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId: unifiedId, id: noteId });
+    const note = await Note.findOne({ userId: userId, id: noteId });
     return note;
   } catch (error) {
     throw error;

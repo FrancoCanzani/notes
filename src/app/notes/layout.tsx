@@ -1,16 +1,16 @@
 import { ReactNode } from 'react';
 import Sidebar from '../../components/sidebar';
-import { auth } from '../../lib/auth';
 import getCloudNotes from '../../lib/helpers/get-cloud-notes';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function NotesLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const session = await auth();
+  const { userId } = auth();
 
-  const notes = session ? await getCloudNotes(session.user.id) : [];
+  const notes = userId ? await getCloudNotes(userId) : [];
   const parsedNotes = JSON.parse(JSON.stringify(notes));
 
   return (

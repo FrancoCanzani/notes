@@ -32,8 +32,8 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Note } from '../lib/types';
 import { deleteCloudNote, updateNoteStatus } from '../lib/actions';
-import { useSession } from 'next-auth/react';
 import { cn } from '../lib/utils';
+import { useAuth } from '@clerk/nextjs';
 
 export default function SidebarNoteOptions({
   note,
@@ -43,12 +43,12 @@ export default function SidebarNoteOptions({
   className?: string;
 }) {
   const router = useRouter();
-  const session = useSession();
+  const { userId } = useAuth();
 
   const handleDeleteNote = async () => {
-    if (session.data) {
+    if (userId) {
       try {
-        await deleteCloudNote(session.data.user.id, note.id);
+        await deleteCloudNote(userId, note.id);
         toast.success(`Deleted: ${note.title}`);
         router.refresh();
       } catch (error) {
@@ -61,9 +61,9 @@ export default function SidebarNoteOptions({
     let newStatus: 'active' | 'archived' = 'active';
 
     try {
-      if (session.data) {
+      if (userId) {
         newStatus = note.status === 'active' ? 'archived' : 'active';
-        await updateNoteStatus(session.data.user.id, note.id, newStatus);
+        await updateNoteStatus(userId, note.id, newStatus);
       }
       toast.success(
         `${newStatus === 'archived' ? 'Archived' : 'Restored'}: ${note.title}`

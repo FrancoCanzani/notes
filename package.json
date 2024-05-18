@@ -1,16 +1,17 @@
 {
-  "name": "@next-pwa-example/basic",
+  "name": "notes-app",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^2.5.1",
+    "@clerk/nextjs": "^5.0.12",
     "@ducanh2912/next-pwa": "latest",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -63,7 +64,6 @@
     "nanoid": "^5.0.6",
     "net": "^1.0.2",
     "next": "^14.2.2",
-    "next-auth": "^5.0.0-beta.15",
     "openai": "^4.33.1",
     "prosemirror-docx": "^0.1.1",
     "react": "^18.2.0",
