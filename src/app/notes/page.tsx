@@ -22,7 +22,7 @@ export default async function Page() {
       return 0;
     });
 
-    if (sortedNotes) {
+    if (sortedNotes.length > 0) {
       redirect(`/notes/${sortedNotes[0].id}`);
     } else {
       redirect(`/notes/${newNoteId}`);
