@@ -5,37 +5,38 @@ import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 
 export default async function Page() {
+  const newNoteId = nanoid(7);
+
   try {
     const { userId } = auth();
-    const newNoteId = nanoid(7);
 
-    if (userId) {
-      const notes = await getCloudNotes(userId);
-      const parsedNotes: Note[] = JSON.parse(JSON.stringify(notes));
+    if (!userId) {
+      console.error('User not authenticated');
+      redirect(`/`);
+    }
 
-      if (!parsedNotes) {
-        redirect(`/notes/${newNoteId}`);
-      }
+    const notes = await getCloudNotes(userId);
 
-      const sortedNotes = parsedNotes.sort((a, b) => {
-        if (new Date(a.lastSaved) > new Date(b.lastSaved)) {
-          return -1;
-        }
-        if (new Date(a.lastSaved) < new Date(b.lastSaved)) {
-          return 1;
-        }
-        return 0;
-      });
-
-      if (sortedNotes.length > 0) {
-        redirect(`/notes/${sortedNotes[0].id}`);
-      } else {
-        redirect(`/notes/${newNoteId}`);
-      }
-    } else {
+    if (!notes) {
+      console.error('No notes found for user:', userId);
       redirect(`/notes/${newNoteId}`);
     }
+
+    const parsedNotes: Note[] = JSON.parse(JSON.stringify(notes));
+
+    if (parsedNotes.length === 0) {
+      console.log('No notes available for user:', userId);
+      redirect(`/notes/${newNoteId}`);
+    }
+
+    const sortedNotes = parsedNotes.sort((a, b) => {
+      return new Date(b.lastSaved).getTime() - new Date(a.lastSaved).getTime();
+    });
+
+    console.log('Redirecting to the last edited note:', sortedNotes[0].id);
+    redirect(`/notes/${sortedNotes[0].id}`);
   } catch (error) {
-    redirect(`/notes/${nanoid(7)}`);
+    console.error('An error occurred:', error);
+    redirect(`/notes/${newNoteId}`);
   }
 }
