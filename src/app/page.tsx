@@ -7,14 +7,12 @@ export default function Page() {
   return (
     <div className='min-h-screen bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 w-full bg-stone-100 relative flex flex-col items-center justify-center'>
       <div className='flex flex-col items-center justify-center space-y-4 text-center py-8'>
-        <div>
-          <h1 className='text-5xl sm:text-6xl font-bold mb-2 text-black'>
-            QuickNotes
-          </h1>
-          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4'>
-            Get your work and life organized.
-          </h2>
-        </div>
+        <h1 className='text-5xl sm:text-6xl font-bold mb-2 text-black'>
+          QuickNotes
+        </h1>
+        <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4'>
+          Get your work and life organized.
+        </h2>
         <p className='text-balance text-sm max-w-3xl sm:text-lg md:text-xl'>
           Introducing The Ultimate Note-Taking App with AI Integration, Slash
           Commands, Markdown Support and Calendar.
@@ -30,7 +28,7 @@ export default function Page() {
         </div>
       </div>
       <Separator className='bg-gray-200 max-w-3xl px-6' />
-      <div className='flex flex-col items-start justify-center space-y-4 py-8 px-10 lg:px-0'>
+      <div className='flex flex-col max-w-3xl items-start justify-center space-y-4 py-8 px-11 md:px-8'>
         <a
           href='https://github.com/FrancoCanzani/notes'
           target='_blank'
@@ -44,11 +42,13 @@ export default function Page() {
           your needs. Your feedback and contributions help shape the future of
           the app.
         </p>
-        <Separator className='bg-gray-200 max-w-3xl px-6' />
+      </div>
+      <Separator className='bg-gray-200 max-w-3xl px-6 h-[0.9px]' />
+      <div className='flex flex-col max-w-3xl items-start justify-center space-y-4 w-full py-8 px-11 md:px-8'>
         <h3 className='text-lg sm:text-xl font-bold leading-tight hover:underline'>
           Features
         </h3>
-        <ul className=' sm:text-sm md:text-base'>
+        <ul className='sm:text-sm md:text-base marker:text-black space-y-1 list-outside list-disc ml-6'>
           <li>
             QuickNotes is fully open-source, ensuring complete transparency and
             trust.
