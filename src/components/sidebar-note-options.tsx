@@ -15,7 +15,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import PublishButton from './buttons/publish-button';
@@ -27,19 +26,14 @@ import {
   ArchiveRestore,
   MoreHorizontal,
 } from 'lucide-react';
-import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Note } from '../lib/types';
-import {
-  deleteCloudNote,
-  updateNoteStatus,
-  updatePinStatus,
-} from '../lib/actions';
-import { useSession } from 'next-auth/react';
+import { deleteCloudNote, updateNoteStatus } from '../lib/actions';
 import { cn } from '../lib/utils';
+import { useAuth } from '@clerk/nextjs';
 
 export default function SidebarNoteOptions({
   note,
@@ -49,12 +43,12 @@ export default function SidebarNoteOptions({
   className?: string;
 }) {
   const router = useRouter();
-  const session = useSession();
+  const { userId } = useAuth();
 
   const handleDeleteNote = async () => {
-    if (session.data) {
+    if (userId) {
       try {
-        await deleteCloudNote(session.data.user.id, note.id);
+        await deleteCloudNote(userId, note.id);
         toast.success(`Deleted: ${note.title}`);
         router.refresh();
       } catch (error) {
@@ -63,25 +57,13 @@ export default function SidebarNoteOptions({
     }
   };
 
-  const handlePinNote = async () => {
-    if (session.data) {
-      try {
-        await updatePinStatus(session.data.user.id, note.id);
-        toast.success(`Pinned: ${note.title}`);
-        router.refresh();
-      } catch (error) {
-        toast.error(`Failed to pin: ${note.title}`);
-      }
-    }
-  };
-
   const handleChangeStatus = async () => {
     let newStatus: 'active' | 'archived' = 'active';
 
     try {
-      if (session.data) {
+      if (userId) {
         newStatus = note.status === 'active' ? 'archived' : 'active';
-        await updateNoteStatus(session.data.user.id, note.id, newStatus);
+        await updateNoteStatus(userId, note.id, newStatus);
       }
       toast.success(
         `${newStatus === 'archived' ? 'Archived' : 'Restored'}: ${note.title}`
@@ -114,13 +96,13 @@ export default function SidebarNoteOptions({
               className='w-full cursor-pointer flex items-center justify-start gap-x-2'
             >
               <FilePenLine size={13} />
-              Edit Note
+              Edit
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
             <PublishButton
               cloudNote={note}
-              className='flex items-center justify-start w-full gap-x-2'
+              className='flex items-center justify-start gap-x-2'
             />
           </DropdownMenuItem>
           {note.published && (
@@ -141,19 +123,7 @@ export default function SidebarNoteOptions({
               <ArchiveRestore size={13} />
             )}
 
-            {note.status === 'active' ? 'Archive Note' : 'Restore Note'}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => handlePinNote()}
-            className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
-          >
-            {note.pinned === true ? (
-              <DrawingPinIcon />
-            ) : (
-              <DrawingPinFilledIcon />
-            )}
-
-            {note.pinned === true ? 'Unpin from Sidebar' : 'Pin to Sidebar'}
+            {note.status === 'active' ? 'Archive' : 'Restore'}
           </DropdownMenuItem>
           <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full cursor-pointer text-xs'>
             <AlertDialog>
@@ -162,7 +132,7 @@ export default function SidebarNoteOptions({
                 className='cursor-pointer text-red-600 flex items-center justify-start gap-x-2'
               >
                 <Trash2 size={13} />
-                Delete Note
+                Delete
               </AlertDialogTrigger>
               <AlertDialogContent className='bg-gray-50 rounded-md'>
                 <AlertDialogHeader>
@@ -185,17 +155,6 @@ export default function SidebarNoteOptions({
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-gray-100 my-0.5' />
-          <DropdownMenuItem className='rounded-md w-full text-xs'>
-            Edited{' '}
-            {new Date(note.lastSaved).toLocaleString(undefined, {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-            })}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

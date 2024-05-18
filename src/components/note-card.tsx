@@ -38,10 +38,10 @@ import { useRouter } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { Note } from '../lib/types';
 import { deleteCloudNote, updateNoteStatus } from '../lib/actions';
-import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction } from 'react';
 import { del, set } from 'idb-keyval';
 import LabelInput from './label-input';
+import { useAuth } from '@clerk/nextjs';
 
 export default function NoteCard({
   note,
@@ -55,7 +55,7 @@ export default function NoteCard({
   setLocalNotes: Dispatch<SetStateAction<Note[]>>;
 }) {
   const router = useRouter();
-  const session = useSession();
+  const { userId } = useAuth();
 
   const handleDeleteNote = async () => {
     if (note.type === 'local') {
@@ -65,9 +65,9 @@ export default function NoteCard({
       );
       setLocalNotes(filtered);
       toast.success(`Deleted: ${note.title}`);
-    } else if (session.data) {
+    } else if (userId) {
       try {
-        await deleteCloudNote(session.data.user.id, note.id);
+        await deleteCloudNote(userId, note.id);
         toast.success(`Deleted: ${note.title}`);
         router.refresh();
       } catch (error) {
@@ -91,9 +91,9 @@ export default function NoteCard({
           n.id === note.id ? updatedNote : n
         );
         setLocalNotes(updatedLocalNotes);
-      } else if (session.data) {
+      } else if (userId) {
         newStatus = note.status === 'active' ? 'archived' : 'active';
-        await updateNoteStatus(session.data.user.id, note.id, newStatus);
+        await updateNoteStatus(userId, note.id, newStatus);
       }
       toast.success(
         `${newStatus === 'archived' ? 'Archived' : 'Restored'}: ${note.title}`
@@ -210,12 +210,14 @@ export default function NoteCard({
           <FileClock size={14} />
           {formatDistanceToNowStrict(note.lastSaved)}
         </span>
-        <LabelInput
-          note={note}
-          localNotes={localNotes}
-          setLocalNotes={setLocalNotes}
-          userId={session.data?.user.id}
-        />
+        {userId && (
+          <LabelInput
+            note={note}
+            localNotes={localNotes}
+            setLocalNotes={setLocalNotes}
+            userId={userId}
+          />
+        )}
       </div>
     </div>
   );

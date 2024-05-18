@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -11,10 +12,12 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  id: {
+  unifiedId: {
     type: String,
     required: true,
+    unique: true,
   },
+  linkedProviders: [String],
   image: {
     type: String,
   },

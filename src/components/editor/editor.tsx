@@ -3,7 +3,6 @@
 import { extensions } from '../../lib/extensions';
 import { useEffect, useState, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { useSession } from 'next-auth/react';
 import { saveCloudNote } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
@@ -19,6 +18,7 @@ import NavDrawer from '../nav-drawer';
 import SpeechToText from './speech-recognition';
 import MenuBar from './menu-bar';
 import isMobile from '../../lib/helpers/is-mobile';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Editor({
   noteId,
@@ -30,7 +30,7 @@ export default function Editor({
   notes?: Note[];
 }) {
   const [title, setTitle] = useState('');
-  const session = useSession();
+  const { userId } = useAuth();
   const usesMobile = isMobile();
 
   const editor = useEditor({
@@ -89,8 +89,8 @@ export default function Editor({
   // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     const content = JSON.stringify(editor.getJSON());
-    if (session && session.data) {
-      await saveCloudNote(session.data?.user?.id, noteId, title, content);
+    if (userId) {
+      await saveCloudNote(userId, noteId, title, content);
     } else {
       await handleIndexedDBSave(noteId, title, content);
     }

@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import ClientProvider from '../components/client-provider';
-import { auth } from '../lib/auth';
 import { Inter } from 'next/font/google';
 import ShowTailwindBreakpoint from '../components/show-tailwind-breakpoint';
+import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from 'sonner';
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({ subsets: ['latin'] });
@@ -42,17 +42,16 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await auth();
-
   return (
     <html lang='en' dir='ltr'>
       <body className={`${inter.className}`}>
-        <ClientProvider session={session}>
+        <ClerkProvider>
           <main className='min-h-screen'>{children}</main>
           {process.env.DEV_ENVIRONMENT === 'development' && (
             <ShowTailwindBreakpoint />
           )}
-        </ClientProvider>
+          <Toaster />
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -1,50 +1,10 @@
 'use server';
 
-import { User } from './db/schemas/user-schema';
 import connectToDatabase from './db/connect-to-db';
 import { Note } from './db/schemas/note-schema';
-import { revalidatePath } from 'next/cache';
-import { Weblink } from './db/schemas/weblink-schema';
-import getLinkPreview from './helpers/get-link-preview';
-import { nanoid } from 'nanoid';
-
-interface UserProps {
-  id: string;
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
-}
-
-export async function handleUser(user: UserProps) {
-  const { name, email, id, image } = user;
-
-  try {
-    await connectToDatabase();
-
-    let existingUser = await User.findOne({ id });
-
-    if (existingUser) {
-      return existingUser;
-    }
-
-    const newUser = new User({
-      name,
-      email,
-      id,
-      image,
-    });
-
-    const savedUser = await newUser.save();
-    const parsedResponse = JSON.parse(JSON.stringify(savedUser));
-    return parsedResponse;
-  } catch (error) {
-    console.error('Error handling user:', error);
-    throw error;
-  }
-}
 
 export async function saveCloudNote(
-  userId: string | undefined,
+  userId: string,
   noteId: string,
   title: string,
   content: string
@@ -56,11 +16,11 @@ export async function saveCloudNote(
   try {
     await connectToDatabase();
 
-    let note = await Note.findOne({ userId, id: noteId });
+    let note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
       note = new Note({
-        userId,
+        userId: userId,
         id: noteId,
         title,
         content,
@@ -73,7 +33,6 @@ export async function saveCloudNote(
     }
 
     await note.save();
-    revalidatePath('/notes', 'page');
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -93,7 +52,7 @@ export async function deleteCloudNote(
   try {
     await connectToDatabase();
 
-    const note = await Note.findOneAndDelete({ userId, id: noteId });
+    const note = await Note.findOneAndDelete({ userId: userId, id: noteId });
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
     return parsedResponse;
@@ -114,7 +73,7 @@ export async function updateNoteStatus(
   try {
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -144,7 +103,7 @@ export async function updateNoteLabel(
   try {
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -174,7 +133,7 @@ export async function updatePublishedStatus(
   try {
     await connectToDatabase();
 
-    const note = await Note.findOne({ userId, id: noteId });
+    const note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
       throw new Error('Note not found');
@@ -188,73 +147,6 @@ export async function updatePublishedStatus(
 
     const updatedNote = await note.save();
     const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
-    return parsedResponse;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function updatePinStatus(
-  userId: string | undefined,
-  noteId: string
-) {
-  if (!userId) {
-    throw new Error('Missing user id for updatePinStatus');
-  }
-
-  try {
-    await connectToDatabase();
-
-    const note = await Note.findOne({ userId, id: noteId });
-
-    if (!note) {
-      throw new Error('Note not found');
-    }
-
-    if (note.pinned === undefined) {
-      note.pinned = false;
-    } else {
-      note.pinned = !note.pinned;
-    }
-
-    const updatedNote = await note.save();
-
-    const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
-
-    return parsedResponse;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function saveWeblink(userId: string | undefined, url: string) {
-  if (!userId) {
-    throw new Error('Missing user id for saveWeblink');
-  }
-
-  try {
-    await connectToDatabase();
-
-    const weblinkData = await getLinkPreview(url);
-
-    console.log(weblinkData);
-
-    const newWeblink = new Weblink({
-      userId,
-      title: weblinkData.title,
-      description: weblinkData.description,
-      image: weblinkData.image,
-      id: nanoid(7),
-      url,
-      pinned: false,
-    });
-
-    const savedWeblink = await newWeblink.save();
-
-    revalidatePath('/weblink', 'page');
-
-    const parsedResponse = JSON.parse(JSON.stringify(savedWeblink));
-
     return parsedResponse;
   } catch (error) {
     throw error;

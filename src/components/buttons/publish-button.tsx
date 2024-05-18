@@ -1,10 +1,10 @@
-import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import { updatePublishedStatus } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import { useRouter } from 'next/navigation';
 import { cn } from '../../lib/utils';
-import { BookCheck, MoreHorizontal, BookDashed } from 'lucide-react';
+import { BookCheck, BookDashed } from 'lucide-react';
+import { useAuth } from '@clerk/nextjs';
 
 export default function PublishButton({
   cloudNote,
@@ -13,13 +13,13 @@ export default function PublishButton({
   cloudNote: Note;
   className?: string;
 }) {
-  const session = useSession();
   const router = useRouter();
+  const { userId } = useAuth();
 
   const handleUpdatePublishedStatus = async () => {
-    if (cloudNote) {
+    if (cloudNote && userId) {
       try {
-        await updatePublishedStatus(session.data?.user.id, cloudNote.id);
+        await updatePublishedStatus(userId, cloudNote.id);
         router.refresh();
         toast.success(
           cloudNote.published
