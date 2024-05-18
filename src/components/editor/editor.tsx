@@ -84,7 +84,7 @@ export default function Editor({
 
       loadNote();
     }
-  }, [noteId, editor]);
+  }, [noteId, editor, note]);
 
   // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
@@ -93,6 +93,10 @@ export default function Editor({
       await saveCloudNote(userId, noteId, title, content);
     } else {
       await handleIndexedDBSave(noteId, title, content);
+    }
+
+    if (notes && !notes.some((note) => note.id === noteId)) {
+      window.location.reload;
     }
   }, 1000);
 

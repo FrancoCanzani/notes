@@ -95,7 +95,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                       <Link
                         href={`/notes/${note.id}`}
                         title={note.title}
-                        className='truncate max-w-44 pr-2'
+                        className='truncate max-w-52 pr-2'
                       >
                         {note.title}
                       </Link>
@@ -117,7 +117,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                       <Link
                         href={`/notes/${note.id}`}
                         title={note.title}
-                        className='truncate max-w-44 pr-2'
+                        className='truncate max-w-64 pr-2'
                       >
                         {note.title}
                       </Link>
