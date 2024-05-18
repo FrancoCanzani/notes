@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
+import { useAuth } from '@clerk/nextjs';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
@@ -27,7 +28,6 @@ import {
   BackpackIcon,
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
-import { useAuth } from '@clerk/nextjs';
 
 export default function NavDrawer({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();

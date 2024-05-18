@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
+import { useAuth } from '@clerk/nextjs';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
 import { nanoid } from 'nanoid';
 import { ScrollArea } from './ui/scroll-area';
+import { DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import {
   FileIcon,
   PlusIcon,
@@ -20,15 +22,21 @@ import {
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
 import useFullScreen from '../lib/hooks/use-full-screen';
-import { useAuth } from '@clerk/nextjs';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
   const newNoteId = nanoid(7);
   const isFullScreen = useFullScreen();
-  const { isSignedIn, userId } = useAuth();
-  const filteredNotes = notes
-    ? notes.filter((note: Note) => note.status === 'active')
+
+  const pinnedNotes = notes
+    ? notes.filter((note: Note) => note.pinned === true)
+    : [];
+
+  const activeNotes = notes
+    ? notes.filter(
+        (note: Note) => note.status === 'active' && note.pinned != true
+      )
     : [];
 
   function toggleFullScreen() {
@@ -55,7 +63,32 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
         </div>
         <div>
           <ScrollArea className='h-[300px]'>
-            {filteredNotes.map((note) => (
+            {pinnedNotes.map((note) => (
+              <div
+                key={note._id}
+                className={cn(
+                  'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
+                  pathname.includes(note.id) && 'opacity-100'
+                )}
+              >
+                <div className='flex items-center w-auto justify-start gap-x-2'>
+                  <DrawingPinFilledIcon className='group-hover:hidden' />
+                  <ChevronRightIcon className='group-hover:block hidden' />
+                  <Link
+                    href={`/notes/${note.id}`}
+                    title={note.title}
+                    className='truncate max-w-44 pr-2'
+                  >
+                    {note.title}
+                  </Link>
+                </div>
+                <SidebarNoteOptions
+                  note={note}
+                  className='group-hover:visible invisible'
+                />
+              </div>
+            ))}
+            {activeNotes.map((note) => (
               <div
                 key={note._id}
                 className={cn(
