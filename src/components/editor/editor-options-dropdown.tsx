@@ -41,21 +41,6 @@ export default function EditorOptionsDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='bg-white'>
         <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-          <PublishButton
-            cloudNote={note}
-            className='flex items-center justify-start gap-x-2'
-          />
-        </DropdownMenuItem>
-        {note.published && (
-          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-            <NavigatorShareButton
-              className='flex items-center justify-start gap-x-2'
-              publicationUrl={`notes-franco.vercel.app/notes/published/${note.id}`}
-            />
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuSeparator className='bg-gray-100 my-0.5' />
-        <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
           <button
             onClick={handleExport}
             className='flex items-center justify-start gap-x-2'

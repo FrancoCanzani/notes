@@ -44,7 +44,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang='en' dir='ltr'>
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} [scrollbar-gutter: stable]`}>
         <ClerkProvider>
           <main className='min-h-screen'>{children}</main>
           {process.env.DEV_ENVIRONMENT === 'development' && (

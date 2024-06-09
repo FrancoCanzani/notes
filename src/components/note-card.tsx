@@ -107,17 +107,21 @@ export default function NoteCard({
   return (
     <div
       className={cn(
-        'rounded-md p-2 bg-white hover:shadow border transition-all duration-150 w-full truncate sm:w-48 md:w-56 lg:w-64 flex flex-col h-52 sm:h-60'
+        'border box-border w-full h-64 overflow-y-scroll no-scrollbar inline text-[rgb(132,130,129)] transition-all duration-100 ease-[ease] delay-0 m-0 pt-4 pb-5 px-4 rounded-md border-solid border-[rgb(237,237,237)] hover:[--color-primary:#343433] hover:[--color-text:#343433] hover:[--color-border:#E8E8E8] hover:bg-neutral-50 hover:shadow-[rgba(0,0,0,0.03)_0px_2px_6px]'
       )}
     >
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center mb-4 justify-between'>
         <h3
-          className={cn('font-medium rounded-t-lg truncate text-xs pr-2')}
+          className={cn('font-medium rounded-t-lg truncate text-sm pr-2')}
           title={note.title}
         >
           {note.title}
         </h3>
         <div className='flex items-center justify-end gap-x-0.5'>
+          <span className='text-xs text-gray-600 flex items-center justify-start gap-x-1'>
+            <FileClock size={14} />
+            {formatDistanceToNowStrict(note.lastSaved)}
+          </span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -138,20 +142,6 @@ export default function NoteCard({
                   Edit
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-                <PublishButton
-                  cloudNote={note}
-                  className='flex items-center justify-start gap-x-2'
-                />
-              </DropdownMenuItem>
-              {note.published && (
-                <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-                  <NavigatorShareButton
-                    className='flex items-center justify-start gap-x-2'
-                    publicationUrl={`notes-franco.vercel.app/notes/published/${note.id}`}
-                  />
-                </DropdownMenuItem>
-              )}
               <DropdownMenuItem
                 onClick={() => handleChangeStatus()}
                 className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
@@ -205,20 +195,6 @@ export default function NoteCard({
         content={note.content}
         className='block text-gray-600 overflow-y-auto no-scrollbar my-1 pb-1 text-xs outline-none grow'
       />
-      <div className='inline-flex py-1 justify-between'>
-        <span className='text-xs text-gray-600 flex items-center justify-start gap-x-1'>
-          <FileClock size={14} />
-          {formatDistanceToNowStrict(note.lastSaved)}
-        </span>
-        {userId && (
-          <LabelInput
-            note={note}
-            localNotes={localNotes}
-            setLocalNotes={setLocalNotes}
-            userId={userId}
-          />
-        )}
-      </div>
     </div>
   );
 }

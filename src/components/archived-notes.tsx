@@ -59,7 +59,7 @@ export default function ArchivedNotes({ cloudNotes }: { cloudNotes?: Note[] }) {
           <h2>Archived notes</h2>
         </div>
       </div>
-      <div className='flex items-start justify-start flex-wrap pb-5 px-5 pt-3 gap-3 w-full'>
+      <div className='grid grid-cols-1 md:grid-cols-2 pb-5 px-5 pt-3 gap-3 w-full'>
         {archivedNotes.map((note) => (
           <NoteCard
             note={note}

@@ -114,20 +114,6 @@ export default function SidebarNoteOptions({
               Edit Note
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-            <PublishButton
-              cloudNote={note}
-              className='flex items-center justify-start w-full gap-x-2'
-            />
-          </DropdownMenuItem>
-          {note.published && (
-            <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-              <NavigatorShareButton
-                className='flex items-center justify-start gap-x-2'
-                publicationUrl={`notes-franco.vercel.app/notes/published/${note.id}`}
-              />
-            </DropdownMenuItem>
-          )}
           <DropdownMenuItem
             onClick={() => handleChangeStatus()}
             className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
