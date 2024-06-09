@@ -9,10 +9,10 @@ import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
 import { nanoid } from 'nanoid';
 import { ScrollArea } from './ui/scroll-area';
-import { DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import {
+  PlusCircledIcon,
   FileIcon,
-  PlusIcon,
+  DrawingPinFilledIcon,
   ChevronRightIcon,
   GitHubLogoIcon,
   Pencil2Icon,
@@ -123,7 +123,17 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
             )}
           >
             <BackpackIcon />
-            Archived
+            Archived Notes
+          </Link>
+          <Link
+            href={'/todos'}
+            className={cn(
+              'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
+              pathname.includes('todos') && 'opacity-100'
+            )}
+          >
+            <PlusCircledIcon />
+            Todos
           </Link>
         </div>
       </div>

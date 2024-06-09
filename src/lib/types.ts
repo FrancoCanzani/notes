@@ -31,3 +31,13 @@ export interface Weblink {
     color: string;
   };
 }
+
+export interface Todo {
+  id: string;
+  title: string;
+  created: Date;
+  dueDate?: Date;
+  userId: string;
+  pinned: boolean;
+  completed: boolean;
+}
