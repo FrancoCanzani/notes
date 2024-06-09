@@ -17,6 +17,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      textColor: {
+        opaque: 'rgb(132,130,129)',
+      },
       colors: {
         materialBlue: {
           100: '#f2f6fc',
