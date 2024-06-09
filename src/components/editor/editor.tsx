@@ -19,6 +19,7 @@ import SpeechToText from './speech-recognition';
 import MenuBar from './menu-bar';
 import isMobile from '../../lib/helpers/is-mobile';
 import { useAuth } from '@clerk/nextjs';
+import { CircleDashed } from 'lucide-react';
 
 export default function Editor({
   noteId,
@@ -100,7 +101,12 @@ export default function Editor({
     }
   }, 1000);
 
-  if (!editor) return null;
+  if (!editor)
+    return (
+      <div className='grow m-auto min-h-screen container flex items-center justify-center'>
+        <CircleDashed className='animate-spin' size={36} />
+      </div>
+    );
 
   const handleTitleChange = (input: string) => {
     setTitle(input);

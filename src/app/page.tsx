@@ -27,7 +27,7 @@ export default function Page() {
           </Link>
         </div>
       </div>
-      <Separator className='bg-gray-200 max-w-3xl px-6' />
+      <Separator className='bg-gray-200 max-w-4xl px-6' />
       <div className='flex flex-col max-w-3xl items-start justify-center space-y-4 py-8 px-11 md:px-8'>
         <a
           href='https://github.com/FrancoCanzani/notes'
@@ -36,7 +36,7 @@ export default function Page() {
         >
           Open Source
         </a>
-        <p className='text-balance text-base max-w-3xl sm:text-sm md:text-base'>
+        <p className='text-balance text-base w-full sm:text-sm md:text-base'>
           QuickNotes is fully open-source, ensuring complete transparency and
           trust. You can review, contribute to, and customize the code to fit
           your needs. Your feedback and contributions help shape the future of
