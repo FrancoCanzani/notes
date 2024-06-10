@@ -17,6 +17,7 @@ const todoSchema = new Schema({
   },
   dueDate: {
     type: Date,
+    default: Date.now,
   },
   userId: {
     type: String,
@@ -30,6 +31,9 @@ const todoSchema = new Schema({
   completed: {
     type: Boolean,
     default: false,
+  },
+  notes: {
+    type: String,
   },
 });
 

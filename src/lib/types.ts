@@ -36,8 +36,9 @@ export interface Todo {
   id: string;
   title: string;
   created: Date;
-  dueDate?: Date;
+  dueDate: Date;
   userId: string;
   pinned: boolean;
   completed: boolean;
+  notes: string;
 }

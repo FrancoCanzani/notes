@@ -255,3 +255,30 @@ export async function deleteTodo(userId: string, todoId: string) {
     throw error;
   }
 }
+
+export async function updateTodoNotes(
+  userId: string,
+  todoId: string,
+  notes: string
+) {
+  if (!userId) {
+    throw new Error('Missing user id for updateTodoNotes');
+  }
+
+  try {
+    await connectToDatabase();
+
+    const todo = await Todo.findOne({ id: todoId });
+
+    if (!todo) {
+      throw new Error(`Todo with id ${todoId} not found`);
+    }
+
+    todo.notes = notes;
+
+    await todo.save();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
