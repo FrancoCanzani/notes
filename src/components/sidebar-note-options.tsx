@@ -18,8 +18,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import PublishButton from './buttons/publish-button';
-import { NavigatorShareButton } from './buttons/navigator-share-button';
 import {
   Trash2,
   FilePenLine,
@@ -40,6 +38,7 @@ import {
 } from '../lib/actions';
 import { useAuth } from '@clerk/nextjs';
 import { cn } from '../lib/utils';
+import { usePathname } from 'next/dist/client/components/navigation';
 
 export default function SidebarNoteOptions({
   note,
@@ -49,6 +48,8 @@ export default function SidebarNoteOptions({
   className?: string;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
+
   const { userId } = useAuth();
 
   if (!userId) return;
@@ -56,6 +57,8 @@ export default function SidebarNoteOptions({
   const handleDeleteNote = async () => {
     try {
       await deleteCloudNote(userId, note.id);
+      // redirect if the deleted note is the one in view
+      if (pathname.includes(note.id)) router.replace('/');
       toast.success(`Deleted: ${note.title}`);
       router.refresh();
     } catch (error) {

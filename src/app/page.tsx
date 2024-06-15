@@ -99,7 +99,6 @@ export default function Page() {
       description:
         "Keep track of your tasks effortlessly with our integrated Todo's Section.",
     },
-
     {
       svg: (
         <svg

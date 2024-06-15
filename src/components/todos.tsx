@@ -3,12 +3,6 @@
 import { useState } from 'react';
 import * as chrono from 'chrono-node';
 import { cn } from '../lib/utils';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from './ui/tooltip';
 import { formatDistanceToNow } from 'date-fns';
 import {
   deleteTodo,
@@ -27,41 +21,9 @@ import {
   ClockIcon,
 } from '@radix-ui/react-icons';
 
-// Custom useOptimistic Hook
-function useOptimistic<T>(
-  initialState: T,
-  reducer: (state: T, action: any) => T
-) {
-  const [state, setState] = useState(initialState);
-
-  const dispatch = (action: any) => {
-    setState((prevState) => reducer(prevState, action));
-  };
-
-  return [state, dispatch] as const;
-}
-
 export default function Todos({ todos }: { todos: Todo[] }) {
   const [newTodo, setNewTodo] = useState('');
   const { userId } = useAuth();
-
-  const [optimisticTodos, dispatch] = useOptimistic<Todo[]>(
-    todos || [],
-    (state: Todo[], action: { type: string; data: Todo }) => {
-      switch (action.type) {
-        case 'ADD':
-          return [...state, action.data];
-        case 'EDIT':
-          return state.map((todo) =>
-            todo.id === action.data.id ? action.data : todo
-          );
-        case 'DELETE':
-          return state.filter((todo) => todo.id !== action.data.id);
-        default:
-          return state;
-      }
-    }
-  );
 
   const handleAddTodo = async () => {
     if (userId && newTodo.trim() !== '') {
@@ -81,8 +43,6 @@ export default function Todos({ todos }: { todos: Todo[] }) {
           notes: '',
         };
 
-        dispatch({ type: 'ADD', data: newTodoItem });
-
         await saveTodo(userId, description.trim(), todoDate ?? new Date());
         setNewTodo('');
       } catch {
@@ -93,35 +53,21 @@ export default function Todos({ todos }: { todos: Todo[] }) {
 
   const handleUpdateCompleted = async (id: string) => {
     if (userId) {
-      const currentTodo = optimisticTodos.find((todo) => todo.id === id);
-      if (currentTodo) {
-        const updatedTodo = {
-          ...currentTodo,
-          completed: !currentTodo.completed,
-        };
-        dispatch({ type: 'EDIT', data: updatedTodo });
-
-        try {
-          await updateCompleted(userId, id);
-        } catch {
-          toast.error('Error updating todo');
-        }
+      try {
+        await updateCompleted(userId, id);
+      } catch {
+        toast.error('Error updating todo');
       }
     }
   };
 
   const handleDeleteTodo = async (id: string) => {
     if (userId) {
-      const currentTodo = optimisticTodos.find((todo) => todo.id === id);
-      if (currentTodo) {
-        dispatch({ type: 'DELETE', data: currentTodo });
-
-        try {
-          await deleteTodo(userId, id);
-          toast.success('Deleted todo');
-        } catch {
-          toast.error('Error deleting todo');
-        }
+      try {
+        await deleteTodo(userId, id);
+        toast.success('Deleted todo');
+      } catch {
+        toast.error('Error deleting todo');
       }
     }
   };
@@ -152,8 +98,8 @@ export default function Todos({ todos }: { todos: Todo[] }) {
         </form>
       </div>
       <ul className='space-y-2 w-full'>
-        {optimisticTodos.length > 0 ? (
-          optimisticTodos.map((todo) => (
+        {todos.length > 0 ? (
+          todos.map((todo) => (
             <li
               key={todo.id}
               className={`border box-border w-full flex items-center flex-col justify-start gap-x-4 no-scrollbar transition-all duration-100 ease-[ease] p-2 md:p-4 text-sm md:text-base rounded-md border-solid border-[rgb(237,237,237)] hover:[--color-border:#E8E8E8] hover:bg-neutral-50 hover:shadow-[rgba(0,0,0,0.03)_0px_2px_6px]`}
@@ -161,7 +107,7 @@ export default function Todos({ todos }: { todos: Todo[] }) {
               <details className='w-full cursor-pointer space-y-3'>
                 <summary className='flex w-full items-center justify-between space-x-1'>
                   <div
-                    className={cn(`flex items-center justify-start w-10/12 space-x-2,
+                    className={cn(`flex items-center max-w-[55%] md:max-w-[75%] justify-start space-x-2,
               ${todo.completed && 'line-through text-opaque'}`)}
                   >
                     <button
@@ -170,6 +116,9 @@ export default function Todos({ todos }: { todos: Todo[] }) {
                         e.stopPropagation();
                         handleUpdateCompleted(todo.id);
                       }}
+                      title={
+                        todo.completed ? 'Mark as pending' : 'Mark as completed'
+                      }
                       className='p-1 w-fit inline-flex justify-center z-10 hover:text-black rounded'
                     >
                       {todo.completed ? (
@@ -178,40 +127,23 @@ export default function Todos({ todos }: { todos: Todo[] }) {
                         <CheckCircledIcon />
                       )}
                     </button>
-                    <span className='mr-3 max-w-fit truncate pr-4'>
-                      {todo.title}
-                    </span>
+                    <span className='truncate pr-2'>{todo.title}</span>
                   </div>
-                  <div className='flex items-center justify-end space-x-2'>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          className={cn(
-                            '',
-                            new Date(todo.dueDate).getTime() < Date.now() &&
-                              'text-red-600'
-                          )}
-                        >
-                          <ClockIcon />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <div
-                            className={cn(
-                              'capitalize truncate text-opaque',
-                              new Date(todo.dueDate).getTime() < Date.now() &&
-                                'text-red-600'
-                            )}
-                          >
-                            {formatDistanceToNow(todo.dueDate, {
-                              addSuffix: true,
-                            })}
-                          </div>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                  <div className='flex flex-1 items-center justify-end space-x-2'>
+                    <div
+                      className={cn(
+                        'capitalize truncate text-sm text-opaque',
+                        new Date(todo.dueDate).getTime() < Date.now() &&
+                          'text-red-600'
+                      )}
+                    >
+                      {formatDistanceToNow(todo.dueDate, {
+                        addSuffix: true,
+                      })}
+                    </div>
                     <button
                       onClick={() => handleDeleteTodo(todo.id)}
-                      className='text-red-500 font-medium opacity-75 hover:opacity-100 hover:text-red-600'
+                      className='text-red-500 font-medium hover:font-semibold hover:text-red-600'
                     >
                       <TrashIcon />
                     </button>
@@ -234,10 +166,6 @@ export default function Todos({ todos }: { todos: Todo[] }) {
                       if (userId) {
                         try {
                           const updatedNotes = e.target.value;
-                          dispatch({
-                            type: 'EDIT',
-                            data: { ...todo, notes: updatedNotes },
-                          });
                           await updateTodoNotes(userId, todo.id, updatedNotes);
                         } catch {
                           toast.error(`Erro updating todo ${todo.title} notes`);

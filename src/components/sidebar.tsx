@@ -19,6 +19,7 @@ import {
   BackpackIcon,
   ExitFullScreenIcon,
   EnterFullScreenIcon,
+  CrumpledPaperIcon,
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
 import useFullScreen from '../lib/hooks/use-full-screen';
@@ -51,7 +52,10 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
     <div className='bg-stone-100 flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
       <div className='space-y-6'>
         <div className='flex items-center justify-between'>
-          <h1 className='font-semibold p-1.5'>QuickNotes</h1>
+          <div className='flex items-center py-1.5 space-x-1'>
+            <CrumpledPaperIcon className='h-4 w-4 text-neutral-600' />
+            <h1 className='font-bold'>QuickNotes</h1>
+          </div>
           <Link
             aria-label='new note'
             title='New note'

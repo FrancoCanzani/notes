@@ -19,8 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import PublishButton from './buttons/publish-button';
-import { NavigatorShareButton } from './buttons/navigator-share-button';
 import {
   Trash2,
   FilePenLine,
@@ -133,15 +131,6 @@ export default function NoteCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='bg-white text-xs'>
-              <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
-                <Link
-                  href={`/notes/${note.id}`}
-                  className='w-full cursor-pointer flex items-center justify-start gap-x-2'
-                >
-                  <FilePenLine size={13} />
-                  Edit
-                </Link>
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleChangeStatus()}
                 className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
