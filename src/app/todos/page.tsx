@@ -4,6 +4,7 @@ import getCloudNotes from '../../lib/helpers/get-cloud-notes';
 import { Note, Todo } from '../../lib/types';
 import Todos from '../../components/todos';
 import getTodos from '../../lib/helpers/get-todos';
+import TodosNavbar from '../../components/todos-navbar';
 
 export default async function Page() {
   const { userId } = auth();
@@ -15,17 +16,27 @@ export default async function Page() {
     const parsedTodos: Todo[] = JSON.parse(JSON.stringify(todos));
 
     return (
-      <div className='min-h-screen w-full overflow-x-hidden'>
-        <div className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
-          <div className='flex items-center justify-start gap-x-3'>
+      <div className='min-h-screen flex flex-col lg:flex-row w-full overflow-x-hidden'>
+        <div className='bg-neutral-50 flex-1 flex flex-col h-full'>
+          <div className='flex px-5 pt-4 items-center justify-start gap-x-3'>
             <NavDrawer notes={parsedNotes} />
-            <h2>Todos</h2>
+            <h2 className='font-medium text-xl capitalize'>Calendar</h2>
+          </div>
+          <div className='flex-1 overflow-auto'>
+            <TodosNavbar todos={parsedTodos} />
           </div>
         </div>
-        <div className='pb-5 px-5 pt-3 gap-3 w-full'>
-          <Todos todos={parsedTodos} />
+        <div className='flex-1 flex flex-col h-full'>
+          <h2 className='flex items-center justify-between px-5 pt-4 font-medium text-xl capitalize'>
+            Todos
+          </h2>
+          <div className='p-5 flex-1 pt-3 gap-3 w-full overflow-auto'>
+            <Todos todos={parsedTodos} />
+          </div>
         </div>
       </div>
     );
   }
+
+  return null;
 }

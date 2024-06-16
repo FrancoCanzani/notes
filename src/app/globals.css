@@ -6,6 +6,14 @@ textarea {
   field-sizing: content;
 }
 
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
 .tiptap {
   > * + * {
     margin-top: 0.2em;

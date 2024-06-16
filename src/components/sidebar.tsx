@@ -49,10 +49,10 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
   }
 
   return (
-    <div className='bg-stone-100 flex flex-col justify-between w-full h-[calc(100vh)] px-5 py-4'>
+    <div className='bg-stone-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
       <div className='space-y-6'>
         <div className='flex items-center justify-between'>
-          <div className='flex items-center py-1.5 space-x-1'>
+          <div className='flex items-center space-x-2'>
             <CrumpledPaperIcon className='h-4 w-4 text-neutral-600' />
             <h1 className='font-bold'>QuickNotes</h1>
           </div>
