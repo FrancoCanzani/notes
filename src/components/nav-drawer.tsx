@@ -24,7 +24,6 @@ import {
   Pencil2Icon,
   ChevronRightIcon,
   GitHubLogoIcon,
-  PlusCircledIcon,
   BackpackIcon,
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
@@ -135,16 +134,6 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                 >
                   <BackpackIcon />
                   Archived Notes
-                </Link>
-                <Link
-                  href={'/todos'}
-                  className={cn(
-                    'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
-                    pathname.includes('todos') && 'opacity-100'
-                  )}
-                >
-                  <PlusCircledIcon />
-                  Todos
                 </Link>
               </div>
             </div>
