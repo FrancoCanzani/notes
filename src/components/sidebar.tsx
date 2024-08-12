@@ -7,7 +7,6 @@ import { useAuth } from '@clerk/nextjs';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
-import { nanoid } from 'nanoid';
 import { ScrollArea } from './ui/scroll-area';
 import {
   FileIcon,
@@ -19,10 +18,9 @@ import { useState } from 'react';
 import NewNoteForm from './new-note-form';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
-  const [isNewNote, setIsNewNote] = useState(false)
+  const [isNewNote, setIsNewNote] = useState(false);
   const pathname = usePathname();
   const { isSignedIn } = useAuth();
-  const newNoteId = nanoid(7);
 
   const pinnedNotes = notes
     ? notes.filter((note: Note) => note.pinned === true)
@@ -37,18 +35,18 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
   return (
     <div className='bg-stone-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
       <div className='space-y-6'>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center space-x-2'>
+        <div className='flex flex-col space-y-2 w-full items-center justify-between'>
+          <div className='flex w-full justify-between items-center space-x-2'>
             <h1 className='font-bold'>Notes</h1>
+            <button
+              className='rounded-md hover:bg-stone-200 p-1.5 text-sm font-medium'
+              onClick={() => setIsNewNote(!isNewNote)}
+            >
+              {isNewNote ? 'Close' : 'New'}
+            </button>
           </div>
-          <button
-            className='rounded-md hover:bg-stone-200 p-1.5 text-sm fotn-medium'
-            onClick={() => setIsNewNote(!isNewNote)}
-          >
-            {isNewNote ? 'Close' : 'New'}
-          </button>
+          {isNewNote && <NewNoteForm />}
         </div>
-        {isNewNote && <NewNoteForm isNewNote={isNewNote}/>}
         <div>
           <ScrollArea className='h-max'>
             {pinnedNotes.map((note) => (
