@@ -10,20 +10,22 @@ class DatabaseConnectionError extends Error {
   }
 }
 
-export default async function getCloudNotes(userId: string | undefined) {
+export default async function getCloudNotes(userId?: string) {
   try {
-    if (!userId) {
-      return null;
-    }
-
     await connectToDatabase();
-    const notes = await Note.find({ userId: userId });
 
-    if (!notes) {
-      throw new Error('No notes found for the user');
+    if (!userId) {
+      const allNotes = await Note.find({});
+      return allNotes;
+    } else {
+      const userNotes = await Note.find({ userId: userId });
+
+      if (!userNotes || userNotes.length === 0) {
+        return [];
+      }
+
+      return userNotes;
     }
-
-    return notes;
   } catch (error: unknown) {
     if (error instanceof DatabaseConnectionError) {
       throw new Error('Unable to connect to the database');
