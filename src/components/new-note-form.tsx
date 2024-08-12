@@ -12,22 +12,27 @@ export default function NewNoteForm({isNewNote}:{isNewNote: boolean}) {
     const noteId = nanoid(7)
     const router = useRouter()
 
-    async function handleSubmit() {
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
         if(userId) {
-            const note = await saveNote(userId, noteId, title, '')
-            toast.promise(note, {
-                loading: 'Saving note...',
-                success: (data) => {
-                    router.push(`/notes/${noteId}`)
-                  return `Note has been saved`;
-                },
-                error: toast.error('Error saving note'),
-              });        }
+            toast.promise(
+                saveNote(userId, noteId, title, ''),
+                {
+                    loading: 'Saving note...',
+                    success: (data) => {
+                        router.push(`/notes/${noteId}`);
+                        return `Note has been saved`;
+                    },
+                    error: 'Error saving note',
+                }
+            );
+        }
     }
+
     return(
-        <form action={handleSubmit} className="flex items-center justify-center space-x-2">
+        <form onSubmit={handleSubmit} className="flex items-center justify-center space-x-2">
             <Input placeholder="Title" onChange={(e) => setTitle(e.target.value)}/>
-            <button>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     )
 }
