@@ -8,7 +8,6 @@ const noteSchema = new Schema({
   },
   content: {
     type: String,
-    required: true,
   },
   id: {
     type: String,
