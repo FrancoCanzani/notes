@@ -124,17 +124,6 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                     <SidebarNoteOptions note={note} />
                   </div>
                 ))}
-                <hr className='my-2' />
-                <Link
-                  href={'/notes/archived'}
-                  className={cn(
-                    'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
-                    pathname.includes('archive') && 'opacity-100'
-                  )}
-                >
-                  <BackpackIcon />
-                  Archived Notes
-                </Link>
               </div>
             </div>
             <hr className='my-2' />

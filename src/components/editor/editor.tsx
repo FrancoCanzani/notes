@@ -16,7 +16,6 @@ import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
 import SpeechToText from './speech-recognition';
-import MenuBar from './menu-bar';
 import isMobile from '../../lib/helpers/is-mobile';
 import { useAuth } from '@clerk/nextjs';
 import { CircleDashed } from 'lucide-react';
@@ -32,7 +31,6 @@ export default function Editor({
 }) {
   const [title, setTitle] = useState('');
   const { userId } = useAuth();
-  const usesMobile = isMobile();
 
   const editor = useEditor({
     editorProps: { ...defaultEditorProps },
@@ -74,11 +72,17 @@ export default function Editor({
           if (note) {
             const { title: storedTitle, content } = note;
             setTitle(storedTitle);
-            editor?.commands.setContent(JSON.parse(content));
+            if (content) {
+              editor?.commands.setContent(JSON.parse(content));
+            } else {
+              editor?.commands.setContent('');
+            }
           } else {
             setTitle(`New note - ${noteId}`);
+            editor?.commands.setContent('');
           }
         } catch (error) {
+          console.error('Error loading note:', error);
           toast.error('Error loading note.');
         }
       };
@@ -87,17 +91,16 @@ export default function Editor({
     }
   }, [noteId, editor, note]);
 
-  // Debounce the editor updates every second
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
-    const content = JSON.stringify(editor.getJSON());
+    const content = editor.getJSON();
     if (userId) {
-      await saveNote(userId, noteId, title, content);
+      await saveNote(userId, noteId, title, JSON.stringify(content));
     } else {
-      await handleIndexedDBSave(noteId, title, content);
+      await handleIndexedDBSave(noteId, title, JSON.stringify(content));
     }
 
     if (notes && !notes.some((note) => note.id === noteId)) {
-      window.location.reload;
+      window.location.reload();
     }
   }, 1000);
 
@@ -146,17 +149,14 @@ export default function Editor({
               onChange={(e) => handleTitleChange(e.target.value)}
               value={title}
               autoFocus
-              className='font-medium text-xl outline-none pb-4'
+              className='font-medium text-xl w-full outline-none pb-4'
             />
-            {!usesMobile && <BubbleMenu editor={editor} />}
+            <BubbleMenu editor={editor} />
             <EditorContent
               editor={editor}
               className='grow rounded-b-md w-full max-w-screen-lg m-auto'
             />
           </div>
-          {usesMobile && editor.isFocused && (
-            <MenuBar editor={editor} className='w-full px-2 py-2' />
-          )}
         </div>
       </div>
     </div>

@@ -18,13 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {
-  Trash2,
-  FilePenLine,
-  Archive,
-  ArchiveRestore,
-  MoreHorizontal,
-} from 'lucide-react';
+import { Trash2, FilePenLine, MoreHorizontal } from 'lucide-react';
 import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
 import Link from 'next/link';
@@ -76,22 +70,6 @@ export default function SidebarNoteOptions({
     }
   };
 
-  const handleChangeStatus = async () => {
-    let newStatus: 'active' | 'archived' = 'active';
-
-    try {
-      newStatus = note.status === 'active' ? 'archived' : 'active';
-      await updateNoteStatus(userId, note.id, newStatus);
-
-      toast.success(
-        `${newStatus === 'archived' ? 'Archived' : 'Restored'}: ${note.title}`
-      );
-      router.refresh();
-    } catch (error) {
-      toast.error(`Failed to change status: ${note.title}`);
-    }
-  };
-
   return (
     <div className='flex items-center justify-end gap-x-0.5'>
       <DropdownMenu>
@@ -116,18 +94,6 @@ export default function SidebarNoteOptions({
               <FilePenLine size={13} />
               Edit Note
             </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => handleChangeStatus()}
-            className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
-          >
-            {note.status === 'active' ? (
-              <Archive size={13} />
-            ) : (
-              <ArchiveRestore size={13} />
-            )}
-
-            {note.status === 'active' ? 'Archive Note' : 'Restore Note'}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handlePinNote()}
