@@ -9,7 +9,7 @@ import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
 import { toast } from 'sonner';
 import { EditorContent, useEditor } from '@tiptap/react';
 import EditorOptionsDropdown from './editor-options-dropdown';
-import { formatDistanceToNowStrict } from 'date-fns';
+import { formatRelative, subDays } from 'date-fns';
 import BubbleMenu from './bubble-menu';
 import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
@@ -114,7 +114,6 @@ export default function Editor({
     setTitle(input);
     if (!editor) return;
 
-    // Check if the input is not empty before triggering the debounced update
     if (input.trim().length > 0) {
       debouncedUpdates(editor);
     }
@@ -133,9 +132,9 @@ export default function Editor({
               <AiMenu editor={editor} />
               {note && (
                 <>
-                  <p className='text-gray-400 block text-sm'>
-                    Edited {formatDistanceToNowStrict(note?.lastSaved)} ago
-                  </p>
+                  <span className='text-gray-400 capitalize block text-sm'>
+                    {formatRelative(new Date(note?.lastSaved), new Date())}
+                  </span>
                   <EditorOptionsDropdown note={note} editor={editor} />
                 </>
               )}
