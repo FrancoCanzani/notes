@@ -16,9 +16,8 @@ import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
 import SpeechToText from './speech-recognition';
-import isMobile from '../../lib/helpers/is-mobile';
 import { useAuth } from '@clerk/nextjs';
-import { CircleDashed } from 'lucide-react';
+import { Loader } from 'lucide-react';
 
 export default function Editor({
   noteId,
@@ -107,7 +106,7 @@ export default function Editor({
   if (!editor)
     return (
       <div className='grow m-auto min-h-screen container flex items-center justify-center'>
-        <CircleDashed className='animate-spin' size={36} />
+        <Loader className='animate-spin text-gray-400' size={26} />
       </div>
     );
 
