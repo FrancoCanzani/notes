@@ -13,21 +13,16 @@ import {
   FileIcon,
   DrawingPinFilledIcon,
   ChevronRightIcon,
-  GitHubLogoIcon,
-  Pencil2Icon,
-  BackpackIcon,
-  ExitFullScreenIcon,
-  EnterFullScreenIcon,
-  CrumpledPaperIcon,
 } from '@radix-ui/react-icons';
 import SidebarNoteOptions from './sidebar-note-options';
-import useFullScreen from '../lib/hooks/use-full-screen';
+import { useState } from 'react';
+import NewNoteForm from './new-note-form';
 
 export default function Sidebar({ notes }: { notes?: Note[] }) {
+  const [isNewNote, setIsNewNote] = useState(false)
   const pathname = usePathname();
   const { isSignedIn } = useAuth();
   const newNoteId = nanoid(7);
-  const isFullScreen = useFullScreen();
 
   const pinnedNotes = notes
     ? notes.filter((note: Note) => note.pinned === true)
@@ -39,38 +34,28 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
       )
     : [];
 
-  function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  }
-
   return (
     <div className='bg-stone-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
       <div className='space-y-6'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center space-x-2'>
-            <CrumpledPaperIcon className='h-4 w-4 text-neutral-600' />
-            <h1 className='font-bold'>QuickNotes</h1>
+            <h1 className='font-bold'>Notes</h1>
           </div>
-          <Link
-            aria-label='new note'
-            title='New note'
-            href={`/notes/${newNoteId}`}
-            className='rounded-md hover:bg-stone-200 p-1.5'
+          <button
+            className='rounded-md hover:bg-stone-200 p-1.5 text-sm fotn-medium'
+            onClick={() => setIsNewNote(!isNewNote)}
           >
-            <Pencil2Icon className='font-semibold' />
-          </Link>
+            {isNewNote ? 'Close' : 'New'}
+          </button>
         </div>
+        {isNewNote && <NewNoteForm isNewNote={isNewNote}/>}
         <div>
-          <ScrollArea className='h-[340px]'>
+          <ScrollArea className='h-max'>
             {pinnedNotes.map((note) => (
               <div
                 key={note._id}
                 className={cn(
-                  'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
+                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
                   pathname.includes(note.id) && 'opacity-100'
                 )}
               >
@@ -95,7 +80,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
               <div
                 key={note._id}
                 className={cn(
-                  'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
+                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
                   pathname.includes(note.id) && 'opacity-100'
                 )}
               >
@@ -117,41 +102,13 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
               </div>
             ))}
           </ScrollArea>
-          <hr className='my-2' />
-          <Link
-            href={'/notes/archived'}
-            className={cn(
-              'px-2 py-1.5 opacity-75 font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100',
-              pathname.includes('archive') && 'opacity-100'
-            )}
-          >
-            <BackpackIcon />
-            Archived Notes
-          </Link>
         </div>
       </div>
       <div className='space-y-2'>
         <InstallPWA />
-        <a
-          href='https://github.com/FrancoCanzani/notes'
-          target='_blank'
-          className={cn(
-            'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center hover:bg-stone-50 justify-start gap-x-2 w-full hover:opacity-100'
-          )}
-        >
-          <GitHubLogoIcon />
-          Contribute
-        </a>
         {isSignedIn ? (
           <div className='inline-flex justify-between w-full'>
             <UserSettingsModal />
-            <button
-              onClick={toggleFullScreen}
-              className='rounded-md hover:bg-stone-200 p-1.5'
-              title={isFullScreen ? 'Exit full screen' : 'Enter full screen'}
-            >
-              {isFullScreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
-            </button>
           </div>
         ) : (
           <Link

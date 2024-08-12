@@ -3,7 +3,7 @@
 import { extensions } from '../../lib/extensions';
 import { useEffect, useState, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { saveCloudNote } from '../../lib/actions';
+import { saveNote } from '../../lib/actions';
 import { Note } from '../../lib/types';
 import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
 import { toast } from 'sonner';
@@ -91,7 +91,7 @@ export default function Editor({
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
     const content = JSON.stringify(editor.getJSON());
     if (userId) {
-      await saveCloudNote(userId, noteId, title, content);
+      await saveNote(userId, noteId, title, content);
     } else {
       await handleIndexedDBSave(noteId, title, content);
     }
