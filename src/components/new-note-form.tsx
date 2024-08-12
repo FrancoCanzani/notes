@@ -19,9 +19,10 @@ export default function NewNoteForm({isNewNote}:{isNewNote: boolean}) {
                 saveNote(userId, noteId, title, ''),
                 {
                     loading: 'Saving note...',
-                    success: (data) => {
-                        router.push(`/notes/${noteId}`);
-                        return `Note has been saved`;
+                    success: async (data) => {
+                        toast.success(`Note has been saved`);
+                        await router.push(`/notes/${noteId}`);
+                        return 'Note saved successfully'; // This message won't be displayed due to custom success toast
                     },
                     error: 'Error saving note',
                 }
