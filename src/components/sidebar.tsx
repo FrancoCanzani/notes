@@ -33,13 +33,13 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
     : [];
 
   return (
-    <div className='bg-stone-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
+    <div className='bg-quarter-spanish-white-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
       <div className='space-y-6'>
         <div className='flex flex-col space-y-2 w-full items-center justify-between'>
           <div className='flex w-full justify-between items-center space-x-2'>
             <h1 className='font-bold'>Notes</h1>
             <button
-              className='rounded-md hover:bg-stone-200 p-1.5 text-sm font-medium'
+              className='rounded-md hover:bg-quarter-spanish-white-50 p-1.5 text-sm font-medium'
               onClick={() => setIsNewNote(!isNewNote)}
             >
               {isNewNote ? 'Close' : 'New'}
@@ -53,7 +53,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
               <div
                 key={note._id}
                 className={cn(
-                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
+                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center justify-between hover:opacity-100',
                   pathname.includes(note.id) && 'opacity-100'
                 )}
               >
@@ -78,7 +78,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
               <div
                 key={note._id}
                 className={cn(
-                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center hover:bg-stone-50 justify-between hover:opacity-100',
+                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center justify-between hover:opacity-100',
                   pathname.includes(note.id) && 'opacity-100'
                 )}
               >
@@ -111,7 +111,7 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
         ) : (
           <Link
             href={'/sign-in'}
-            className='p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:bg-gray-100 hover:font-medium transition-all duration-150'
+            className='p-3 text-sm flex items-center justify-start gap-x-4 w-full rounded-md hover:font-medium transition-all duration-150'
           >
             <div className='inline-flex items-center gap-x-4'>
               <svg

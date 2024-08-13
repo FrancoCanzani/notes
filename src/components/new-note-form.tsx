@@ -42,7 +42,7 @@ export default function NewNoteForm() {
   return (
     <form action={handleSubmit} className='w-full'>
       <Input
-        className='w-full'
+        className='w-full bg-quarter-spanish-white-50'
         placeholder='Title (Ctrl+Enter to save)'
         value={title}
         onChange={(e) => setTitle(e.target.value)}

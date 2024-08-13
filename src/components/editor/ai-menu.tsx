@@ -129,10 +129,13 @@ export default function AiMenu({ editor }: { editor: Editor | null }) {
       >
         Ai Actions
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='bg-white text-sm'>
+      <DropdownMenuContent
+        align='end'
+        className='bg-quarter-spanish-white-100 text-sm'
+      >
         {options.map((option) => (
           <DropdownMenuItem
-            className='hover:bg-gray-100 rounded-md w-full text-xs cursor-pointer flex items-center justify-start gap-x-2'
+            className='hover:bg-quarter-spanish-white-200 rounded-md w-full text-xs cursor-pointer flex items-center justify-start gap-x-2'
             onClick={() => {
               handleClick(option.value);
             }}

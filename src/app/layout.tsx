@@ -1,13 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Karla } from 'next/font/google';
 import ShowTailwindBreakpoint from '../components/show-tailwind-breakpoint';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'sonner';
 
-// If loading a variable font, you don't need to specify the font weight
-const inter = Inter({ subsets: ['latin'] });
+const inter = Karla({ subsets: ['latin'] });
 const APP_NAME = 'QuickNotes';
 const APP_DESCRIPTION = 'The fastest way to jot down ideas';
 

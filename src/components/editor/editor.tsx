@@ -122,8 +122,8 @@ export default function Editor({
   return (
     <div className='grow overflow-clip m-auto'>
       <div className='flex flex-col min-h-screen container max-w-screen-xl'>
-        <div className='bg-white flex-grow rounded-md'>
-          <div className='w-full bg-white rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
+        <div className='bg-quarter-spanish-white-50 flex-grow rounded-md'>
+          <div className='w-full bg-quarter-spanish-white-50 rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
             <div className='flex items-center justify-start gap-x-2'>
               <NavDrawer notes={notes} />
             </div>
@@ -147,7 +147,7 @@ export default function Editor({
               onChange={(e) => handleTitleChange(e.target.value)}
               value={title}
               autoFocus
-              className='font-medium text-xl w-full outline-none pb-4'
+              className='font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none pb-4'
             />
             <BubbleMenu editor={editor} />
             <EditorContent

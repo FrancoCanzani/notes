@@ -77,7 +77,7 @@ export default function SidebarNoteOptions({
           <Button
             variant='ghost'
             className={cn(
-              'h-0 w-8 p-0 outline-none hover:bg-gray-100 font-bold rounded-md',
+              'h-0 w-8 p-0 outline-none hover:bg-quarter-spanish-white-100 font-bold rounded-md',
               className
             )}
           >
@@ -85,8 +85,11 @@ export default function SidebarNoteOptions({
             <MoreHorizontal className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='bg-white text-xs'>
-          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full text-xs'>
+        <DropdownMenuContent
+          align='end'
+          className='bg-quarter-spanish-white-50 text-xs'
+        >
+          <DropdownMenuItem className='hover:bg-quarter-spanish-white-100 rounded-md w-full text-xs'>
             <Link
               href={`/notes/${note.id}`}
               className='w-full cursor-pointer flex items-center justify-start gap-x-2'
@@ -97,7 +100,7 @@ export default function SidebarNoteOptions({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handlePinNote()}
-            className='hover:bg-gray-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
+            className='hover:bg-quarter-spanish-white-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
           >
             {note.pinned === true ? (
               <DrawingPinIcon />
@@ -107,7 +110,7 @@ export default function SidebarNoteOptions({
 
             {note.pinned === true ? 'Unpin from Sidebar' : 'Pin to Sidebar'}
           </DropdownMenuItem>
-          <DropdownMenuItem className='hover:bg-gray-100 rounded-md w-full cursor-pointer text-xs'>
+          <DropdownMenuItem className='hover:bg-quarter-spanish-white-100 rounded-md w-full cursor-pointer text-xs'>
             <AlertDialog>
               <AlertDialogTrigger
                 onClick={(e) => e.stopPropagation()}
@@ -138,7 +141,7 @@ export default function SidebarNoteOptions({
               </AlertDialogContent>
             </AlertDialog>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-gray-100 my-0.5' />
+          <DropdownMenuSeparator className='bg-quarter-spanish-white-50 my-0.5' />
           <DropdownMenuItem className='rounded-md w-full text-xs'>
             Edited{' '}
             {new Date(note.lastSaved).toLocaleString(undefined, {

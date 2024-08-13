@@ -21,13 +21,19 @@ module.exports = {
         opaque: 'rgb(132,130,129)',
       },
       colors: {
-        materialBlue: {
-          100: '#f2f6fc',
-          200: '#eaf1fb',
-          300: '#d3e3fd',
+        'quarter-spanish-white': {
+          50: '#fbf7ef',
+          100: '#f6efdf',
+          200: '#e5d1a2',
+          300: '#d7b572',
+          400: '#ce9e51',
+          500: '#c4833c',
+          600: '#ad6732',
+          700: '#904e2d',
+          800: '#763f2a',
+          900: '#623525',
+          950: '#371a11',
         },
-        materialGreen: '#c4eed0',
-        materialYellow: '#FFEDCB',
       },
       animation: {
         shimmer: 'shimmer 2s linear infinite',
