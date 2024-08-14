@@ -1,11 +1,14 @@
-import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 export async function POST(req: Request) {
-  const { prompt }: { prompt: string } = await req.json();
+  const { selectedText, action } = await req.json();
+
+  console.log('Selected Text:', selectedText);
+  console.log('Action:', action);
 
   const result = await streamText({
-    model: openai("gpt-4o"),
+    model: openai('gpt-4o'),
     system: `You are an intelligent text editor assistant. Your role is to help users modify, enhance, or analyze selected text based on specific actions or commands they provide. Always perform the requested action on the exact text provided, unless instructed otherwise. Here are the types of actions you should be prepared to handle:
 
     1. Rewrite: Rephrase the selected text while maintaining its core meaning.
@@ -19,15 +22,10 @@ export async function POST(req: Request) {
     9. Generate: Create new content based on the given text or instructions.
     10. Analyze: Provide insights or analysis about the text (e.g., sentiment, readability, etc.)
     
-    For each request, you will receive:
-    1. The selected text
-    2. The action to perform
-    3. Any additional parameters or instructions
-    
     Respond only with the modified text or the requested analysis. Do not include explanations or additional commentary unless specifically asked. If you need clarification to complete the task, ask for it directly.
     
     Remember, your goal is to assist efficiently and accurately, enhancing the user's writing and editing experience.`,
-    prompt,
+    prompt: `Selected text: "${selectedText}"\nAction: ${action}`,
   });
 
   return result.toDataStreamResponse();
