@@ -18,6 +18,7 @@ import NavDrawer from "../nav-drawer";
 import SpeechToText from "./speech-recognition";
 import { useAuth } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
+import BubbleMenuTest from "./bubble-menu-test";
 
 export default function Editor({
   noteId,
@@ -149,7 +150,7 @@ export default function Editor({
               autoFocus
               className="font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none pb-4"
             />
-            <BubbleMenu editor={editor} />
+            <BubbleMenuTest editor={editor} />
             <EditorContent
               editor={editor}
               className="grow rounded-b-md w-full max-w-screen-lg m-auto"
