@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { extensions } from '../../lib/extensions';
-import { useEffect, useState, useRef } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
-import { saveNote } from '../../lib/actions';
-import { Note } from '../../lib/types';
-import handleIndexedDBSave from '../../lib/helpers/handle-index-db-save.';
-import { toast } from 'sonner';
-import { EditorContent, useEditor } from '@tiptap/react';
-import EditorOptionsDropdown from './editor-options-dropdown';
-import { formatRelative, subDays } from 'date-fns';
-import BubbleMenu from './bubble-menu';
-import AiMenu from './ai-menu';
-import { defaultEditorProps } from '../../lib/editor-props';
-import { useCompletion } from 'ai/react';
-import NavDrawer from '../nav-drawer';
-import SpeechToText from './speech-recognition';
-import { useAuth } from '@clerk/nextjs';
-import { Loader } from 'lucide-react';
+import { extensions } from "../../lib/extensions";
+import { useEffect, useState, useRef } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { saveNote } from "../../lib/actions";
+import { Note } from "../../lib/types";
+import handleIndexedDBSave from "../../lib/helpers/handle-index-db-save.";
+import { toast } from "sonner";
+import { EditorContent, useEditor } from "@tiptap/react";
+import EditorOptionsDropdown from "./editor-options-dropdown";
+import { formatRelative } from "date-fns";
+import BubbleMenu from "./bubble-menu";
+import AiMenu from "./ai-menu";
+import { defaultEditorProps } from "../../lib/editor-props";
+import { useCompletion } from "ai/react";
+import NavDrawer from "../nav-drawer";
+import SpeechToText from "./speech-recognition";
+import { useAuth } from "@clerk/nextjs";
+import { Loader } from "lucide-react";
 
 export default function Editor({
   noteId,
@@ -28,7 +28,7 @@ export default function Editor({
   note?: Note;
   notes?: Note[];
 }) {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const { userId } = useAuth();
 
   const editor = useEditor({
@@ -37,8 +37,8 @@ export default function Editor({
   });
 
   const { completion, isLoading } = useCompletion({
-    id: 'editor',
-    api: '/api/ai',
+    id: "editor",
+    api: "/api/ai",
     onFinish: (_prompt, completion) => {
       editor?.commands.setTextSelection({
         from: editor.state.selection.from - completion.length,
@@ -46,11 +46,11 @@ export default function Editor({
       });
     },
     onError: (err) => {
-      toast.error('Failed to execute action');
+      toast.error("Failed to execute action");
     },
   });
 
-  const prev = useRef('');
+  const prev = useRef("");
 
   // Insert chunks of the generated text
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function Editor({
   }, [isLoading, editor, completion]);
 
   editor &&
-    editor.on('update', ({ editor }) => {
+    editor.on("update", ({ editor }) => {
       debouncedUpdates(editor);
     });
 
@@ -74,15 +74,15 @@ export default function Editor({
             if (content) {
               editor?.commands.setContent(JSON.parse(content));
             } else {
-              editor?.commands.setContent('');
+              editor?.commands.setContent("");
             }
           } else {
             setTitle(`New note - ${noteId}`);
-            editor?.commands.setContent('');
+            editor?.commands.setContent("");
           }
         } catch (error) {
-          console.error('Error loading note:', error);
-          toast.error('Error loading note.');
+          console.error("Error loading note:", error);
+          toast.error("Error loading note.");
         }
       };
 
@@ -105,8 +105,8 @@ export default function Editor({
 
   if (!editor)
     return (
-      <div className='grow m-auto min-h-screen container flex items-center justify-center'>
-        <Loader className='animate-spin text-gray-400' size={26} />
+      <div className="grow m-auto bg-quarter-spanish-white-50 min-h-screen container flex items-center justify-center">
+        <Loader className="animate-spin text-gray-400" size={26} />
       </div>
     );
 
@@ -120,19 +120,19 @@ export default function Editor({
   };
 
   return (
-    <div className='grow overflow-clip m-auto'>
-      <div className='flex flex-col min-h-screen container max-w-screen-xl'>
-        <div className='bg-quarter-spanish-white-50 flex-grow rounded-md'>
-          <div className='w-full bg-quarter-spanish-white-50 rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
-            <div className='flex items-center justify-start gap-x-2'>
+    <div className="grow overflow-clip m-auto">
+      <div className="flex flex-col min-h-screen container max-w-screen-xl">
+        <div className="bg-quarter-spanish-white-50 flex-grow rounded-md">
+          <div className="w-full bg-quarter-spanish-white-50 rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2">
+            <div className="flex items-center justify-start gap-x-2">
               <NavDrawer notes={notes} />
             </div>
-            <div className='flex items-center justify-end gap-x-2 md:gap-x-3'>
+            <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
               <SpeechToText editor={editor} />
               <AiMenu editor={editor} />
               {note && (
                 <>
-                  <span className='text-gray-400 capitalize block text-sm'>
+                  <span className="text-gray-400 capitalize block text-sm">
                     {formatRelative(new Date(note?.lastSaved), new Date())}
                   </span>
                   <EditorOptionsDropdown note={note} editor={editor} />
@@ -140,19 +140,19 @@ export default function Editor({
               )}
             </div>
           </div>
-          <div className='grow w-full max-w-screen-lg m-auto px-4 pb-4'>
+          <div className="grow w-full max-w-screen-lg m-auto px-4 pb-4">
             <input
-              type='text'
-              placeholder='Title'
+              type="text"
+              placeholder="Title"
               onChange={(e) => handleTitleChange(e.target.value)}
               value={title}
               autoFocus
-              className='font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none pb-4'
+              className="font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none pb-4"
             />
             <BubbleMenu editor={editor} />
             <EditorContent
               editor={editor}
-              className='grow rounded-b-md w-full max-w-screen-lg m-auto'
+              className="grow rounded-b-md w-full max-w-screen-lg m-auto"
             />
           </div>
         </div>
