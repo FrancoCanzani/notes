@@ -1,104 +1,18 @@
-import { useState, useEffect, useRef, FormEvent } from 'react';
 import { Editor } from '@tiptap/core';
 import { BubbleMenu as Bubble } from '@tiptap/react';
 import { Button } from '../ui/button';
-import { useCompletion } from 'ai/react';
-import { toast } from 'sonner';
 import {
   FontBoldIcon,
   FontItalicIcon,
   StrikethroughIcon,
   UnderlineIcon,
-  MagicWandIcon,
 } from '@radix-ui/react-icons';
 import isMobile from '../../lib/helpers/is-mobile';
 import { cn } from '../../lib/utils';
+import AiPromptForm from './ai-prompt-form';
 
 export default function BubbleMenuTest({ editor }: { editor: Editor }) {
   const usesMobile = isMobile();
-  const [prompt, setPrompt] = useState('');
-  const [selectedText, setSelectedText] = useState('');
-  const [lastSelectedText, setLastSelectedText] = useState('');
-  const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
-  const [selectionTo, setSelectionTo] = useState<number | null>(null);
-
-  const { completion, isLoading, complete } = useCompletion({
-    api: '/api/assistant',
-    onError: () => {
-      toast.error('Failed to execute action');
-      restoreOriginalText();
-    },
-  });
-
-  const updateSelectedText = () => {
-    const { from, to } = editor.state.selection;
-    const text = editor.state.doc.textBetween(from, to);
-    setSelectedText(text);
-    setSelectionFrom(from);
-    setSelectionTo(to);
-    console.log('Selected text updated:', text, 'from:', from, 'to:', to);
-
-    if (text) {
-      setLastSelectedText(text);
-    }
-  };
-
-  useEffect(() => {
-    editor.on('selectionUpdate', updateSelectedText);
-    return () => {
-      editor.off('selectionUpdate', updateSelectedText);
-    };
-  }, [editor]);
-
-  useEffect(() => {
-    if (
-      completion &&
-      selectionFrom !== null &&
-      selectionTo !== null &&
-      editor.state.doc.textBetween(selectionFrom, selectionTo) !== completion // Prevent unnecessary updates
-    ) {
-      editor.commands.command(({ tr }) => {
-        tr.replaceWith(
-          selectionFrom,
-          selectionTo,
-          editor.schema.text(completion)
-        );
-        return true;
-      });
-    }
-  }, [completion]);
-
-  const restoreOriginalText = () => {
-    if (selectionFrom !== null && selectionTo !== null) {
-      editor?.commands.command(({ tr }) => {
-        tr.insertText(lastSelectedText, selectionFrom, selectionTo);
-        return true;
-      });
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (
-      prompt.trim() &&
-      lastSelectedText &&
-      selectionFrom !== null &&
-      selectionTo !== null
-    ) {
-      console.log(
-        'Submitting with text:',
-        lastSelectedText,
-        'from:',
-        selectionFrom,
-        'to:',
-        selectionTo
-      );
-      await complete(lastSelectedText, {
-        body: { selectedText: lastSelectedText, action: prompt },
-      });
-      setPrompt('');
-    }
-  };
 
   return (
     <div>
@@ -111,32 +25,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
           }}
           className='flex flex-col items-center space-y-1.5 rounded-sm border text-xs bg-quarter-spanish-white-100 p-1.5'
         >
-          <form
-            onSubmit={handleSubmit}
-            className='w-full flex items-center space-x-1'
-            onFocus={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <input
-              name='aiPrompt'
-              id='aiPrompt'
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className='w-full p-1.5 bg-quarter-spanish-white-50 outline-none rounded-sm'
-              placeholder='AI prompt'
-              spellCheck='false'
-            />
-            <Button
-              size={'sm'}
-              className='hover:bg-quarter-spanish-white-50 bg-quarter-spanish-white-100 rounded-sm'
-              type='submit'
-              disabled={isLoading}
-            >
-              <span className='sr-only'>Submit</span>
-              <MagicWandIcon />
-            </Button>
-          </form>
+          <AiPromptForm editor={editor} />
           <div className='flex w-full justify-evenly items-center space-x-1'>
             <Button
               variant={'menu'}

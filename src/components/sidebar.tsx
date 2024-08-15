@@ -34,21 +34,21 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
 
   return (
     <div className='bg-quarter-spanish-white-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
-      <div className='space-y-6'>
+      <div className='space-y-3'>
         <div className='flex flex-col space-y-2 w-full items-center justify-between'>
           <div className='flex w-full justify-between items-center space-x-2'>
             <h1 className='font-bold'>Notes</h1>
             <button
-              className='rounded-md hover:bg-quarter-spanish-white-50 p-1.5 text-sm font-medium'
+              className='rounded-md hover:bg-quarter-spanish-white-50 px-1.5 py-1 text-sm font-medium'
               onClick={() => setIsNewNote(!isNewNote)}
             >
               {isNewNote ? 'Close' : 'New'}
             </button>
           </div>
-          {isNewNote && <NewNoteForm />}
+          <NewNoteForm isNewNote={isNewNote} />
         </div>
         <div>
-          <ScrollArea className='h-max'>
+          <ScrollArea className='h-max transition-all ease-in-out duration-100'>
             {pinnedNotes.map((note) => (
               <div
                 key={note._id}
