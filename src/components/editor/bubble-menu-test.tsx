@@ -23,10 +23,10 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             duration: 100,
             placement: usesMobile ? 'bottom' : 'top',
           }}
-          className='flex flex-col items-center space-y-1.5 rounded-sm border text-xs bg-quarter-spanish-white-100 p-1.5'
+          className='flex flex-col items-center space-y-2 rounded-md text-xs bg-quarter-spanish-white-100 p-2'
         >
           <AiPromptForm editor={editor} />
-          <div className='flex w-full justify-evenly items-center space-x-1'>
+          <div className='flex w-full justify-evenly items-center space-x-2'>
             <Button
               variant={'menu'}
               size={'sm'}

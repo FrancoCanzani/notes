@@ -2,9 +2,8 @@ import { Button } from '../ui/button';
 import { useState, useEffect, FormEvent } from 'react';
 import { useCompletion } from 'ai/react';
 import { toast } from 'sonner';
-import { MagicWandIcon } from '@radix-ui/react-icons';
+import { MagicWandIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { Editor } from '@tiptap/core';
-import { Circle } from 'lucide-react';
 
 export default function AiPromptForm({ editor }: { editor: Editor }) {
   const [prompt, setPrompt] = useState('');
@@ -88,21 +87,15 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
         id='aiPrompt'
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        className='w-full p-1.5 bg-quarter-spanish-white-50 outline-none rounded-md'
+        className='w-full p-2 bg-quarter-spanish-white-50 outline-none rounded-md'
         placeholder='AI prompt'
         spellCheck='false'
         autoComplete='off'
       />
-      <Button
-        variant={'menu'}
-        size={'sm'}
-        className='hover:bg-quarter-spanish-white-50 bg-quarter-spanish-white-100'
-        type='submit'
-        disabled={isLoading}
-      >
+      <Button variant={'menu'} size={'sm'} type='submit' disabled={isLoading}>
         <span className='sr-only'>Submit</span>
         {isLoading ? (
-          <MagicWandIcon className='animate-pulse' />
+          <UpdateIcon className='animate-spin' />
         ) : (
           <MagicWandIcon />
         )}

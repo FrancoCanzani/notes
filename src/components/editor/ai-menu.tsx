@@ -1,17 +1,24 @@
 import { Editor } from '@tiptap/core';
 import { useCompletion } from 'ai/react';
 import { toast } from 'sonner';
-import { useCallback } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { useEffect, useState } from 'react';
 
 export default function AiMenu({ editor }: { editor: Editor | null }) {
-  const { complete, isLoading } = useCompletion({
+  const [lastSelectedText, setLastSelectedText] = useState('');
+  const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
+  const [selectionTo, setSelectionTo] = useState<number | null>(null);
+  const { complete, completion, isLoading, error } = useCompletion({
     api: '/api/ai',
+    onError: () => {
+      toast.error('Failed to execute action');
+      restoreOriginalText();
+    },
   });
 
   const options = [
@@ -91,35 +98,59 @@ export default function AiMenu({ editor }: { editor: Editor | null }) {
     return;
   }
 
-  const handleClick = useCallback(
-    async (command: string) => {
-      const text = window.getSelection()?.toString();
-      if (text) {
-        const completion = await complete(text, {
-          body: { option: command },
-        });
+  const updateSelectedText = () => {
+    const { from, to } = editor.state.selection;
+    const text = editor.state.doc.textBetween(from, to);
+    setSelectionFrom(from);
+    setSelectionTo(to);
 
-        if (!completion) {
-          toast.error('Failed to execute command');
-          return;
-        }
+    if (text) {
+      setLastSelectedText(text);
+    }
+  };
 
-        const selection = editor.view.state.selection;
-        editor
-          .chain()
-          .focus()
-          .insertContentAt(
-            {
-              from: selection.from,
-              to: selection.to,
-            },
-            completion
-          )
-          .run();
+  useEffect(() => {
+    editor.on('selectionUpdate', updateSelectedText);
+    return () => {
+      editor.off('selectionUpdate', updateSelectedText);
+    };
+  }, [editor]);
+
+  useEffect(() => {
+    if (completion && selectionFrom !== null && selectionTo !== null) {
+      editor.commands.command(({ tr }) => {
+        tr.replaceWith(
+          selectionFrom,
+          selectionTo,
+          editor.schema.text(completion)
+        );
+        return true;
+      });
+    }
+  }, [completion]);
+
+  const restoreOriginalText = () => {
+    if (selectionFrom !== null && selectionTo !== null) {
+      editor?.commands.command(({ tr }) => {
+        tr.insertText(lastSelectedText, selectionFrom, selectionTo);
+        return true;
+      });
+    }
+  };
+
+  const handleClick = async (command: string) => {
+    const text = window.getSelection()?.toString();
+    if (text) {
+      await complete(text, {
+        body: { option: command },
+      });
+
+      if (error) {
+        toast.error('Failed to execute command');
+        return;
       }
-    },
-    [complete]
-  );
+    }
+  };
 
   return (
     <DropdownMenu>
