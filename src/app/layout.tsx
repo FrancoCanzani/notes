@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import { Karla } from 'next/font/google';
-import ShowTailwindBreakpoint from '../components/show-tailwind-breakpoint';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from 'sonner';
 
@@ -46,9 +45,6 @@ export default async function RootLayout({
       <body className={`${inter.className} [scrollbar-gutter: stable]`}>
         <ClerkProvider>
           <main className='min-h-screen'>{children}</main>
-          {process.env.DEV_ENVIRONMENT === 'development' && (
-            <ShowTailwindBreakpoint />
-          )}
           <Toaster />
         </ClerkProvider>
       </body>

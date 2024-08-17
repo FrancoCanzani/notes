@@ -5,13 +5,10 @@ import { useAuth } from '@clerk/nextjs';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
-
-import { useState } from 'react';
 import NewNoteForm from './new-note-form';
 import SidebarNotes from './sidebar-notes';
 
 export default function Sidebar({ notes }: { notes: Note[] }) {
-  const [isNewNote, setIsNewNote] = useState(false);
   const { isSignedIn } = useAuth();
 
   return (
@@ -20,14 +17,8 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
         <div className='flex flex-col space-y-2 w-full items-center justify-between px-5 pt-5'>
           <div className='flex w-full justify-between items-center space-x-2'>
             <h1 className='font-bold'>Notes</h1>
-            <button
-              className='rounded-md hover:bg-quarter-spanish-white-50 px-1.5 py-1 text-sm font-medium'
-              onClick={() => setIsNewNote(!isNewNote)}
-            >
-              {isNewNote ? 'Close' : 'New'}
-            </button>
           </div>
-          <NewNoteForm isNewNote={isNewNote} />
+          <NewNoteForm />
         </div>
         <SidebarNotes notes={notes} />
       </div>

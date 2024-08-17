@@ -2,19 +2,11 @@ import { Note } from '../lib/types';
 import { usePathname } from 'next/navigation';
 import { cn } from '../lib/utils';
 import { ScrollArea } from './ui/scroll-area';
-import {
-  DrawingPinFilledIcon,
-  FileIcon,
-  ClockIcon,
-} from '@radix-ui/react-icons';
+import { DrawingPinFilledIcon, FileIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { formatRelative } from 'date-fns';
 import SidebarNoteOptions from './sidebar-note-options';
 
 export default function SidebarNotes({ notes }: { notes: Note[] }) {
-  const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
   const pathname = usePathname();
 
   const pinnedNotes = notes?.filter((note: Note) => note.pinned === true) || [];
@@ -28,8 +20,9 @@ export default function SidebarNotes({ notes }: { notes: Note[] }) {
         <Link href={`/notes/${note.id}`} key={note._id}>
           <div
             className={cn(
-              'px-1.5 py-2 group bg-quarter-spanish-white-100 rounded-lg text-sm w-full flex-col items-center justify-between hover:bg-quarter-spanish-white-200',
-              pathname.includes(note.id) && 'font-semibold'
+              'p-1.5 group my-1 bg-quarter-spanish-white-100 rounded-lg text-sm w-full flex-col items-center justify-between hover:bg-quarter-spanish-white-200',
+              pathname.includes(note.id) &&
+                'bg-quarter-spanish-white-200 font-semibold'
             )}
           >
             <div className='flex items-center justify-between w-full'>
@@ -44,9 +37,6 @@ export default function SidebarNotes({ notes }: { notes: Note[] }) {
                   note={note}
                   className='invisible group-hover:visible'
                 />
-                {pathname.includes(note.id) && (
-                  <span className='h-1 w-1 mr-1 rounded-full bg-black group-hover:hidden'></span>
-                )}
               </div>
             </div>
           </div>

@@ -157,3 +157,8 @@ summary::-webkit-details-marker {
   background-color: #363636;
   height: 10px;
 }
+
+textarea {
+  field-sizing: content;
+  resize: none;
+}
