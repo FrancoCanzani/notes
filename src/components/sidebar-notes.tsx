@@ -15,7 +15,7 @@ export default function SidebarNotes({ notes }: { notes: Note[] }) {
     [];
 
   return (
-    <ScrollArea className='h-max space-y-1.5 px-3 transition-all ease-in-out duration-100'>
+    <ScrollArea className='h-max space-y-1.5 transition-all ease-in-out duration-100'>
       {[...pinnedNotes, ...activeNotes].map((note) => (
         <Link href={`/notes/${note.id}`} key={note._id}>
           <div

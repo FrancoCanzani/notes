@@ -2,7 +2,12 @@ import { Button } from '../ui/button';
 import { useState, useEffect, FormEvent } from 'react';
 import { useCompletion } from 'ai/react';
 import { toast } from 'sonner';
-import { MagicWandIcon, StopIcon } from '@radix-ui/react-icons';
+import {
+  MagicWandIcon,
+  ResetIcon,
+  StopIcon,
+  UpdateIcon,
+} from '@radix-ui/react-icons';
 import { Editor } from '@tiptap/core';
 import { copyToClipboard } from '../../lib/helpers/copy-to-clipboard';
 import { cn } from '../../lib/utils';
@@ -66,10 +71,10 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='flex-grow flex flex-col min-h-0 overflow-hidden'>
+      <div className='flex-grow flex justify-end flex-col min-h-0'>
         <div
           className={cn(
-            'w-full flex-grow overflow-y-auto text-sm shadow-inner border border-quarter-spanish-white-200 rounded-lg p-2 bg-quarter-spanish-white-50',
+            'w-full flex-grow min-h-0 max-h-[18.5rem] overflow-y-auto no-scrollbar text-sm shadow-inner border border-quarter-spanish-white-200 rounded-lg p-2 bg-quarter-spanish-white-50',
             !completion && 'opacity-50'
           )}
         >
@@ -139,7 +144,11 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           onClick={isLoading ? stop : undefined}
         >
           <span className='sr-only'>Submit</span>
-          {isLoading ? <StopIcon /> : <MagicWandIcon />}
+          {isLoading ? (
+            <UpdateIcon className='animate-spin' />
+          ) : (
+            <MagicWandIcon />
+          )}
         </Button>
       </form>
     </div>

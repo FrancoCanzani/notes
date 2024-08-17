@@ -141,8 +141,6 @@ export default function Editor({
                 />
               </div>
               <div className='flex items-center justify-end gap-x-2 md:gap-x-3'>
-                <SpeechToText editor={editor} />
-                <AiMenu editor={editor} />
                 {note && (
                   <>
                     <span className='text-gray-400 capitalize block text-sm'>
