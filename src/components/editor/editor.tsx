@@ -124,13 +124,21 @@ export default function Editor({
   };
 
   return (
-    <main className='flex'>
-      <div className='grow overflow-clip m-auto'>
-        <div className='flex flex-col min-h-screen container max-w-screen-xl'>
-          <div className='bg-quarter-spanish-white-50 flex-grow rounded-md'>
-            <div className='w-full bg-quarter-spanish-white-50 rounded-t-md text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
+    <main className='flex h-screen'>
+      <div className='flex-grow overflow-auto thin-scrollbar bg-quarter-spanish-white-50'>
+        <div className='flex flex-col container'>
+          <div className=''>
+            <div className='w-full text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
               <div className='flex items-center justify-start gap-x-2'>
                 <NavDrawer notes={notes} />
+                <input
+                  type='text'
+                  placeholder='Title'
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  value={title}
+                  autoFocus
+                  className='font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none'
+                />
               </div>
               <div className='flex items-center justify-end gap-x-2 md:gap-x-3'>
                 <SpeechToText editor={editor} />
@@ -145,20 +153,9 @@ export default function Editor({
                 )}
               </div>
             </div>
-            <div className='grow w-full max-w-screen-lg m-auto px-4 pb-4'>
-              <input
-                type='text'
-                placeholder='Title'
-                onChange={(e) => handleTitleChange(e.target.value)}
-                value={title}
-                autoFocus
-                className='font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none pb-4'
-              />
+            <div className='w-full m-auto px-4 pb-4'>
               <BubbleMenuTest editor={editor} />
-              <EditorContent
-                editor={editor}
-                className='grow rounded-b-md w-full max-w-screen-lg m-auto'
-              />
+              <EditorContent editor={editor} />
             </div>
           </div>
         </div>

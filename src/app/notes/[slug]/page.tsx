@@ -3,6 +3,7 @@ import Editor from '../../../components/editor/editor';
 import getCloudNotes from '../../../lib/helpers/get-cloud-notes';
 import { getCloudNote } from '../../../lib/helpers/get-cloud-note';
 import connectToDatabase from '../../../lib/db/connect-to-db';
+import Sidebar from '../../../components/sidebar';
 
 export async function generateStaticParams() {
   try {
@@ -36,9 +37,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
     }
 
     return (
-      <main>
-        <Editor noteId={noteId} note={note} notes={notes} />
-      </main>
+      <div className='w-full sm:flex items-start'>
+        <aside className='self-start sticky top-0 w-72 z-30 hidden h-[calc(100vh)] shrink-0 sm:sticky sm:block'>
+          <Sidebar notes={notes} />
+        </aside>
+        <main className='flex-1 relative overflow-y-auto'>
+          <Editor noteId={noteId} note={note} notes={notes} />
+        </main>
+      </div>
     );
   } catch (error) {
     console.error('Error fetching note data:', error);

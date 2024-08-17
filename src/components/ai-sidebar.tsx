@@ -1,17 +1,15 @@
 'use client';
 
-import { useAuth } from '@clerk/nextjs';
 import { Editor } from '@tiptap/core';
-import { useState } from 'react';
-import NewNoteForm from './new-note-form';
 import AiPromptForm from './editor/ai-prompt-form';
+import AiSidebarActions from './ai-sidebar-actions';
+import { Separator } from './ui/separator';
 
 export default function AiSidebar({ editor }: { editor: Editor }) {
-  const [isNewNote, setIsNewNote] = useState(false);
-  const { isSignedIn } = useAuth();
-
   return (
-    <div className='bg-quarter-spanish-white-100 flex-col justify-end hidden rounded-l-lg border-l lg:flex w-96 p-5 h-[calc(100vh)]'>
+    <div className='bg-quarter-spanish-white-100 w-96 flex-shrink-0 flex-grow-0 space-y-3 flex-col justify-between hidden lg:flex p-5 h-screen sticky top-0 right-0 overflow-y-auto'>
+      <AiSidebarActions editor={editor} />
+      <Separator className='bg-quarter-spanish-white-200' />
       <AiPromptForm editor={editor} />
     </div>
   );
