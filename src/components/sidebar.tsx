@@ -1,41 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '../lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import UserSettingsModal from './user-settings-modal';
 import InstallPWA from './buttons/install-pwa-button';
 import { Note } from '../lib/types';
-import { ScrollArea } from './ui/scroll-area';
-import {
-  FileIcon,
-  DrawingPinFilledIcon,
-  ChevronRightIcon,
-} from '@radix-ui/react-icons';
-import SidebarNoteOptions from './sidebar-note-options';
+
 import { useState } from 'react';
 import NewNoteForm from './new-note-form';
+import SidebarNotes from './sidebar-notes';
 
-export default function Sidebar({ notes }: { notes?: Note[] }) {
+export default function Sidebar({ notes }: { notes: Note[] }) {
   const [isNewNote, setIsNewNote] = useState(false);
-  const pathname = usePathname();
   const { isSignedIn } = useAuth();
 
-  const pinnedNotes = notes
-    ? notes.filter((note: Note) => note.pinned === true)
-    : [];
-
-  const activeNotes = notes
-    ? notes.filter(
-        (note: Note) => note.status === 'active' && note.pinned != true
-      )
-    : [];
-
   return (
-    <div className='bg-quarter-spanish-white-100 border-r flex flex-col justify-between w-full h-[calc(100vh)] p-5'>
+    <div className='bg-quarter-spanish-white-100 rounded-r-lg border-r flex flex-col justify-between w-full h-[calc(100vh)]'>
       <div className='space-y-3'>
-        <div className='flex flex-col space-y-2 w-full items-center justify-between'>
+        <div className='flex flex-col space-y-2 w-full items-center justify-between px-5 pt-5'>
           <div className='flex w-full justify-between items-center space-x-2'>
             <h1 className='font-bold'>Notes</h1>
             <button
@@ -47,62 +29,9 @@ export default function Sidebar({ notes }: { notes?: Note[] }) {
           </div>
           <NewNoteForm isNewNote={isNewNote} />
         </div>
-        <div>
-          <ScrollArea className='h-max transition-all ease-in-out duration-100'>
-            {pinnedNotes.map((note) => (
-              <div
-                key={note._id}
-                className={cn(
-                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center justify-between hover:opacity-100',
-                  pathname.includes(note.id) && 'opacity-100'
-                )}
-              >
-                <div className='flex items-center w-auto justify-start gap-x-2'>
-                  <DrawingPinFilledIcon className='group-hover:hidden' />
-                  <ChevronRightIcon className='group-hover:block hidden' />
-                  <Link
-                    href={`/notes/${note.id}`}
-                    title={note.title}
-                    className='truncate max-w-44 pr-2'
-                  >
-                    {note.title}
-                  </Link>
-                </div>
-                <SidebarNoteOptions
-                  note={note}
-                  className='group-hover:visible invisible'
-                />
-              </div>
-            ))}
-            {activeNotes.map((note) => (
-              <div
-                key={note._id}
-                className={cn(
-                  'py-1.5 opacity-75 group font-medium rounded-md text-sm w-full flex items-center justify-between hover:opacity-100',
-                  pathname.includes(note.id) && 'opacity-100'
-                )}
-              >
-                <div className='flex items-center w-auto justify-start gap-x-2'>
-                  <FileIcon className='group-hover:hidden' />
-                  <ChevronRightIcon className='group-hover:block hidden' />
-                  <Link
-                    href={`/notes/${note.id}`}
-                    title={note.title}
-                    className='truncate max-w-44 pr-2'
-                  >
-                    {note.title}
-                  </Link>
-                </div>
-                <SidebarNoteOptions
-                  note={note}
-                  className='group-hover:visible invisible'
-                />
-              </div>
-            ))}
-          </ScrollArea>
-        </div>
+        <SidebarNotes notes={notes} />
       </div>
-      <div className='space-y-2'>
+      <div className='space-y-2 px-5 pb-5'>
         <InstallPWA />
         {isSignedIn ? (
           <div className='inline-flex justify-between w-full'>
