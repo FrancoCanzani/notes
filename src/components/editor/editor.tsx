@@ -10,11 +10,9 @@ import { toast } from 'sonner';
 import { EditorContent, useEditor } from '@tiptap/react';
 import EditorOptionsDropdown from './editor-options-dropdown';
 import { formatRelative } from 'date-fns';
-import AiMenu from './ai-menu';
 import { defaultEditorProps } from '../../lib/editor-props';
 import { useCompletion } from 'ai/react';
 import NavDrawer from '../nav-drawer';
-import SpeechToText from './speech-recognition';
 import { useAuth } from '@clerk/nextjs';
 import { Loader } from 'lucide-react';
 import BubbleMenuTest from './bubble-menu-test';
@@ -129,7 +127,7 @@ export default function Editor({
         <div className='flex flex-col container'>
           <div className=''>
             <div className='w-full text-gray-600 text-xs overflow-x-clip flex items-center justify-between px-3 py-4 gap-x-2'>
-              <div className='flex items-center justify-start gap-x-2'>
+              <div className='flex  max-w-[50%] items-center justify-start gap-x-2'>
                 <NavDrawer notes={notes} />
                 <input
                   type='text'
@@ -137,7 +135,7 @@ export default function Editor({
                   onChange={(e) => handleTitleChange(e.target.value)}
                   value={title}
                   autoFocus
-                  className='font-medium text-xl bg-quarter-spanish-white-50 w-full outline-none'
+                  className='font-medium text-xl bg-quarter-spanish-white-50 outline-none'
                 />
               </div>
               <div className='flex items-center justify-end gap-x-2 md:gap-x-3'>

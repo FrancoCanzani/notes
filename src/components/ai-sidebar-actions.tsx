@@ -154,7 +154,7 @@ export default function AiSidebarActions({
   return (
     <ul className='space-y-2'>
       <h3 className='font-medium'>Ai Menu</h3>
-      <p className='font-medium text-xs'>Select some text to apply actions</p>
+      <p className='font-medium text-xs'>Select text to apply actions</p>
       {options.map((option) => (
         <button
           onClick={() => {

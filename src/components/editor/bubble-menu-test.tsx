@@ -6,25 +6,11 @@ import {
   FontItalicIcon,
   StrikethroughIcon,
   UnderlineIcon,
-  MagicWandIcon,
 } from '@radix-ui/react-icons';
 import isMobile from '../../lib/helpers/is-mobile';
 import { cn } from '../../lib/utils';
-import { useState } from 'react';
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from '../ui/command';
 
 export default function BubbleMenuTest({ editor }: { editor: Editor }) {
-  const [commandOpen, setCommandOpen] = useState(false);
   const usesMobile = isMobile();
 
   return (
@@ -38,13 +24,6 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
           }}
           className='flex items-center gap-x-1 rounded-md text-xs bg-quarter-spanish-white-100 p-1'
         >
-          <Button
-            variant={'menu'}
-            size={'sm'}
-            onClick={() => setCommandOpen(true)}
-          >
-            <MagicWandIcon />
-          </Button>
           <Button
             variant={'menu'}
             size={'sm'}
@@ -141,15 +120,6 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
           </Button>
         </Bubble>
       )}
-      <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
-        <CommandInput placeholder='Type a command or search...' />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandItem>Calendar</CommandItem>
-          <CommandItem>Search Emoji</CommandItem>
-          <CommandItem>Calculator</CommandItem>
-        </CommandList>
-      </CommandDialog>
     </div>
   );
 }
