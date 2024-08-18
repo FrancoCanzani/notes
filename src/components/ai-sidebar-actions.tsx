@@ -12,7 +12,7 @@ export default function AiSidebarActions({
   const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
   const [selectionTo, setSelectionTo] = useState<number | null>(null);
 
-  const { complete, completion, error } = useCompletion({
+  const { complete, completion, error, isLoading } = useCompletion({
     api: '/api/ai',
     onError: () => {
       toast.error('Failed to execute action');
@@ -162,7 +162,7 @@ export default function AiSidebarActions({
           }}
           className='flex disabled:opacity-50 hover:bg-quarter-spanish-white-200 bg-quarter-spanish-white-50 p-2.5 rounded-lg w-full text-sm disabled:cursor-not-allowed items-center justify-start gap-x-2'
           key={option.value}
-          disabled={window.getSelection()?.toString().length === 0}
+          disabled={window.getSelection()?.toString().length === 0 || isLoading}
         >
           {option.icon} {option.label}
         </button>
