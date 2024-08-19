@@ -94,6 +94,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           </div>
         ) : (
           <Sparkles
+            size={16}
             className={cn('m-auto opacity-65', isLoading && 'animate-pulse')}
           />
         )}
