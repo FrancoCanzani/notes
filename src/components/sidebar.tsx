@@ -4,6 +4,7 @@ import UserSettingsModal from "./user-settings-modal";
 import { Note } from "../lib/types";
 import NewNoteForm from "./new-note-form";
 import SidebarNotes from "./sidebar-notes";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 export default function Sidebar({ notes }: { notes: Note[] }) {
   return (
@@ -15,7 +16,10 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
         <NewNoteForm />
         <SidebarNotes notes={notes} />
       </div>
-      <div className="px-5 pb-5">
+      <div className="px-5 pb-5 space-y-3">
+        <div className="bg-[#FFD700] cursor-pointer font-medium p-1.5 rounded-sm text-sm w-full flex items-center justify-start gap-x-2 hover:bg-[#F2C649]">
+          <StarFilledIcon /> Go Premium
+        </div>
         <UserSettingsModal />
       </div>
     </div>

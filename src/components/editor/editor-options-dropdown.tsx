@@ -8,9 +8,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Note } from "../../lib/types";
-import PublishButton from "../buttons/publish-button";
 import { MoreHorizontal } from "lucide-react";
-import { NavigatorShareButton } from "../buttons/navigator-share-button";
 import { Editor } from "@tiptap/react";
 import { useExportToDocx } from "../../lib/hooks/use-export-to-docx";
 import { copyToClipboard } from "../../lib/helpers/copy-to-clipboard";
