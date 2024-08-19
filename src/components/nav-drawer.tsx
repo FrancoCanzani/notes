@@ -75,7 +75,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
           <span className="sr-only">Toggle Menu</span>
         </button>
       </DrawerTrigger>
-      <DrawerContent className="bg-bermuda-gray-100">
+      <DrawerContent className="bg-white">
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle>
@@ -89,7 +89,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                 className="flex items-center justify-between gap-x-2"
               >
                 <Input
-                  className="text-center focus:text-start bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"
+                  className="text-center rounded-sm focus:text-start bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"
                   placeholder="New Note Title"
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -106,7 +106,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                   <Link href={`/notes/${note.id}`} key={note._id}>
                     <div
                       className={cn(
-                        "p-1.5 my-1 bg-bermuda-gray-100 rounded-lg text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
+                        "p-1.5 my-1 bg-bermuda-gray-100 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
                         pathname.includes(note.id) &&
                           "bg-bermuda-gray-200 font-semibold"
                       )}

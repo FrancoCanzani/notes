@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { cn } from '../../lib/utils';
-import { DownloadIcon } from '@radix-ui/react-icons';
+import React, { useState, useEffect } from "react";
+import { cn } from "../../lib/utils";
+import { DownloadIcon } from "@radix-ui/react-icons";
 
 const InstallPWA = ({ className }: { className?: string }) => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -15,11 +15,11 @@ const InstallPWA = ({ className }: { className?: string }) => {
       setDeferredPrompt(e as any);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
       window.removeEventListener(
-        'beforeinstallprompt',
+        "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
     };
@@ -32,10 +32,10 @@ const InstallPWA = ({ className }: { className?: string }) => {
 
       // Wait for the user to respond to the prompt
       deferredPrompt.userChoice.then((choiceResult: any) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the install prompt");
         } else {
-          console.log('User dismissed the install prompt');
+          console.log("User dismissed the install prompt");
         }
       });
     }
@@ -46,7 +46,7 @@ const InstallPWA = ({ className }: { className?: string }) => {
       {deferredPrompt && (
         <button
           className={cn(
-            'px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center justify-start gap-x-2 w-full hover:opacity-100',
+            "px-2 py-1.5 opacity-75 group font-medium rounded-md text-sm flex items-center justify-start gap-x-2 w-full hover:opacity-100",
             className
           )}
           onClick={handleInstallClick}
