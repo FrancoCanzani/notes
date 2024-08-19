@@ -85,7 +85,7 @@ export default function Editor({
 
   if (!editor) {
     return (
-      <div className="grow m-auto bg-quarter-spanish-white-50 min-h-screen container flex items-center justify-center">
+      <div className="grow m-auto bg-bermuda-gray-50 min-h-screen container flex items-center justify-center">
         <Loader
           className="animate-spin text-gray-400"
           size={26}
@@ -97,7 +97,7 @@ export default function Editor({
 
   return (
     <main className="flex h-screen overflow-hidden">
-      <div className="flex-grow overflow-auto thin-scrollbar bg-quarter-spanish-white-50 w-full">
+      <div className="flex-grow overflow-auto thin-scrollbar bg-bermuda-gray-50 w-full">
         <div className="flex flex-col container max-w-4xl mx-auto px-4">
           <EditorHeader
             debouncedUpdates={debouncedUpdates}

@@ -75,7 +75,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           <div
             ref={scrollRef}
             className={cn(
-              "w-full flex max-h-fit flex-col overflow-y-auto no-scrollbar text-sm shadow-inner border border-quarter-spanish-white-200 rounded-lg p-2 bg-quarter-spanish-white-50",
+              "w-full flex max-h-fit flex-col overflow-y-auto no-scrollbar text-sm shadow-inner border border-bermuda-gray-200 rounded-md p-2 bg-bermuda-gray-50",
               !completion && "opacity-50"
             )}
           >
@@ -92,7 +92,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
               <Button
                 variant={"menu"}
                 size={"sm"}
-                className="rounded-lg py-1.5 px-2 text-xs bg-quarter-spanish-white-50"
+                className="rounded-md py-1.5 px-2 text-xs bg-bermuda-gray-50"
                 onClick={() =>
                   editor.commands.command(({ tr }) => {
                     tr.replaceWith(
@@ -110,7 +110,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
             <Button
               variant={"menu"}
               size={"sm"}
-              className="rounded-lg py-1.5 px-2 text-xs bg-quarter-spanish-white-50"
+              className="rounded-md py-1.5 px-2 text-xs bg-bermuda-gray-50"
               onClick={insertGeneratedContentAtCursor}
             >
               Insert
@@ -118,7 +118,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
             <Button
               variant={"menu"}
               size={"sm"}
-              className="rounded-lg py-1.5 px-2 text-xs bg-quarter-spanish-white-50"
+              className="rounded-md py-1.5 px-2 text-xs bg-bermuda-gray-50"
               onClick={async () => await copyToClipboard(completion)}
             >
               Copy
@@ -139,7 +139,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           id="aiPrompt"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="w-full p-2 bg-quarter-spanish-white-50 outline-none rounded-md"
+          className="w-full text-sm h-9 p-2 bg-bermuda-gray-50 outline-none rounded-md"
           placeholder="AI prompt"
           spellCheck="false"
           autoComplete="off"
@@ -147,6 +147,8 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
         <Button
           variant={"menu"}
           type="submit"
+          size={"sm"}
+          className="py-2 px-3 h-9"
           onClick={isLoading ? stop : undefined}
         >
           <span className="sr-only">Submit</span>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AlertDialog,
@@ -10,29 +10,29 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../components/ui/alert-dialog';
+} from "../components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Trash2, FilePenLine, MoreHorizontal } from 'lucide-react';
-import { DrawingPinIcon, DrawingPinFilledIcon } from '@radix-ui/react-icons';
-import { Button } from './ui/button';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Note } from '../lib/types';
+} from "./ui/dropdown-menu";
+import { Trash2, FilePenLine, MoreHorizontal } from "lucide-react";
+import { DrawingPinIcon, DrawingPinFilledIcon } from "@radix-ui/react-icons";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Note } from "../lib/types";
 import {
   deleteCloudNote,
   updateNoteStatus,
   updatePinStatus,
-} from '../lib/actions';
-import { useAuth } from '@clerk/nextjs';
-import { cn } from '../lib/utils';
-import { usePathname } from 'next/dist/client/components/navigation';
+} from "../lib/actions";
+import { useAuth } from "@clerk/nextjs";
+import { cn } from "../lib/utils";
+import { usePathname } from "next/dist/client/components/navigation";
 
 export default function SidebarNoteOptions({
   note,
@@ -52,7 +52,7 @@ export default function SidebarNoteOptions({
     try {
       await deleteCloudNote(userId, note.id);
       // redirect if the deleted note is the one in view
-      if (pathname.includes(note.id)) router.replace('/');
+      if (pathname.includes(note.id)) router.replace("/");
       toast.success(`Deleted: ${note.title}`);
       router.refresh();
     } catch (error) {
@@ -71,28 +71,28 @@ export default function SidebarNoteOptions({
   };
 
   return (
-    <div className='flex items-center justify-end gap-x-0.5'>
+    <div className="flex items-center justify-end gap-x-0.5">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant='ghost'
+            variant="ghost"
             className={cn(
-              'h-0 w-8 p-0 outline-none hover:bg-quarter-spanish-white-100 font-bold rounded-md',
+              "h-0 w-8 p-0 outline-none hover:bg-quarter-spanish-white-100 font-bold rounded-md",
               className
             )}
           >
-            <span className='sr-only'>Open menu</span>
-            <MoreHorizontal className='h-4 w-4' />
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          align='end'
-          className='bg-quarter-spanish-white-50 text-xs'
+          align="end"
+          className="bg-quarter-spanish-white-50 text-xs"
         >
-          <DropdownMenuItem className='hover:bg-quarter-spanish-white-100 rounded-md w-full text-xs'>
+          <DropdownMenuItem className="hover:bg-quarter-spanish-white-100 rounded-md w-full text-xs">
             <Link
               href={`/notes/${note.id}`}
-              className='w-full cursor-pointer flex items-center justify-start gap-x-2'
+              className="w-full cursor-pointer flex items-center justify-start gap-x-2"
             >
               <FilePenLine size={13} />
               Edit Note
@@ -100,7 +100,7 @@ export default function SidebarNoteOptions({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handlePinNote()}
-            className='hover:bg-quarter-spanish-white-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2'
+            className="hover:bg-quarter-spanish-white-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2"
           >
             {note.pinned === true ? (
               <DrawingPinIcon />
@@ -108,18 +108,18 @@ export default function SidebarNoteOptions({
               <DrawingPinFilledIcon />
             )}
 
-            {note.pinned === true ? 'Unpin from Sidebar' : 'Pin to Sidebar'}
+            {note.pinned === true ? "Unpin from Sidebar" : "Pin to Sidebar"}
           </DropdownMenuItem>
-          <DropdownMenuItem className='hover:bg-quarter-spanish-white-100 rounded-md w-full cursor-pointer text-xs'>
+          <DropdownMenuItem className="hover:bg-quarter-spanish-white-100 rounded-md w-full cursor-pointer text-xs">
             <AlertDialog>
               <AlertDialogTrigger
                 onClick={(e) => e.stopPropagation()}
-                className='cursor-pointer text-red-600 flex items-center justify-start gap-x-2'
+                className="cursor-pointer text-red-600 flex items-center justify-start gap-x-2"
               >
                 <Trash2 size={13} />
                 Delete Note
               </AlertDialogTrigger>
-              <AlertDialogContent className='bg-gray-50 rounded-md'>
+              <AlertDialogContent className="bg-gray-50 rounded-md">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -127,13 +127,13 @@ export default function SidebarNoteOptions({
                     your note.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter className='flex items-center justify-center space-x-6'>
-                  <AlertDialogCancel className='bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-md p-3'>
+                <AlertDialogFooter className="flex items-center justify-center space-x-6">
+                  <AlertDialogCancel className="bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-md p-3">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => handleDeleteNote()}
-                    className='bg-black text-white hover:opacity-80 duration-150 font-medium rounded-md p-3'
+                    className="bg-black text-white hover:opacity-80 duration-150 font-medium rounded-md p-3"
                   >
                     Continue
                   </AlertDialogAction>
@@ -141,15 +141,15 @@ export default function SidebarNoteOptions({
               </AlertDialogContent>
             </AlertDialog>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className='bg-quarter-spanish-white-50 my-0.5' />
-          <DropdownMenuItem className='rounded-md w-full text-xs'>
-            Edited{' '}
+          <DropdownMenuSeparator className="bg-quarter-spanish-white-50 my-0.5" />
+          <DropdownMenuItem className="rounded-md w-full text-xs">
+            Edited{" "}
             {new Date(note.lastSaved).toLocaleString(undefined, {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
             })}
           </DropdownMenuItem>
         </DropdownMenuContent>

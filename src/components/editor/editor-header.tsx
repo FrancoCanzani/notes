@@ -43,7 +43,7 @@ export default function EditorHeader({
           onChange={(e) => handleTitleChange(e.target.value)}
           value={title}
           autoFocus
-          className="font-medium text-xl bg-quarter-spanish-white-50 outline-none"
+          className="font-medium text-xl bg-bermuda-gray-50 outline-none"
           aria-label="Note title"
         />
       </div>
