@@ -5,13 +5,13 @@ import React, {
   ReactNode,
   useRef,
   useLayoutEffect,
-} from 'react';
-import { upload } from '@vercel/blob/client';
-import { Editor, Range, Extension } from '@tiptap/core';
-import Suggestion from '@tiptap/suggestion';
-import { ReactRenderer } from '@tiptap/react';
-import { useCompletion } from 'ai/react';
-import tippy from 'tippy.js';
+} from "react";
+import { upload } from "@vercel/blob/client";
+import { Editor, Range, Extension } from "@tiptap/core";
+import Suggestion from "@tiptap/suggestion";
+import { ReactRenderer } from "@tiptap/react";
+import { useCompletion } from "ai/react";
+import tippy from "tippy.js";
 import {
   Heading1,
   Heading2,
@@ -25,10 +25,10 @@ import {
   CircleDashed,
   Image,
   FileText,
-} from 'lucide-react';
-import { Magic } from '../../lib/icons';
-import { getPrevText } from '../../lib/helpers/get-prev-text';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { Magic } from "../../lib/icons";
+import { getPrevText } from "../../lib/helpers/get-prev-text";
+import { toast } from "sonner";
 
 interface CommandItemProps {
   title: string;
@@ -42,11 +42,11 @@ interface CommandProps {
 }
 
 const Command = Extension.create({
-  name: 'slash-command',
+  name: "slash-command",
   addOptions() {
     return {
       suggestion: {
-        char: '/',
+        char: "/",
         command: ({
           editor,
           range,
@@ -74,145 +74,145 @@ const Command = Extension.create({
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
-      title: 'Write Magic',
-      description: 'Use AI to expand your thoughts.',
-      searchTerms: ['gpt', 'ai'],
-      icon: <Magic className='w-7' />,
+      title: "Write Magic",
+      description: "Use AI to expand your thoughts.",
+      searchTerms: ["gpt", "ai"],
+      icon: <Magic className="w-7" />,
     },
     {
-      title: 'Text',
-      description: 'Just start typing with plain text.',
-      searchTerms: ['p', 'paragraph'],
+      title: "Text",
+      description: "Just start typing with plain text.",
+      searchTerms: ["p", "paragraph"],
       icon: <Text size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
           .focus()
           .deleteRange(range)
-          .toggleNode('paragraph', 'paragraph')
+          .toggleNode("paragraph", "paragraph")
           .run();
       },
     },
     {
-      title: 'To-do List',
-      description: 'Track tasks with a to-do list.',
-      searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
+      title: "To-do List",
+      description: "Track tasks with a to-do list.",
+      searchTerms: ["todo", "task", "list", "check", "checkbox"],
       icon: <CheckSquare size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleTaskList().run();
       },
     },
     {
-      title: 'Heading 1',
-      description: 'Big section heading.',
-      searchTerms: ['title', 'big', 'large'],
+      title: "Heading 1",
+      description: "Big section heading.",
+      searchTerms: ["title", "big", "large"],
       icon: <Heading1 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
           .focus()
           .deleteRange(range)
-          .setNode('heading', { level: 1 })
+          .setNode("heading", { level: 1 })
           .run();
       },
     },
     {
-      title: 'Heading 2',
-      description: 'Medium section heading.',
-      searchTerms: ['subtitle', 'medium'],
+      title: "Heading 2",
+      description: "Medium section heading.",
+      searchTerms: ["subtitle", "medium"],
       icon: <Heading2 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
           .focus()
           .deleteRange(range)
-          .setNode('heading', { level: 2 })
+          .setNode("heading", { level: 2 })
           .run();
       },
     },
     {
-      title: 'Heading 3',
-      description: 'Small section heading.',
-      searchTerms: ['subtitle', 'small'],
+      title: "Heading 3",
+      description: "Small section heading.",
+      searchTerms: ["subtitle", "small"],
       icon: <Heading3 size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
           .focus()
           .deleteRange(range)
-          .setNode('heading', { level: 3 })
+          .setNode("heading", { level: 3 })
           .run();
       },
     },
     {
-      title: 'Bullet List',
-      description: 'Create a simple bullet list.',
-      searchTerms: ['unordered', 'point'],
+      title: "Bullet List",
+      description: "Create a simple bullet list.",
+      searchTerms: ["unordered", "point"],
       icon: <List size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
     },
     {
-      title: 'Numbered List',
-      description: 'Create a list with numbering.',
-      searchTerms: ['ordered'],
+      title: "Numbered List",
+      description: "Create a list with numbering.",
+      searchTerms: ["ordered"],
       icon: <ListOrdered size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
       },
     },
     {
-      title: 'Quote',
-      description: 'Capture a quote.',
-      searchTerms: ['blockquote'],
+      title: "Quote",
+      description: "Capture a quote.",
+      searchTerms: ["blockquote"],
       icon: <TextQuote size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor
           .chain()
           .focus()
           .deleteRange(range)
-          .toggleNode('paragraph', 'paragraph')
+          .toggleNode("paragraph", "paragraph")
           .toggleBlockquote()
           .run(),
     },
     {
-      title: 'Code',
-      description: 'Capture a code snippet.',
-      searchTerms: ['codeblock'],
+      title: "Code",
+      description: "Capture a code snippet.",
+      searchTerms: ["codeblock"],
       icon: <Code size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
     {
-      title: 'Image',
-      description: 'Add a local image.',
-      searchTerms: ['image', 'img'],
+      title: "Image",
+      description: "Add a local image.",
+      searchTerms: ["image", "img"],
       icon: <Image size={18} />,
       command: async ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).run();
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/gif, image/png, image/jpeg';
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/gif, image/png, image/jpeg";
         input.onchange = async () => {
           if (input.files?.length) {
             const file = input.files[0];
             try {
               const newBlob = await upload(file.name, file, {
-                access: 'public',
-                handleUploadUrl: '/api/images/upload',
+                access: "public",
+                handleUploadUrl: "/api/images/upload",
               });
               if (newBlob) {
                 editor.chain().setImage({ src: newBlob.url }).run();
-                const imageNode = editor.$node('image');
+                const imageNode = editor.$node("image");
                 console.log(imageNode?.pos);
                 if (imageNode) {
                   const imagePos = imageNode.pos;
-                  editor.commands.insertContentAt(imagePos + 1, '<br />');
+                  editor.commands.insertContentAt(imagePos + 1, "<br />");
                 }
               }
             } catch (error) {
-              toast.error('Error uploading Image.');
+              toast.error("Error uploading Image.");
             }
           }
         };
@@ -220,19 +220,19 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
-      title: 'Insert Lorem Ipsum',
-      description: 'Insert a placeholder text.',
-      searchTerms: ['lorem', 'lorem ipsum'],
-      icon: <FileText className='w-7' />, // Assuming FileText is an icon component
+      title: "Insert Lorem Ipsum",
+      description: "Insert a placeholder text.",
+      searchTerms: ["lorem", "lorem ipsum"],
+      icon: <FileText className="w-7" />, // Assuming FileText is an icon component
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).run();
         editor.commands.insertContent(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum nisi lorem, ut congue metus efficitur id. Nunc id quam sed lectus bibendum sodales. Aenean in facilisis turpis, vel tempor velit. Aliquam semper dolor eu aliquet cursus. Nulla sodales nisi purus, at laoreet erat tincidunt at. Proin convallis purus a condimentum ornare. Donec suscipit mauris sed vulputate aliquet. Phasellus gravida justo urna, id congue lacus dapibus quis.'
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum nisi lorem, ut congue metus efficitur id. Nunc id quam sed lectus bibendum sodales. Aenean in facilisis turpis, vel tempor velit. Aliquam semper dolor eu aliquet cursus. Nulla sodales nisi purus, at laoreet erat tincidunt at. Proin convallis purus a condimentum ornare. Donec suscipit mauris sed vulputate aliquet. Phasellus gravida justo urna, id congue lacus dapibus quis."
         );
       },
     },
   ].filter((item) => {
-    if (typeof query === 'string' && query.length > 0) {
+    if (typeof query === "string" && query.length > 0) {
       const search = query.toLowerCase();
       return (
         item.title.toLowerCase().includes(search) ||
@@ -273,8 +273,8 @@ const CommandList = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { complete, isLoading } = useCompletion({
-    id: 'editor',
-    api: '/api/ai',
+    id: "editor",
+    api: "/api/ai",
     onResponse: (response) => {
       editor.chain().focus().deleteRange(range).run();
     },
@@ -285,7 +285,7 @@ const CommandList = ({
       });
     },
     onError: (e) => {
-      toast.error('Failed to execute command');
+      toast.error("Failed to execute command");
     },
   });
 
@@ -293,14 +293,14 @@ const CommandList = ({
     (index: number) => {
       const item = items[index];
       if (item) {
-        if (item.title === 'Write Magic') {
+        if (item.title === "Write Magic") {
           if (isLoading) return;
           const text = getPrevText(editor, {
             chars: 5000,
             offset: 1,
           });
           complete(text, {
-            body: { option: 'continue' },
+            body: { option: "continue" },
           });
         } else {
           command(item);
@@ -311,28 +311,28 @@ const CommandList = ({
   );
 
   useEffect(() => {
-    const navigationKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
+    const navigationKeys = ["ArrowUp", "ArrowDown", "Enter"];
     const onKeyDown = (e: KeyboardEvent) => {
       if (navigationKeys.includes(e.key)) {
         e.preventDefault();
-        if (e.key === 'ArrowUp') {
+        if (e.key === "ArrowUp") {
           setSelectedIndex((selectedIndex + items.length - 1) % items.length);
           return true;
         }
-        if (e.key === 'ArrowDown') {
+        if (e.key === "ArrowDown") {
           setSelectedIndex((selectedIndex + 1) % items.length);
           return true;
         }
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
           selectItem(selectedIndex);
           return true;
         }
         return false;
       }
     };
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [items, selectedIndex, setSelectedIndex, selectItem]);
 
@@ -350,31 +350,31 @@ const CommandList = ({
 
   return items.length > 0 ? (
     <div
-      id='slash-command'
+      id="slash-command"
       ref={commandListContainer}
-      className='z-50 no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border border-stone-200 bg-quarter-spanish-white-50 px-1 py-2 shadow-md transition-all'
+      className="z-50 bg-white no-scrollbar h-auto max-h-[330px] w-72 overflow-y-auto rounded-sm border border-stone-200 px-1 py-2 shadow-md transition-all"
     >
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm text-stone-900 hover:bg-quarter-spanish-white-100 ${
+            className={`flex w-full items-center space-x-2 rounded-sm px-2 py-1 text-left text-sm text-stone-900 hover:bg-bermuda-gray-100 ${
               index === selectedIndex
-                ? 'bg-quarter-spanish-white-100 text-stone-900'
-                : ''
+                ? "bg-bermuda-gray-100 text-stone-900"
+                : ""
             }`}
             key={index}
             onClick={() => selectItem(index)}
           >
-            <div className='flex h-10 w-10 items-center justify-center rounded-md border border-stone-200 bg-quarter-spanish-white-50'>
-              {item.title === 'Write Magic' && isLoading ? (
-                <CircleDashed className='animate-spin' size={16} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-stone-200 bg-bermuda-gray-50">
+              {item.title === "Write Magic" && isLoading ? (
+                <CircleDashed className="animate-spin" size={16} />
               ) : (
                 item.icon
               )}
             </div>
             <div>
-              <p className='font-medium'>{item.title}</p>
-              <p className='text-xs text-stone-500'>{item.description}</p>
+              <p className="font-medium">{item.title}</p>
+              <p className="text-xs text-stone-500">{item.description}</p>
             </div>
           </button>
         );
@@ -395,14 +395,14 @@ const renderItems = () => {
       });
 
       // @ts-ignore
-      popup = tippy('body', {
+      popup = tippy("body", {
         getReferenceClientRect: props.clientRect,
         appendTo: () => document.body,
         content: component.element,
         showOnCreate: true,
         interactive: true,
-        trigger: 'manual',
-        placement: 'bottom-start',
+        trigger: "manual",
+        placement: "bottom-start",
       });
     },
     onUpdate: (props: { editor: Editor; clientRect: DOMRect }) => {
@@ -414,7 +414,7 @@ const renderItems = () => {
         });
     },
     onKeyDown: (props: { event: KeyboardEvent }) => {
-      if (props.event.key === 'Escape') {
+      if (props.event.key === "Escape") {
         popup?.[0].hide();
 
         return true;
