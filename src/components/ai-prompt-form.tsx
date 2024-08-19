@@ -1,29 +1,33 @@
-import { Button } from "./ui/button";
-import { useState, useEffect, FormEvent, useRef } from "react";
-import { useCompletion } from "ai/react";
-import { toast } from "sonner";
-import { MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
-import { Editor } from "@tiptap/core";
-import { copyToClipboard } from "../lib/helpers/copy-to-clipboard";
-import { cn } from "../lib/utils";
-import { Sparkles } from "lucide-react";
-import useAutoScroll from "../lib/hooks/use-auto-scroll";
+import React, { useState, useEffect, FormEvent, useRef } from 'react';
+import { Button } from './ui/button';
+import { useChat } from 'ai/react';
+import { toast } from 'sonner';
+import { MagicWandIcon, UpdateIcon } from '@radix-ui/react-icons';
+import { Editor } from '@tiptap/core';
+import { cn } from '../lib/utils';
+import { Sparkles } from 'lucide-react';
+import { copyToClipboard } from '../lib/helpers/copy-to-clipboard';
+import 'filepond/dist/filepond.min.css';
 
 export default function AiPromptForm({ editor }: { editor: Editor }) {
-  const [prompt, setPrompt] = useState("");
-  const [lastSelectedText, setLastSelectedText] = useState("");
+  const [lastSelectedText, setLastSelectedText] = useState('');
   const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
   const [selectionTo, setSelectionTo] = useState<number | null>(null);
 
-  const { completion, isLoading, complete, stop } = useCompletion({
-    api: "/api/assistant",
+  const {
+    messages,
+    handleSubmit,
+    isLoading,
+    input,
+    handleInputChange,
+    reload,
+  } = useChat({
+    api: '/api/aiAssistant',
     onError: () => {
-      toast.error("Failed to execute action");
       restoreOriginalText();
+      toast.error('Failed to execute action');
     },
   });
-
-  const scrollRef = useAutoScroll(completion);
 
   const updateSelectedText = () => {
     const { from, to } = editor.state.selection;
@@ -36,13 +40,6 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
     }
   };
 
-  useEffect(() => {
-    editor.on("selectionUpdate", updateSelectedText);
-    return () => {
-      editor.off("selectionUpdate", updateSelectedText);
-    };
-  }, [editor]);
-
   const restoreOriginalText = () => {
     if (selectionFrom !== null && selectionTo !== null) {
       editor?.commands.command(({ tr }) => {
@@ -52,53 +49,67 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  useEffect(() => {
+    editor.on('selectionUpdate', updateSelectedText);
+    return () => {
+      editor.off('selectionUpdate', updateSelectedText);
+    };
+  }, [editor]);
+
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (prompt.trim()) {
-      await complete(lastSelectedText, {
-        body: { selectedText: lastSelectedText, action: prompt },
-      });
-      setPrompt("");
-    }
+
+    handleSubmit(e, {
+      body: {
+        selectedText: lastSelectedText,
+      },
+    });
   };
 
+  const assistantMessages = messages.filter(
+    (message) => message.role === 'assistant'
+  );
+
+  const lastAssistantMessage = assistantMessages.length
+    ? assistantMessages[assistantMessages.length - 1].content
+    : '';
+
   const insertGeneratedContentAtCursor = () => {
-    if (completion && editor) {
-      editor.commands.insertContent(completion);
+    if (lastAssistantMessage && editor) {
+      editor.commands.insertContent(lastAssistantMessage);
     }
   };
 
   return (
-    <div className="flex flex-col h-1/2">
-      <div className="flex-grow flex justify-end flex-col min-h-0">
-        {completion ? (
+    <div className='flex flex-col h-1/2'>
+      <div className='flex-grow flex justify-end flex-col min-h-0'>
+        {lastAssistantMessage ? (
           <div
-            ref={scrollRef}
             className={cn(
-              "w-full flex max-h-fit flex-col overflow-y-auto no-scrollbar text-sm shadow-inner border border-bermuda-gray-200 rounded-sm p-2 bg-bermuda-gray-50",
-              !completion && "opacity-50"
+              'w-full flex max-h-fit flex-col overflow-y-auto no-scrollbar text-sm shadow-inner border border-bermuda-gray-200 rounded-sm p-2 bg-bermuda-gray-50',
+              !messages.length && 'opacity-50'
             )}
           >
-            {completion}
+            <div>{lastAssistantMessage}</div>
           </div>
         ) : (
           <Sparkles
-            className={cn("m-auto opacity-65", isLoading && "animate-pulse")}
+            className={cn('m-auto opacity-65', isLoading && 'animate-pulse')}
           />
         )}
-        {completion && (
-          <div className="flex space-x-2 mt-2">
+        {lastAssistantMessage && (
+          <div className='flex space-x-2 mt-2'>
             {selectionFrom && selectionTo && (
               <Button
-                variant={"menu"}
-                size={"sm"}
-                className="rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50"
+                variant={'menu'}
+                size={'sm'}
+                className='rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50'
                 onClick={() =>
                   editor.commands.command(({ tr }) => {
                     tr.replaceWith(
                       selectionFrom,
                       selectionTo,
-                      editor.schema.text(completion)
+                      editor.schema.text(lastAssistantMessage)
                     );
                     return true;
                   })
@@ -108,52 +119,56 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
               </Button>
             )}
             <Button
-              variant={"menu"}
-              size={"sm"}
-              className="rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50"
+              variant={'menu'}
+              size={'sm'}
+              className='rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50'
               onClick={insertGeneratedContentAtCursor}
             >
               Insert
             </Button>
             <Button
-              variant={"menu"}
-              size={"sm"}
-              className="rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50"
-              onClick={async () => await copyToClipboard(completion)}
+              variant={'menu'}
+              size={'sm'}
+              className='rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50'
+              onClick={async () => await copyToClipboard(lastAssistantMessage)}
             >
               Copy
+            </Button>
+            <Button
+              variant={'menu'}
+              size={'sm'}
+              className='rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50'
+              onClick={() => reload()}
+            >
+              Reload
             </Button>
           </div>
         )}
       </div>
 
       <form
-        onSubmit={handleSubmit}
-        className="w-full flex items-end space-x-1 mt-3"
-        onFocus={(e) => {
-          e.stopPropagation();
-        }}
+        onSubmit={onSubmit}
+        className='w-full flex items-center space-x-3 mt-3'
       >
         <input
-          name="aiPrompt"
-          id="aiPrompt"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          className="w-full text-sm h-9 p-2 bg-bermuda-gray-50 outline-none rounded-sm"
-          placeholder="AI prompt"
-          spellCheck="false"
-          autoComplete="off"
+          name='aiPrompt'
+          id='aiPrompt'
+          value={input}
+          onChange={handleInputChange}
+          className='w-full text-sm h-9 p-2 bg-bermuda-gray-50 outline-none rounded-sm'
+          placeholder='AI prompt'
+          spellCheck='false'
+          autoComplete='off'
         />
         <Button
-          variant={"menu"}
-          type="submit"
-          size={"sm"}
-          className="py-2 px-3 h-9"
-          onClick={isLoading ? stop : undefined}
+          variant={'menu'}
+          type='submit'
+          size={'sm'}
+          className='py-2 px-3 h-9'
         >
-          <span className="sr-only">Submit</span>
+          <span className='sr-only'>Submit</span>
           {isLoading ? (
-            <UpdateIcon className="animate-spin" />
+            <UpdateIcon className='animate-spin' />
           ) : (
             <MagicWandIcon />
           )}
