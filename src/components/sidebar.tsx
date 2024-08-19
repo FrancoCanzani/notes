@@ -7,7 +7,7 @@ import SidebarNotes from "./sidebar-notes";
 
 export default function Sidebar({ notes }: { notes: Note[] }) {
   return (
-    <div className="rounded-r-lg border-r flex flex-col justify-between w-full h-[calc(100vh)]">
+    <div className="rounded-r-sm border-r flex flex-col justify-between w-full h-[calc(100vh)]">
       <div className="flex flex-col space-y-2 w-full items-center justify-between px-5 pt-5">
         <div className="flex w-full justify-between items-center space-x-2">
           <h1 className="font-bold">Notes</h1>

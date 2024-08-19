@@ -22,7 +22,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             duration: 100,
             placement: usesMobile ? "bottom" : "top",
           }}
-          className="flex h-10 items-center space-x-1 rounded-md border text-xs bg-bermuda-gray-50 p-1"
+          className="flex h-10 items-center space-x-1 rounded-sm border text-xs bg-bermuda-gray-50 p-1"
         >
           <Button
             variant={"menu"}

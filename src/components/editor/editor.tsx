@@ -97,7 +97,7 @@ export default function Editor({
 
   return (
     <main className="flex h-screen overflow-hidden">
-      <div className="flex-grow overflow-auto thin-scrollbar bg-bermuda-gray-50 w-full">
+      <div className="flex-grow overflow-auto thin-scrollbar w-full">
         <div className="flex flex-col container max-w-4xl mx-auto px-4">
           <EditorHeader
             debouncedUpdates={debouncedUpdates}

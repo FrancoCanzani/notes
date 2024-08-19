@@ -77,7 +77,7 @@ export default function SidebarNoteOptions({
           <Button
             variant="ghost"
             className={cn(
-              "h-0 w-8 p-0 outline-none hover:bg-quarter-spanish-white-100 font-bold rounded-md",
+              "h-0 w-8 p-0 outline-none hover:bg-bermuda-gray-100 font-bold rounded-sm",
               className
             )}
           >
@@ -85,11 +85,8 @@ export default function SidebarNoteOptions({
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="bg-quarter-spanish-white-50 text-xs"
-        >
-          <DropdownMenuItem className="hover:bg-quarter-spanish-white-100 rounded-md w-full text-xs">
+        <DropdownMenuContent align="end" className="bg-bermuda-gray-50 text-xs">
+          <DropdownMenuItem className="hover:bg-bermuda-gray-100 rounded-sm w-full text-xs">
             <Link
               href={`/notes/${note.id}`}
               className="w-full cursor-pointer flex items-center justify-start gap-x-2"
@@ -100,7 +97,7 @@ export default function SidebarNoteOptions({
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => handlePinNote()}
-            className="hover:bg-quarter-spanish-white-100 rounded-md cursor-pointer w-full text-xs flex items-center justify-start gap-x-2"
+            className="hover:bg-bermuda-gray-100 rounded-sm cursor-pointer w-full text-xs flex items-center justify-start gap-x-2"
           >
             {note.pinned === true ? (
               <DrawingPinIcon />
@@ -110,7 +107,7 @@ export default function SidebarNoteOptions({
 
             {note.pinned === true ? "Unpin from Sidebar" : "Pin to Sidebar"}
           </DropdownMenuItem>
-          <DropdownMenuItem className="hover:bg-quarter-spanish-white-100 rounded-md w-full cursor-pointer text-xs">
+          <DropdownMenuItem className="hover:bg-bermuda-gray-100 rounded-sm w-full cursor-pointer text-xs">
             <AlertDialog>
               <AlertDialogTrigger
                 onClick={(e) => e.stopPropagation()}
@@ -119,7 +116,7 @@ export default function SidebarNoteOptions({
                 <Trash2 size={13} />
                 Delete Note
               </AlertDialogTrigger>
-              <AlertDialogContent className="bg-gray-50 rounded-md">
+              <AlertDialogContent className="bg-gray-50 rounded-sm">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -128,12 +125,12 @@ export default function SidebarNoteOptions({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex items-center justify-center space-x-6">
-                  <AlertDialogCancel className="bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-md p-3">
+                  <AlertDialogCancel className="bg-gray-200 hover:opacity-80 duration-150 font-medium rounded-sm p-3">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => handleDeleteNote()}
-                    className="bg-black text-white hover:opacity-80 duration-150 font-medium rounded-md p-3"
+                    className="bg-black text-white hover:opacity-80 duration-150 font-medium rounded-sm p-3"
                   >
                     Continue
                   </AlertDialogAction>
@@ -141,8 +138,8 @@ export default function SidebarNoteOptions({
               </AlertDialogContent>
             </AlertDialog>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-quarter-spanish-white-50 my-0.5" />
-          <DropdownMenuItem className="rounded-md w-full text-xs">
+          <DropdownMenuSeparator className="bg-bermuda-gray-50 my-0.5" />
+          <DropdownMenuItem className="rounded-sm w-full text-xs">
             Edited{" "}
             {new Date(note.lastSaved).toLocaleString(undefined, {
               year: "numeric",

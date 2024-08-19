@@ -33,14 +33,14 @@ export default function EditorOptionsDropdown({
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="h-0 w-8 p-0 outline-none bg-bermuda-gray-200 font-bold rounded-md"
+          className="h-0 w-8 p-0 outline-none bg-bermuda-gray-200 font-bold rounded-sm"
         >
           <span className="sr-only">Open menu</span>
           <MoreHorizontal size={16} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-bermuda-gray-100">
-        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-md w-full text-xs">
+        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs">
           <button
             onClick={handleExport}
             className="flex items-center justify-start gap-x-2"
@@ -60,7 +60,7 @@ export default function EditorOptionsDropdown({
             Export as Docx
           </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-md w-full text-xs">
+        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs">
           <button
             onClick={() => copyToClipboard(editor.getHTML().toString())}
             className="flex items-center justify-start gap-x-2"
@@ -80,7 +80,7 @@ export default function EditorOptionsDropdown({
             Copy as HTML
           </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-md w-full text-xs">
+        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs">
           <button
             onClick={() => copyToClipboard(editor.getJSON().toString())}
             className="flex items-center justify-start gap-x-2"
@@ -100,7 +100,7 @@ export default function EditorOptionsDropdown({
             Copy as JSON
           </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-md w-full text-xs">
+        <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs">
           <button
             onClick={() =>
               copyToClipboard(editor.storage.markdown.getMarkdown().toString())

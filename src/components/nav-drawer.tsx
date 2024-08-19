@@ -96,7 +96,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
                 <Button
                   variant={"menu"}
                   size={"lg"}
-                  className="px-3 py-2 h-10 rounded-md font-medium bg-bermuda-gray-50"
+                  className="px-3 py-2 h-10 rounded-sm font-medium bg-bermuda-gray-50"
                 >
                   Create
                 </Button>

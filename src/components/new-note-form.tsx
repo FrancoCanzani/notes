@@ -41,7 +41,7 @@ export default function NewNoteForm() {
   return (
     <form
       action={handleSubmit}
-      className="w-full p-3 bg-bermuda-gray-50 border-dashed border-2 rounded-md"
+      className="w-full p-3 bg-bermuda-gray-50 border-dashed border-2 rounded-sm"
     >
       <Input
         className="text-center focus:text-start bg-transparent border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"

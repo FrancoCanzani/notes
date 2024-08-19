@@ -20,7 +20,7 @@ export default function SidebarNotes({ notes }: { notes: Note[] }) {
         <Link href={`/notes/${note.id}`} key={note._id}>
           <div
             className={cn(
-              "p-1.5 group my-1 bg-bermuda-gray-50 rounded-md text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
+              "p-1.5 group my-1 bg-bermuda-gray-50 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
               pathname.includes(note.id) && "bg-bermuda-gray-200 font-semibold"
             )}
           >

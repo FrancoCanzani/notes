@@ -163,7 +163,7 @@ export default function AiMenu({ editor }: { editor: Editor | null }) {
       <DropdownMenuContent align="end" className="bg-bermuda-gray-100 text-sm">
         {options.map((option) => (
           <DropdownMenuItem
-            className="hover:bg-bermuda-gray-200 rounded-md w-full text-xs cursor-pointer flex items-center justify-start gap-x-2"
+            className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs cursor-pointer flex items-center justify-start gap-x-2"
             onClick={() => {
               handleClick(option.value);
             }}
