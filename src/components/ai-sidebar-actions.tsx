@@ -90,7 +90,7 @@ export default function AiSidebarActions({
             onClick={() => {
               handleClick(option.value);
             }}
-            className="flex disabled:opacity-50 my-1.5 hover:bg-bermuda-gray-200 bg-bermuda-gray-50 p-2.5 rounded-sm w-full text-sm disabled:cursor-not-allowed items-center justify-start gap-x-2"
+            className="flex disabled:opacity-50 my-1.5 hover:bg-bermuda-gray-200 bg-bermuda-gray-50 p-2.5 rounded-sm w-full text-sm items-center justify-start gap-x-2"
             key={option.value}
             disabled={
               window.getSelection()?.toString().length === 0 || isLoading

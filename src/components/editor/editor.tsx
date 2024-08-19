@@ -98,7 +98,7 @@ export default function Editor({
   return (
     <main className="flex h-screen overflow-hidden">
       <div className="flex-grow overflow-auto thin-scrollbar w-full">
-        <div className="flex flex-col container max-w-4xl mx-auto px-4">
+        <div className="flex flex-col container max-w-4xl mx-auto">
           <EditorHeader
             debouncedUpdates={debouncedUpdates}
             editor={editor}
@@ -107,7 +107,7 @@ export default function Editor({
             setTitle={setTitle}
             title={title}
           />
-          <div className="w-full m-auto pb-4">
+          <div className="w-full m-auto pb-4 px-4">
             <BubbleMenuTest editor={editor} />
             <EditorContent editor={editor} />
           </div>

@@ -34,7 +34,7 @@ export default function EditorHeader({
   );
 
   return (
-    <div className="w-full text-gray-600 text-xs overflow-x-clip flex items-center justify-between py-4 gap-x-2">
+    <div className="w-full px-4 text-gray-600 text-xs overflow-x-clip flex items-center justify-between py-4 gap-x-2 supports-backdrop-blur:bg-background/90 sticky top-0 z-40 bg-background/40 backdrop-blur-lg">
       <div className="flex max-w-[50%] items-center justify-start gap-x-2">
         <NavDrawer notes={notes} />
         <input
@@ -43,7 +43,7 @@ export default function EditorHeader({
           onChange={(e) => handleTitleChange(e.target.value)}
           value={title}
           autoFocus
-          className="font-medium text-xl outline-none"
+          className="font-medium text-xl outline-none bg-transparent"
           aria-label="Note title"
         />
       </div>
