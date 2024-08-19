@@ -18,7 +18,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
       </div>
       <div className="px-5 pb-5 space-y-3">
         <div className="bg-[#FFD700] cursor-pointer font-medium p-1.5 rounded-sm text-sm w-full flex items-center justify-start gap-x-2 hover:bg-[#F2C649]">
-          <StarFilledIcon /> Go Premium
+          <StarFilledIcon /> Go Premium for $5 / M
         </div>
         <UserSettingsModal />
       </div>
