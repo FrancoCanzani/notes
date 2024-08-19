@@ -1,13 +1,13 @@
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import { useState, useEffect, FormEvent, useRef } from "react";
 import { useCompletion } from "ai/react";
 import { toast } from "sonner";
 import { MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Editor } from "@tiptap/core";
-import { copyToClipboard } from "../../lib/helpers/copy-to-clipboard";
-import { cn } from "../../lib/utils";
+import { copyToClipboard } from "../lib/helpers/copy-to-clipboard";
+import { cn } from "../lib/utils";
 import { Sparkles } from "lucide-react";
-import useAutoScroll from "../../lib/hooks/use-auto-scroll";
+import useAutoScroll from "../lib/hooks/use-auto-scroll";
 
 export default function AiPromptForm({ editor }: { editor: Editor }) {
   const [prompt, setPrompt] = useState("");
