@@ -22,7 +22,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             duration: 100,
             placement: usesMobile ? "bottom" : "top",
           }}
-          className="flex items-center gap-x-1 rounded-sm text-xs bg-bermuda-gray-100 p-1"
+          className="flex items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5"
         >
           <Button
             variant={"menu"}
@@ -31,7 +31,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             disabled={!editor.can().chain().focus().toggleBold().run()}
             className={
               editor.isActive("bold")
-                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-50 shadow"
+                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-100"
                 : ""
             }
             aria-label="bold"
@@ -46,7 +46,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             disabled={!editor.can().chain().focus().toggleItalic().run()}
             className={
               editor.isActive("italic")
-                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-50 shadow"
+                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-100"
                 : ""
             }
             aria-label="italic"
@@ -61,7 +61,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             disabled={!editor.can().chain().focus().toggleUnderline().run()}
             className={
               editor.isActive("underline")
-                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-50 shadow"
+                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-100"
                 : ""
             }
             aria-label="underline"
@@ -76,7 +76,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             disabled={!editor.can().chain().focus().toggleStrike().run()}
             className={
               editor.isActive("strike")
-                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-50 shadow"
+                ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-100"
                 : ""
             }
             aria-label="strike"
@@ -99,9 +99,7 @@ export default function BubbleMenuTest({ editor }: { editor: Editor }) {
             disabled={!editor.can().chain().focus().toggleHighlight().run()}
             className={cn(
               "bg-[#FFD465]/50 hover:bg-[#FFD465]",
-              editor.isActive("highlight")
-                ? "font-bold bg-[#FFD465] shadow"
-                : ""
+              editor.isActive("highlight") ? "font-bold bg-[#FFD465]" : ""
             )}
             aria-label="highlight"
             title="Highlight"

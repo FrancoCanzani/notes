@@ -85,7 +85,10 @@ export default function SidebarNoteOptions({
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-bermuda-gray-50 text-xs">
+        <DropdownMenuContent
+          align="end"
+          className="bg-bermuda-gray-50 text-xs rounded-sm"
+        >
           <DropdownMenuItem className="hover:bg-bermuda-gray-100 rounded-sm w-full text-xs">
             <Link
               href={`/notes/${note.id}`}
