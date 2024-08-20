@@ -165,7 +165,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           variant={"menu"}
           type="submit"
           size={"sm"}
-          className="py-2 px-3 h-9"
+          className="py-2 px-3 h-9 bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
         >
           <span className="sr-only">Submit</span>
           {isLoading ? (
