@@ -21,7 +21,7 @@ module.exports = {
         opaque: "rgb(132,130,129)",
       },
       colors: {
-        "bermuda-gray": {
+        "quarter-spanish-white": {
           50: "#fbf7ef",
           100: "#f6efdf",
           200: "#e5d1a2",

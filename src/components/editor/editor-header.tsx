@@ -1,3 +1,4 @@
+import { useState } from "react";
 import EditorOptionsDropdown from "./editor-options-dropdown";
 import { formatRelative } from "date-fns";
 import NavDrawer from "../nav-drawer";
@@ -23,6 +24,8 @@ export default function EditorHeader({
   note,
   debouncedUpdates,
 }: EditorHeaderProps) {
+  const [isEditing, setIsEditing] = useState(false);
+
   const handleTitleChange = useCallback(
     (input: string) => {
       setTitle(input);
@@ -30,22 +33,46 @@ export default function EditorHeader({
         debouncedUpdates(editor);
       }
     },
-    [editor, debouncedUpdates]
+    [editor, debouncedUpdates, setTitle]
   );
+
+  const handleTitleClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsEditing(false);
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setIsEditing(false);
+    }
+  };
 
   return (
     <div className="w-full px-4 text-gray-600 text-xs overflow-x-clip flex items-center justify-between py-4 gap-x-2 supports-backdrop-blur:bg-background/90 sticky top-0 z-40 bg-background/40 backdrop-blur-lg">
       <div className="flex max-w-[50%] items-center justify-start gap-x-2">
         <NavDrawer notes={notes} />
-        <input
-          type="text"
-          placeholder="Title"
-          onChange={(e) => handleTitleChange(e.target.value)}
-          value={title}
-          autoFocus
-          className="font-medium text-xl outline-none bg-transparent"
-          aria-label="Note title"
-        />
+        {isEditing ? (
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => handleTitleChange(e.target.value)}
+            onBlur={handleInputBlur}
+            onKeyDown={handleInputKeyDown}
+            autoFocus
+            className="font-medium text-xl outline-none bg-transparent"
+            aria-label="Note title"
+          />
+        ) : (
+          <p
+            onClick={handleTitleClick}
+            className="font-medium text-xl outline-none bg-transparent cursor-pointer hover:bg-bermuda-gray-50 px-1 truncate rounded-sm"
+          >
+            {title || "Untitled"}
+          </p>
+        )}
       </div>
       <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
         {note && (
