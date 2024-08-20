@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent, useRef } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { Button } from "./ui/button";
 import { useChat } from "ai/react";
 import { toast } from "sonner";
@@ -100,25 +100,6 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
         )}
         {lastAssistantMessage && (
           <div className="flex space-x-2 mt-2">
-            {selectionFrom && selectionTo && (
-              <Button
-                variant={"menu"}
-                size={"sm"}
-                className="rounded-sm py-1.5 px-2 text-xs bg-bermuda-gray-50"
-                onClick={() =>
-                  editor.commands.command(({ tr }) => {
-                    tr.replaceWith(
-                      selectionFrom,
-                      selectionTo,
-                      editor.schema.text(lastAssistantMessage)
-                    );
-                    return true;
-                  })
-                }
-              >
-                Replace
-              </Button>
-            )}
             <Button
               variant={"menu"}
               size={"sm"}
@@ -165,7 +146,7 @@ export default function AiPromptForm({ editor }: { editor: Editor }) {
           variant={"menu"}
           type="submit"
           size={"sm"}
-          className="py-2 px-3 h-9 bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
+          className="py-2 px-3 h-9 rounded-sm bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
         >
           <span className="sr-only">Submit</span>
           {isLoading ? (

@@ -26,6 +26,12 @@ export default function EditorHeader({
 }: EditorHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
 
+  const addAiWriterNode = () => {
+    if (editor) {
+      editor.chain().focus().setAiWriter().run();
+    }
+  };
+
   const handleTitleChange = useCallback(
     (input: string) => {
       setTitle(input);
@@ -81,6 +87,7 @@ export default function EditorHeader({
               {formatRelative(new Date(note.lastSaved), new Date())}
             </span>
             <EditorOptionsDropdown note={note} editor={editor} />
+            <button onClick={addAiWriterNode}>AI Writer</button>
           </>
         )}
       </div>
