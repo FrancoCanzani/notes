@@ -5,6 +5,7 @@ import { useChat } from "ai/react";
 import { copyToClipboard } from "../../lib/helpers/copy-to-clipboard";
 import { MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { cn } from "../../lib/utils";
+import AiWriter from "../../lib/extensions/ai-writer-extension";
 
 export default function AiWriterView({
   editor,
@@ -47,7 +48,10 @@ export default function AiWriterView({
     <NodeViewWrapper>
       <form
         onSubmit={handleSubmit}
-        className="w-full focus:border p-4 bg-bermuda-gray-50 rounded-sm"
+        className={cn(
+          "w-full focus:border p-4 bg-bermuda-gray-50 rounded-sm",
+          editor.isActive(AiWriter.name) && "ring-1 ring-bermuda-gray-300"
+        )}
       >
         <h4 className="font-medium">Ai Writer</h4>
         <div className="flex-grow flex justify-end flex-col">
@@ -95,7 +99,7 @@ export default function AiWriterView({
               onClick={discard}
             >
               Discard
-            </Button>{" "}
+            </Button>
           </div>
         )}
         <div className="w-full flex items-center justify-center space-x-1.5 mt-3">

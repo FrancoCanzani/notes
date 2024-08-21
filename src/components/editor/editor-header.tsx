@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction, useCallback } from "react";
 import { Note } from "../../lib/types";
 import { Editor } from "@tiptap/core";
 import { DebouncedState } from "use-debounce";
+import { Button } from "../ui/button";
 
 interface EditorHeaderProps {
   notes: Note[] | undefined;
@@ -86,8 +87,15 @@ export default function EditorHeader({
             <span className="text-gray-400 capitalize block text-sm">
               {formatRelative(new Date(note.lastSaved), new Date())}
             </span>
+            <Button
+              variant={"menu"}
+              size={"sm"}
+              onClick={addAiWriterNode}
+              className="rounded-sm"
+            >
+              AI Writer
+            </Button>
             <EditorOptionsDropdown note={note} editor={editor} />
-            <button onClick={addAiWriterNode}>AI Writer</button>
           </>
         )}
       </div>

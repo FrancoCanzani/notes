@@ -10,7 +10,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { defaultEditorProps } from "../../lib/editor-props";
 import { useAuth } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
-import BubbleMenuTest from "./bubble-menu-test";
+import BubbleMenu from "./bubble-menu";
 import AiSidebar from "../ai-sidebar";
 import EditorHeader from "./editor-header";
 
@@ -108,7 +108,7 @@ export default function Editor({
             title={title}
           />
           <div className="w-full m-auto pb-4 px-4">
-            <BubbleMenuTest editor={editor} />
+            <BubbleMenu editor={editor} />
             <EditorContent editor={editor} />
           </div>
         </div>
