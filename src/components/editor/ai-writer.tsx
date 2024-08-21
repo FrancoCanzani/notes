@@ -1,5 +1,4 @@
-import { NodeViewWrapper } from "@tiptap/react";
-import { Editor } from "@tiptap/core";
+import { NodeViewWrapper, NodeViewProps } from "@tiptap/react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { useChat } from "ai/react";
@@ -7,7 +6,11 @@ import { copyToClipboard } from "../../lib/helpers/copy-to-clipboard";
 import { MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { cn } from "../../lib/utils";
 
-export default function AiWriterView({ editor }: { editor: Editor }) {
+export default function AiWriterView({
+  editor,
+  node,
+  deleteNode,
+}: NodeViewProps) {
   const {
     messages,
     handleSubmit,
@@ -34,6 +37,10 @@ export default function AiWriterView({ editor }: { editor: Editor }) {
     if (lastAssistantMessage && editor) {
       editor.commands.insertContent(lastAssistantMessage);
     }
+  };
+
+  const discard = () => {
+    deleteNode();
   };
 
   return (
@@ -85,7 +92,7 @@ export default function AiWriterView({ editor }: { editor: Editor }) {
               variant={"menu"}
               size={"sm"}
               className="rounded-sm py-1.5 px-2 text-xs text-red-600 bg-bermuda-gray-50"
-              onClick={() => editor.commands.deleteCurrentNode()}
+              onClick={discard}
             >
               Discard
             </Button>{" "}
