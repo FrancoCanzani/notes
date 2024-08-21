@@ -14,6 +14,7 @@ import { useCallback } from "react";
 import { isCustomNodeSelected } from "../../../../lib/helpers/is-custom-node-selected";
 import { EditorView } from "@tiptap/pm/view";
 import BubbleMenuJustifyOptions from "./bubble-menu-justify-options";
+import BubbleMenuLink from "./bubble-menu-link";
 
 export default function BubbleMenu({ editor }: { editor: Editor }) {
   const usesMobile = isMobile();
@@ -109,6 +110,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
           >
             <StrikethroughIcon />
           </Button>
+          <BubbleMenuLink editor={editor} />
           <Button
             variant={"menu"}
             size={"sm"}

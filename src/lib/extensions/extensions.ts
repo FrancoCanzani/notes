@@ -23,7 +23,12 @@ export const extensions = [
   TextAlign.configure({
     types: ["heading", "paragraph"],
   }),
-  Link,
+  Link.configure({
+    autolink: true,
+    openOnClick: true,
+    linkOnPaste: true,
+    defaultProtocol: "https",
+  }),
   HardBreak,
   TaskItem,
   Image,
