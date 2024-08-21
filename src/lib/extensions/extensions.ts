@@ -7,13 +7,14 @@ import Highlight from "@tiptap/extension-highlight";
 import CharacterCount from "@tiptap/extension-character-count";
 import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
-import SlashCommand from "../components/editor/slash-command";
+import SlashCommand from "../../components/editor/slash-command";
 import Placeholder from "@tiptap/extension-placeholder";
 import SearchAndReplace from "@sereneinserenade/tiptap-search-and-replace";
 import Image from "@tiptap/extension-image";
 import HardBreak from "@tiptap/extension-hard-break";
 import { Markdown } from "tiptap-markdown";
-import AiWriterExtension from "./extensions/ai-writer-extension";
+import AiWriter from "./ai-writer-extension";
+import Selection from "./selection-extension";
 
 export const extensions = [
   Color,
@@ -29,7 +30,8 @@ export const extensions = [
   TaskList,
   StarterKit,
   SlashCommand,
-  AiWriterExtension,
+  AiWriter,
+  Selection,
   SearchAndReplace.configure(),
   Placeholder.configure({
     placeholder: "Press '/' for commands. Select text for styles.",

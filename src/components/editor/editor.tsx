@@ -1,6 +1,6 @@
 "use client";
 
-import { extensions } from "../../lib/extensions";
+import { extensions } from "../../lib/extensions/extensions";
 import { useEffect, useState, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { saveNote } from "../../lib/actions";

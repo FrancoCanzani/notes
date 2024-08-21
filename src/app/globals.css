@@ -50,7 +50,7 @@ summary::-webkit-details-marker {
   pre {
     background: #fdf8ea;
     color: black;
-    font-family: 'JetBrainsMono', monospace;
+    font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.2rem;
 
@@ -87,7 +87,7 @@ summary::-webkit-details-marker {
     margin: 1rem 0;
   }
 
-  ul[data-type='taskList'] {
+  ul[data-type="taskList"] {
     list-style: none;
     padding: 0;
 
@@ -113,7 +113,7 @@ summary::-webkit-details-marker {
         display: list-item;
       }
 
-      ul[data-type='taskList'] > li {
+      ul[data-type="taskList"] > li {
         display: flex;
       }
     }
@@ -126,6 +126,16 @@ summary::-webkit-details-marker {
     &.ProseMirror-selectednode {
       outline: 3px solid #68cef8;
     }
+  }
+
+  .selection {
+    background-color: rgba(0, 0, 0, 0.1);
+    @apply inline bg-black/10 dark:bg-white/20;
+  }
+
+  *::selection {
+    background-color: rgba(0, 0, 0, 0.1);
+    @apply bg-black/10 dark:bg-white/20;
   }
 }
 
