@@ -10,7 +10,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { defaultEditorProps } from "../../lib/editor-props";
 import { useAuth } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
-import BubbleMenu from "./bubble-menu";
+import BubbleMenu from "./menus/bubble-menu/bubble-menu";
 import AiSidebar from "../ai-sidebar";
 import EditorHeader from "./editor-header";
 

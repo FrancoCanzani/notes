@@ -15,10 +15,14 @@ import HardBreak from "@tiptap/extension-hard-break";
 import { Markdown } from "tiptap-markdown";
 import AiWriter from "./ai-writer-extension";
 import Selection from "./selection-extension";
+import TextAlign from "@tiptap/extension-text-align";
 
 export const extensions = [
   Color,
   TextStyle,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
   Link,
   HardBreak,
   TaskItem,

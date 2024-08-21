@@ -1,18 +1,19 @@
 import { Editor } from "@tiptap/core";
 import { BubbleMenu as Bubble } from "@tiptap/react";
-import { Button } from "../ui/button";
+import { Button } from "../../../ui/button";
 import {
   FontBoldIcon,
   FontItalicIcon,
   StrikethroughIcon,
   UnderlineIcon,
 } from "@radix-ui/react-icons";
-import isMobile from "../../lib/helpers/is-mobile";
-import { cn } from "../../lib/utils";
-import isTextSelected from "../../lib/helpers/is-text-selected";
+import isMobile from "../../../../lib/helpers/is-mobile";
+import { cn } from "../../../../lib/utils";
+import isTextSelected from "../../../../lib/helpers/is-text-selected";
 import { useCallback } from "react";
-import { isCustomNodeSelected } from "../../lib/helpers/is-custom-node-selected";
+import { isCustomNodeSelected } from "../../../../lib/helpers/is-custom-node-selected";
 import { EditorView } from "@tiptap/pm/view";
+import BubbleMenuJustifyOptions from "./bubble-menu-justify-options";
 
 export default function BubbleMenu({ editor }: { editor: Editor }) {
   const usesMobile = isMobile();
@@ -140,6 +141,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
               />
             </svg>
           </Button>
+          <BubbleMenuJustifyOptions editor={editor} />
         </Bubble>
       )}
     </div>
