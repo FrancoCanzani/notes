@@ -74,45 +74,32 @@ export default function BubbleMenuLink({ editor }: { editor: Editor }) {
       </PopoverTrigger>
       <PopoverContent className="flex w-fit items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5">
         <form
-          className="flex items-start flex-col justify-start p-0.5"
+          className="flex items-center justify-center gap-x-1 p-0.5"
           onSubmit={handleSetLink}
         >
-          <div className="flex items-center justify-center gap-x-1 p-0.5">
-            <input
-              type="url"
-              placeholder="Enter URL"
-              value={url}
-              autoComplete="off"
-              onChange={handleUrlChange}
-              className="w-full text-sm h-6 p-2 bg-white outline-none rounded-sm"
-            />
+          <input
+            type="url"
+            placeholder="Enter URL"
+            value={url}
+            autoComplete="off"
+            onChange={handleUrlChange}
+            className="w-full text-sm h-6 p-2 bg-white outline-none rounded-sm"
+          />
+          <Button
+            type="submit"
+            className="p-2 h-6 rounded-sm bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
+          >
+            {editor.isActive("link") ? "Update" : "Set"}
+          </Button>
+          {editor.isActive("link") && (
             <Button
-              type="submit"
-              className="py-2 px-3 h-6 rounded-sm bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
+              variant="destructive"
+              onClick={handleUnsetLink}
+              className="p-2 h-6 rounded-sm bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
             >
-              {editor.isActive("link") ? "Update Link" : "Set Link"}
+              Remove
             </Button>
-            {editor.isActive("link") && (
-              <Button
-                variant="destructive"
-                onClick={handleUnsetLink}
-                className="py-2 px-3 h-6 rounded-sm bg-bermuda-gray-950 text-white hover:bg-bermuda-gray-900"
-              >
-                Remove Link
-              </Button>
-            )}
-          </div>
-          <div className="mt-1">
-            <label className="flex items-center justify-start gap-x-2 p-0.5 text-xs font-semibold cursor-pointer select-none text-neutral-500 dark:text-neutral-400">
-              Open in new tab
-              <input
-                type="checkbox"
-                checked={openInNewTab}
-                onChange={(e) => setOpenInNewTab(e.target.checked)}
-                className="toggle-checkbox"
-              />
-            </label>
-          </div>
+          )}
         </form>
       </PopoverContent>
     </Popover>
