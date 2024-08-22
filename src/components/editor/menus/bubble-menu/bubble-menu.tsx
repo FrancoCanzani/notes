@@ -48,7 +48,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             duration: 100,
             placement: usesMobile ? "bottom" : "top",
           }}
-          className="flex items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5"
+          className="flex shadow items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5"
         >
           <Button
             variant={"menu"}

@@ -11,8 +11,8 @@ import { defaultEditorProps } from "../../lib/editor-props";
 import { useAuth } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import BubbleMenu from "./menus/bubble-menu/bubble-menu";
-import AiSidebar from "../ai-sidebar";
 import EditorHeader from "./editor-header";
+import { Editor as EditorCore } from "@tiptap/core";
 
 export default function Editor({
   noteId,
@@ -73,9 +73,12 @@ export default function Editor({
 
   useEffect(() => {
     if (editor) {
-      const updateListener = editor.on("update", ({ editor }) => {
-        debouncedUpdates(editor);
-      });
+      const updateListener = editor.on(
+        "update",
+        ({ editor }: { editor: EditorCore }) => {
+          debouncedUpdates(editor);
+        }
+      );
 
       return () => {
         updateListener.destroy();
@@ -96,24 +99,21 @@ export default function Editor({
   }
 
   return (
-    <main className="flex h-screen overflow-hidden">
-      <div className="flex-grow overflow-auto thin-scrollbar w-full">
-        <div className="flex flex-col container max-w-4xl mx-auto">
-          <EditorHeader
-            debouncedUpdates={debouncedUpdates}
-            editor={editor}
-            note={note}
-            notes={notes}
-            setTitle={setTitle}
-            title={title}
-          />
-          <div className="w-full m-auto pb-4 px-4">
-            <BubbleMenu editor={editor} />
-            <EditorContent editor={editor} />
-          </div>
+    <main className="flex flex-col h-screen overflow-hidden">
+      <EditorHeader
+        debouncedUpdates={debouncedUpdates}
+        editor={editor}
+        note={note}
+        notes={notes}
+        setTitle={setTitle}
+        title={title}
+      />
+      <div className="flex-grow overflow-auto">
+        <div className="max-w-4xl mx-auto pt-5 pb-8 px-4">
+          <BubbleMenu editor={editor} />
+          <EditorContent editor={editor} />
         </div>
       </div>
-      <AiSidebar editor={editor} />
     </main>
   );
 }

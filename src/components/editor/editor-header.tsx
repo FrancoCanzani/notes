@@ -58,46 +58,48 @@ export default function EditorHeader({
   };
 
   return (
-    <div className="w-full px-4 text-gray-600 text-xs overflow-x-clip flex items-center justify-between py-4 gap-x-2 supports-backdrop-blur:bg-background/90 sticky top-0 z-40 bg-background/40 backdrop-blur-lg">
-      <div className="flex max-w-[50%] items-center justify-start gap-x-2">
-        <NavDrawer notes={notes} />
-        {isEditing ? (
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => handleTitleChange(e.target.value)}
-            onBlur={handleInputBlur}
-            onKeyDown={handleInputKeyDown}
-            autoFocus
-            className="font-medium text-xl outline-none bg-transparent"
-            aria-label="Note title"
-          />
-        ) : (
-          <p
-            onClick={handleTitleClick}
-            className="font-medium text-xl outline-none bg-transparent cursor-pointer hover:bg-bermuda-gray-50 px-1 truncate rounded-sm"
-          >
-            {title || "Untitled"}
-          </p>
-        )}
-      </div>
-      <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
-        {note && (
-          <>
-            <span className="text-gray-400 capitalize block text-sm">
-              {formatRelative(new Date(note.lastSaved), new Date())}
-            </span>
-            <Button
-              variant={"menu"}
-              size={"sm"}
-              onClick={addAiWriterNode}
-              className="rounded-sm"
+    <div className="w-full supports-backdrop-blur:bg-bermuda-gray/90 sticky top-0 z-40 bg-bermuda-gray/40 backdrop-blur-lg">
+      <div className="max-w-4xl mx-auto px-2 py-3 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
+        <div className="flex max-w-[50%] items-center justify-start gap-x-2">
+          <NavDrawer notes={notes} />
+          {isEditing ? (
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => handleTitleChange(e.target.value)}
+              onBlur={handleInputBlur}
+              onKeyDown={handleInputKeyDown}
+              autoFocus
+              className="font-medium text-xl outline-none bg-transparent"
+              aria-label="Note title"
+            />
+          ) : (
+            <p
+              onClick={handleTitleClick}
+              className="font-medium text-xl outline-none bg-transparent cursor-pointer truncate"
             >
-              AI Writer
-            </Button>
-            <EditorOptionsDropdown note={note} editor={editor} />
-          </>
-        )}
+              {title || "Untitled"}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
+          {note && (
+            <>
+              <span className="text-gray-400 capitalize block text-sm">
+                {formatRelative(new Date(note.lastSaved), new Date())}
+              </span>
+              <Button
+                variant={"menu"}
+                size={"sm"}
+                onClick={addAiWriterNode}
+                className="rounded-sm"
+              >
+                AI Writer
+              </Button>
+              <EditorOptionsDropdown note={note} editor={editor} />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
