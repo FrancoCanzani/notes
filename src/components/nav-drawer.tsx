@@ -19,12 +19,18 @@ import {
 import { FileIcon, DrawingPinFilledIcon } from "@radix-ui/react-icons";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { saveNote } from "../lib/actions";
 
-export default function NavDrawer({ notes }: { notes?: Note[] }) {
+export default function NavDrawer({
+  notes,
+  children,
+}: {
+  notes?: Note[];
+  children: ReactNode;
+}) {
   const pathname = usePathname();
   const { userId } = useAuth();
   const [title, setTitle] = useState("");
@@ -59,9 +65,7 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
 
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <button>Notes</button>
-      </DrawerTrigger>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="bg-white">
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
