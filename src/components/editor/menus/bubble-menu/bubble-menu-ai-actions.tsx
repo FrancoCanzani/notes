@@ -99,7 +99,7 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[200px] bg-white rounded-sm p-0"
+        className="w-[200px] bg-white rounded-md p-0"
         align="start"
       >
         <Command>

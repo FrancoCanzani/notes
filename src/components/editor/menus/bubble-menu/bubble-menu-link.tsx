@@ -7,7 +7,7 @@ import { Link2Icon } from "@radix-ui/react-icons";
 export default function BubbleMenuLink({ editor }: { editor: Editor }) {
   const [url, setUrl] = useState(editor.getAttributes("link").href || "");
   const [openInNewTab, setOpenInNewTab] = useState<boolean>(
-    editor.getAttributes("link").target === "_blank"
+    editor.getAttributes("link").target === "_blank",
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function BubbleMenuLink({ editor }: { editor: Editor }) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setUrl(event.target.value);
     },
-    []
+    [],
   );
 
   return (

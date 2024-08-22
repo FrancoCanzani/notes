@@ -59,7 +59,7 @@ export default function EditorHeader({
 
   return (
     <div className="w-full supports-backdrop-blur:bg-bermuda-gray/90 sticky top-0 z-40 bg-bermuda-gray/40 backdrop-blur-lg">
-      <div className="max-w-4xl mx-auto px-2 py-3 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-3 py-2 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
         <div className="flex max-w-[50%] items-center justify-start gap-x-2">
           <NavDrawer notes={notes} />
           {isEditing ? (

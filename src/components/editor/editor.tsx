@@ -13,6 +13,7 @@ import { Loader } from "lucide-react";
 import BubbleMenu from "./menus/bubble-menu/bubble-menu";
 import EditorHeader from "./editor-header";
 import { Editor as EditorCore } from "@tiptap/core";
+import WordCount from "./word-count";
 
 export default function Editor({
   noteId,
@@ -111,6 +112,7 @@ export default function Editor({
         />
         <BubbleMenu editor={editor} />
         <EditorContent editor={editor} className="max-w-3xl mx-auto px-3" />
+        <WordCount editor={editor} />
       </div>
     </main>
   );
