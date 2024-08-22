@@ -116,6 +116,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
           <Button
             variant={"menu"}
             size={"sm"}
+            title="Highlight"
             onClick={() =>
               editor.isActive("highlight")
                 ? editor.chain().focus().unsetHighlight().run()
@@ -131,7 +132,6 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
               editor.isActive("highlight") ? "font-bold bg-[#FFD465]" : ""
             )}
             aria-label="highlight"
-            title="Highlight"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

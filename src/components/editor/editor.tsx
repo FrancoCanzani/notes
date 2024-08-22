@@ -14,6 +14,7 @@ import BubbleMenu from "./menus/bubble-menu/bubble-menu";
 import EditorHeader from "./editor-header";
 import { Editor as EditorCore } from "@tiptap/core";
 import WordCount from "./word-count";
+import EditorMobileMenu from "./editor-mobile-menu";
 
 export default function Editor({
   noteId,
@@ -106,12 +107,15 @@ export default function Editor({
           debouncedUpdates={debouncedUpdates}
           editor={editor}
           note={note}
-          notes={notes}
           setTitle={setTitle}
           title={title}
         />
         <BubbleMenu editor={editor} />
-        <EditorContent editor={editor} className="max-w-3xl mx-auto px-3" />
+        <EditorMobileMenu editor={editor} notes={notes} />
+        <EditorContent
+          editor={editor}
+          className="max-w-3xl mx-auto px-3 pt-2"
+        />
         <WordCount editor={editor} />
       </div>
     </main>

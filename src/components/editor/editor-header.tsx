@@ -1,7 +1,6 @@
 import { useState } from "react";
 import EditorOptionsDropdown from "./editor-options-dropdown";
 import { formatRelative } from "date-fns";
-import NavDrawer from "../nav-drawer";
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { Note } from "../../lib/types";
 import { Editor } from "@tiptap/core";
@@ -9,7 +8,6 @@ import { DebouncedState } from "use-debounce";
 import { Button } from "../ui/button";
 
 interface EditorHeaderProps {
-  notes: Note[] | undefined;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
   editor: Editor;
@@ -18,7 +16,6 @@ interface EditorHeaderProps {
 }
 
 export default function EditorHeader({
-  notes,
   title,
   setTitle,
   editor,
@@ -26,12 +23,6 @@ export default function EditorHeader({
   debouncedUpdates,
 }: EditorHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
-
-  const addAiWriterNode = () => {
-    if (editor) {
-      editor.chain().focus().setAiWriter().run();
-    }
-  };
 
   const handleTitleChange = useCallback(
     (input: string) => {
@@ -61,7 +52,6 @@ export default function EditorHeader({
     <div className="w-full supports-backdrop-blur:bg-bermuda-gray/90 sticky top-0 z-40 bg-bermuda-gray/40 backdrop-blur-lg">
       <div className="max-w-4xl mx-auto px-3 py-2 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
         <div className="flex max-w-[50%] items-center justify-start gap-x-2">
-          <NavDrawer notes={notes} />
           {isEditing ? (
             <input
               type="text"
@@ -91,8 +81,8 @@ export default function EditorHeader({
               <Button
                 variant={"menu"}
                 size={"sm"}
-                onClick={addAiWriterNode}
-                className="rounded-sm"
+                onClick={() => editor.chain().focus().setAiWriter().run()}
+                className="rounded-sm hidden sm:visible"
               >
                 AI Writer
               </Button>

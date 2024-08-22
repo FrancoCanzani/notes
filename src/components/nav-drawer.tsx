@@ -59,28 +59,13 @@ export default function NavDrawer({ notes }: { notes?: Note[] }) {
 
   return (
     <Drawer>
-      <DrawerTrigger asChild className="sm:hidden">
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1.5rem"
-            height="1.5rem"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill="currentColor"
-              d="M10.01 8.5c0-.276.216-.5.495-.5h2.01c.243 0 .445.183.487.412l.008.088c0 .276-.216.5-.495.5h-2.01a.5.5 0 0 1-.487-.412zM12.5 12c.25 0 .459.183.502.412l.008.088c0 .276-.228.5-.51.5H3.52a.51.51 0 0 1-.502-.412L3.01 12.5c0-.276.228-.5.51-.5h3.987V4.208l-2.06 2.06a.5.5 0 1 1-.707-.707L6.86 3.44A1.5 1.5 0 0 1 7.974 3h.033q.06 0 .118.014c.314.043.616.185.857.426l2.122 2.12a.5.5 0 0 1-.708.708l-1.889-1.89V12zM3 8.5c0-.276.216-.5.495-.5h2.01c.243 0 .445.183.487.412L6 8.5c0 .276-.216.5-.495.5h-2.01a.5.5 0 0 1-.487-.412z"
-            />
-          </svg>{" "}
-          <span className="sr-only">Toggle Menu</span>
-        </button>
+      <DrawerTrigger asChild>
+        <button>Notes</button>
       </DrawerTrigger>
       <DrawerContent className="bg-white">
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>
-              <h1 className="font-semibold py-1.5">Notes</h1>
-            </DrawerTitle>
+            <DrawerTitle className="font-semibold py-1.5">Notes</DrawerTitle>
           </DrawerHeader>
           <div className="flex flex-col justify-between w-full px-1.5 py-4 min-h-60">
             <div className="space-y-4">

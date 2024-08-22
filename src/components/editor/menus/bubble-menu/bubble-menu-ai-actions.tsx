@@ -53,7 +53,7 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
         tr.replaceWith(
           selectionFrom,
           selectionTo,
-          editor.schema.text(completion),
+          editor.schema.text(completion)
         );
         return true;
       });
@@ -92,14 +92,14 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
           size={"sm"}
           className={cn(
             "flex items-center transition-colors duration-300 text-xs justify-start gap-x-1 bg-gradient-to-r from-white hover:via-purple-200 via-purple-100 hover:to-pink-200 to-pink-100",
-            isLoading && "animate-pulse",
+            isLoading && "animate-pulse"
           )}
         >
           Ai Actions
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[200px] bg-white rounded-md p-0"
+        className="w-[200px] bg-white rounded-sm p-0"
         align="start"
       >
         <Command>

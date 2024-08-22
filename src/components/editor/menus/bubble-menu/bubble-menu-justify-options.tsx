@@ -41,7 +41,7 @@ const BubbleMenuJustifyOptions = ({ editor }: { editor: Editor }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"menu"} size={"sm"}>
+        <Button variant={"menu"} size={"sm"} title="Position">
           {getIcon()}
         </Button>
       </PopoverTrigger>
