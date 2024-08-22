@@ -9,6 +9,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import {
+  FileIcon,
+  HomeIcon,
+  MagicWandIcon,
+  ImageIcon,
+} from "@radix-ui/react-icons";
 
 export default function EditorMobileMenu({
   editor,
@@ -19,12 +25,12 @@ export default function EditorMobileMenu({
 }) {
   return (
     <TooltipProvider>
-      <nav className="fixed opacity-75 hover:opacity-100 rounded-md transition-opacity duration-300 z-50 bottom-4 left-1/2 transform -translate-x-1/2 bg-bermuda-gray-950 text-white text-sm px-4 py-1.5 flex items-center justify-center space-x-3">
+      <nav className="fixed sm:hidden opacity-65 hover:opacity-100 rounded-md transition-opacity duration-300 z-50 bottom-4 left-1/2 transform -translate-x-1/2 bg-bermuda-gray-950 text-white text-sm px-6 py-3 shadow-inner flex items-center justify-center space-x-6">
         <Tooltip>
           <TooltipTrigger asChild>
-            <span>
-              <NavDrawer notes={notes} />
-            </span>
+            <NavDrawer notes={notes}>
+              <FileIcon className="cursor-pointer" />
+            </NavDrawer>
           </TooltipTrigger>
           <TooltipContent>
             <p>Open Navigation</p>
@@ -33,7 +39,9 @@ export default function EditorMobileMenu({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link href={"/"}>Home</Link>
+            <Link href={"/"}>
+              <HomeIcon />
+            </Link>
           </TooltipTrigger>
           <TooltipContent>
             <p>Go to Home</p>
@@ -43,11 +51,20 @@ export default function EditorMobileMenu({
         <Tooltip>
           <TooltipTrigger asChild>
             <button onClick={() => editor.chain().focus().setAiWriter().run()}>
-              Ai Writer
+              <MagicWandIcon />
             </button>
           </TooltipTrigger>
           <TooltipContent>
             <p>Insert AI Writer</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild className="cursor-pointer">
+            <ImageIcon />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Insert image</p>
           </TooltipContent>
         </Tooltip>
       </nav>
