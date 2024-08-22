@@ -76,6 +76,7 @@
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
+    "tiptap-extension-resize-image": "^1.1.8",
     "tiptap-markdown": "^0.8.10",
     "ts-pattern": "^5.1.1",
     "use-debounce": "^10.0.0",

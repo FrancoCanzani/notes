@@ -16,6 +16,7 @@ import { Markdown } from "tiptap-markdown";
 import AiWriter from "./ai-writer-extension";
 import Selection from "./selection-extension";
 import TextAlign from "@tiptap/extension-text-align";
+import ImageResize from "tiptap-extension-resize-image";
 
 export const extensions = [
   Color,
@@ -32,6 +33,7 @@ export const extensions = [
   HardBreak,
   TaskItem,
   Image,
+  ImageResize,
   Underline,
   Highlight,
   Markdown,
