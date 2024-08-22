@@ -91,7 +91,7 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
           variant="menu"
           size={"sm"}
           className={cn(
-            "flex items-center text-xs justify-start gap-x-1 bg-gradient-to-r from-white hover:via-purple-300 via-purple-200 hover:to-pink-200 to-pink-100",
+            "flex items-center text-xs justify-start gap-x-1 bg-gradient-to-r from-white hover:via-purple-200 via-purple-100 hover:to-pink-200 to-pink-100",
             isLoading && "animate-pulse",
           )}
         >
