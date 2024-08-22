@@ -4,18 +4,22 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { options } from "../../../../lib/constants/ai-actions";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../../ui/dropdown-menu";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../../../ui/command";
+import { Button } from "../../../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
+import { cn } from "../../../../lib/utils";
 
 export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
   const [lastSelectedText, setLastSelectedText] = useState("");
   const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
   const [selectionTo, setSelectionTo] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   const { complete, completion, error, isLoading } = useCompletion({
     api: "/api/aiActions",
@@ -25,24 +29,18 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
     },
   });
 
-  console.log(window.getSelection()?.toString().length);
-
-  if (!editor) {
-    return;
-  }
-
-  const updateSelectedText = () => {
-    const { from, to } = editor.state.selection;
-    const text = editor.state.doc.textBetween(from, to);
-    setSelectionFrom(from);
-    setSelectionTo(to);
-
-    if (text) {
-      setLastSelectedText(text);
-    }
-  };
-
   useEffect(() => {
+    const updateSelectedText = () => {
+      const { from, to } = editor.state.selection;
+      const text = editor.state.doc.textBetween(from, to);
+      setSelectionFrom(from);
+      setSelectionTo(to);
+
+      if (text) {
+        setLastSelectedText(text);
+      }
+    };
+
     editor.on("selectionUpdate", updateSelectedText);
     return () => {
       editor.off("selectionUpdate", updateSelectedText);
@@ -55,7 +53,7 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
         tr.replaceWith(
           selectionFrom,
           selectionTo,
-          editor.schema.text(completion)
+          editor.schema.text(completion),
         );
         return true;
       });
@@ -71,11 +69,12 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
     }
   };
 
-  const handleClick = async (command: string) => {
-    const text = window.getSelection()?.toString();
-    if (text) {
-      await complete(text, {
-        body: { option: command },
+  const handleSelect = async (value: string) => {
+    if (lastSelectedText) {
+      setOpen(false);
+
+      await complete(lastSelectedText, {
+        body: { option: value },
       });
 
       if (error) {
@@ -86,33 +85,43 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
   };
 
   return (
-    <div className="relative">
-      <DropdownMenu>
-        <DropdownMenuTrigger className="hover:bg-bermuda-gray-200 border-bermuda-gray-50 border p-1 rounded-sm font-medium">
-          Ai Actions
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          side="bottom"
-          align="start"
-          sideOffset={5}
-          className="z-50"
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="menu"
+          size={"sm"}
+          className={cn(
+            "flex items-center text-xs justify-start gap-x-1 bg-gradient-to-r from-white hover:via-purple-300 via-purple-200 hover:to-pink-200 to-pink-100",
+            isLoading && "animate-pulse",
+          )}
         >
-          {options.map((option) => (
-            <DropdownMenuItem
-              onClick={() => {
-                handleClick(option.value);
-              }}
-              className="flex disabled:opacity-50 my-1 hover:bg-bermuda-gray-200 bg-bermuda-gray-50 p-1.5 rounded-sm w-full text-sm items-center justify-start gap-x-2"
-              key={option.value}
-              disabled={
-                window.getSelection()?.toString().length === 0 || isLoading
-              }
-            >
-              {option.icon} {option.label}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+          Ai Actions
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-[200px] bg-white rounded-sm p-0"
+        align="start"
+      >
+        <Command>
+          <CommandInput placeholder="Search AI actions..." />
+          <CommandList>
+            <CommandEmpty>No actions found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((option) => (
+                <CommandItem
+                  key={option.value}
+                  onSelect={() => handleSelect(option.value)}
+                  disabled={isLoading}
+                  className="cursor-pointer hover:bg-bermuda-gray-100"
+                >
+                  {option.icon}
+                  <span className="ml-2">{option.label}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
