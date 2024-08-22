@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { useChat } from "ai/react";
 import { copyToClipboard } from "../../lib/helpers/copy-to-clipboard";
-import { MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, MagicWandIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { cn } from "../../lib/utils";
 import AiWriter from "../../lib/extensions/ai-writer-extension";
 
@@ -40,20 +40,23 @@ export default function AiWriterView({
     }
   };
 
-  const discard = () => {
-    deleteNode();
-  };
-
   return (
     <NodeViewWrapper>
       <form
         onSubmit={handleSubmit}
         className={cn(
-          "w-full focus:border p-4 bg-bermuda-gray-50 rounded-sm",
+          "w-full focus:border p-4 relative bg-bermuda-gray-50 rounded-sm",
           editor.isActive(AiWriter.name) && "ring-1 ring-bermuda-gray-300"
         )}
       >
         <h4 className="font-medium">Ai Writer</h4>
+        <button
+          className="absolute right-2.5 top-2.5"
+          onClick={() => deleteNode()}
+        >
+          <span className="sr-only">Close</span>
+          <Cross2Icon />
+        </button>
         <div className="flex-grow flex justify-end flex-col">
           {lastAssistantMessage && (
             <div
@@ -96,7 +99,9 @@ export default function AiWriterView({
               variant={"menu"}
               size={"sm"}
               className="rounded-sm py-1.5 px-2 text-xs text-red-600 bg-bermuda-gray-50"
-              onClick={discard}
+              onClick={() => {
+                deleteNode();
+              }}
             >
               Discard
             </Button>

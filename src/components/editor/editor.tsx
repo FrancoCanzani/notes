@@ -102,7 +102,7 @@ export default function Editor({
 
   return (
     <main className="h-screen overflow-auto">
-      <div className="mx-auto pt-2 pb-8">
+      <div className="mx-auto pt-2 sm:pt-2 pb-8">
         <EditorHeader
           debouncedUpdates={debouncedUpdates}
           editor={editor}

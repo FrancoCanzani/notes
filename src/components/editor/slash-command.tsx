@@ -205,7 +205,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
               if (newBlob) {
                 editor.chain().setImage({ src: newBlob.url }).run();
                 const imageNode = editor.$node("image");
-                console.log(imageNode?.pos);
                 if (imageNode) {
                   const imagePos = imageNode.pos;
                   editor.commands.insertContentAt(imagePos + 1, "<br />");
@@ -223,7 +222,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "Insert Lorem Ipsum",
       description: "Insert a placeholder text.",
       searchTerms: ["lorem", "lorem ipsum"],
-      icon: <FileText className="w-7" />, // Assuming FileText is an icon component
+      icon: <FileText className="w-7" />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).run();
         editor.commands.insertContent(

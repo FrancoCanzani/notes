@@ -75,17 +75,17 @@ export default function EditorHeader({
         <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
           {note && (
             <>
-              <span className="text-gray-400 capitalize block text-sm">
-                {formatRelative(new Date(note.lastSaved), new Date())}
-              </span>
               <Button
                 variant={"menu"}
                 size={"sm"}
                 onClick={() => editor.chain().focus().setAiWriter().run()}
-                className="rounded-sm hidden sm:visible"
+                className="rounded-sm hidden sm:block"
               >
                 AI Writer
               </Button>
+              <span className="text-gray-400 capitalize block text-sm">
+                {formatRelative(new Date(note.lastSaved), new Date())}
+              </span>
               <EditorOptionsDropdown note={note} editor={editor} />
             </>
           )}
