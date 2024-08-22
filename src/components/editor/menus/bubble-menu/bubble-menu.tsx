@@ -15,6 +15,7 @@ import { isCustomNodeSelected } from "../../../../lib/helpers/is-custom-node-sel
 import { EditorView } from "@tiptap/pm/view";
 import BubbleMenuJustifyOptions from "./bubble-menu-justify-options";
 import BubbleMenuLink from "./bubble-menu-link";
+import BubbleMenuAiActions from "./bubble-menu-ai-actions";
 
 export default function BubbleMenu({ editor }: { editor: Editor }) {
   const usesMobile = isMobile();
@@ -50,6 +51,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
           }}
           className="flex shadow items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5"
         >
+          <BubbleMenuAiActions editor={editor} />
           <Button
             variant={"menu"}
             size={"sm"}

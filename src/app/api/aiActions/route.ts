@@ -6,6 +6,7 @@ export async function POST(req: Request): Promise<Response> {
   const { prompt, option } = await req.json();
 
   console.log(option);
+  console.log(prompt);
 
   const messages = match(option)
     .with("continue", () => [

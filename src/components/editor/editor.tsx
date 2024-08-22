@@ -99,20 +99,18 @@ export default function Editor({
   }
 
   return (
-    <main className="flex flex-col h-screen overflow-hidden">
-      <EditorHeader
-        debouncedUpdates={debouncedUpdates}
-        editor={editor}
-        note={note}
-        notes={notes}
-        setTitle={setTitle}
-        title={title}
-      />
-      <div className="flex-grow overflow-auto">
-        <div className="max-w-4xl mx-auto pt-5 pb-8 px-4">
-          <BubbleMenu editor={editor} />
-          <EditorContent editor={editor} />
-        </div>
+    <main className="h-screen overflow-auto">
+      <div className="mx-auto pt-2 pb-8">
+        <EditorHeader
+          debouncedUpdates={debouncedUpdates}
+          editor={editor}
+          note={note}
+          notes={notes}
+          setTitle={setTitle}
+          title={title}
+        />
+        <BubbleMenu editor={editor} />
+        <EditorContent editor={editor} className="max-w-3xl mx-auto px-3" />
       </div>
     </main>
   );
