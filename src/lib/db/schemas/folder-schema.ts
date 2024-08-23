@@ -1,14 +1,19 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const folderSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
   },
   userId: {
     type: String,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   created: {
@@ -16,11 +21,11 @@ const folderSchema = new Schema({
     default: Date.now,
   },
   parentFolderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Folder",
-    default: null, // For supporting nested folders in the future
+    type: String,
+    ref: 'Folder',
+    default: null,
   },
 });
 
 export const Folder =
-  mongoose.models.Folder || mongoose.model("Folder", folderSchema);
+  mongoose.models.Folder || mongoose.model('Folder', folderSchema);

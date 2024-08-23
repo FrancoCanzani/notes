@@ -8,8 +8,8 @@ export interface Note {
   published?: boolean;
   created?: Date;
   lastSaved: Date;
-  type: "local" | "cloud";
-  status: "active" | "archived";
+  type: 'local' | 'cloud';
+  status: 'active' | 'archived';
   label?: {
     text: string;
     color: string;
@@ -20,6 +20,7 @@ export interface Note {
 
 export interface Folder {
   _id?: string;
+  id: string;
   name: string;
   userId: string;
   created?: Date;
