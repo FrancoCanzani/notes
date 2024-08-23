@@ -22,7 +22,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
 
   const shouldShow = useCallback(
     ({ view, from }: { view: EditorView; from: number }) => {
-      if (!view || editor.view.dragging) {
+      if (!view || editor.view.dragging || usesMobile) {
         return false;
       }
 

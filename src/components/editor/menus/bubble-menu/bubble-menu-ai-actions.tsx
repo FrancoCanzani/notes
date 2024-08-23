@@ -14,8 +14,15 @@ import {
 import { Button } from "../../../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import { cn } from "../../../../lib/utils";
+import { GearIcon } from "@radix-ui/react-icons";
 
-export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
+export default function BubbleMenuAiActions({
+  editor,
+  className,
+}: {
+  editor: Editor;
+  className?: string;
+}) {
   const [lastSelectedText, setLastSelectedText] = useState("");
   const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
   const [selectionTo, setSelectionTo] = useState<number | null>(null);
@@ -90,12 +97,12 @@ export default function BubbleMenuAiActions({ editor }: { editor: Editor }) {
         <Button
           variant="menu"
           size={"sm"}
-          className={cn(
-            "flex items-center transition-colors duration-300 text-xs justify-start gap-x-1 bg-gradient-to-r from-white hover:via-purple-200 via-purple-100 hover:to-pink-200 to-pink-100",
-            isLoading && "animate-pulse"
-          )}
+          title="Ai Actions"
+          disabled={isLoading}
+          className={cn("", className, isLoading && "animate-pulse")}
         >
-          Ai Actions
+          <span className="sr-only">Ai Actions</span>
+          <GearIcon />
         </Button>
       </PopoverTrigger>
       <PopoverContent

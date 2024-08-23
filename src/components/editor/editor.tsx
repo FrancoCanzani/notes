@@ -12,9 +12,8 @@ import { useAuth } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import BubbleMenu from "./menus/bubble-menu/bubble-menu";
 import EditorHeader from "./editor-header";
-import { Editor as EditorCore } from "@tiptap/core";
 import WordCount from "./word-count";
-import EditorMobileMenu from "./editor-mobile-menu";
+import { createHandleImageDeletion } from "../../lib/helpers/handle-image-deletion";
 
 export default function Editor({
   noteId,
@@ -27,6 +26,7 @@ export default function Editor({
 }) {
   const [title, setTitle] = useState("");
   const { userId } = useAuth();
+  const handleImageDeletion = createHandleImageDeletion();
 
   const editor = useEditor({
     parseOptions: {
@@ -34,6 +34,10 @@ export default function Editor({
     },
     editorProps: useMemo(() => ({ ...defaultEditorProps }), []),
     extensions,
+    onUpdate: ({ editor }) => {
+      handleImageDeletion({ editor });
+      debouncedUpdates(editor);
+    },
   });
 
   const debouncedUpdates = useDebouncedCallback(async (editor) => {
@@ -73,21 +77,6 @@ export default function Editor({
     }
   }, [noteId, editor, note]);
 
-  useEffect(() => {
-    if (editor) {
-      const updateListener = editor.on(
-        "update",
-        ({ editor }: { editor: EditorCore }) => {
-          debouncedUpdates(editor);
-        }
-      );
-
-      return () => {
-        updateListener.destroy();
-      };
-    }
-  }, [editor, debouncedUpdates]);
-
   if (!editor) {
     return (
       <div className="grow m-auto bg-bermuda-gray-50 min-h-screen container flex items-center justify-center">
@@ -107,11 +96,11 @@ export default function Editor({
           debouncedUpdates={debouncedUpdates}
           editor={editor}
           note={note}
+          notes={notes}
           setTitle={setTitle}
           title={title}
         />
         <BubbleMenu editor={editor} />
-        <EditorMobileMenu editor={editor} notes={notes} />
         <EditorContent
           editor={editor}
           className="max-w-3xl mx-auto px-3 pt-2"

@@ -1,5 +1,5 @@
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
-import { NextResponse } from 'next/server';
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { NextResponse } from "next/server";
 
 // Use-case: uploading images for blog posts
 export async function POST(request: Request): Promise<NextResponse> {
@@ -19,7 +19,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         // like allowing users to modify other users' posts
 
         return {
-          allowedContentTypes: ['image/jpeg', 'image/png', 'image/gif'], // optional, default to all content types
+          allowedContentTypes: ["image/jpeg", "image/png", "image/gif"], // optional, default to all content types
           // maximumSizeInBytes: number, optional, the maximum is 5TB
           // validUntil: number, optional, timestamp in ms, by default now + 30s (30,000)
           // addRandomSuffix: boolean, optional, allows to disable or enable random suffixes (defaults to `true`)
@@ -35,14 +35,14 @@ export async function POST(request: Request): Promise<NextResponse> {
         // ⚠️ This will not work on `localhost` websites,
         // Use ngrok or similar to get the full upload flow
 
-        console.log('blob upload completed', blob, tokenPayload);
+        console.log("blob upload completed", blob, tokenPayload);
 
         try {
           // Run any logic after the file upload completed,
           // If you've already validated the user and authorization prior, you can
           // safely update your database
         } catch (error) {
-          throw new Error('Could not update post');
+          throw new Error("Could not update post");
         }
       },
     });

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import {
   TextAlignLeftIcon,
@@ -9,6 +9,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Editor } from "@tiptap/core";
 import { Button } from "../../../ui/button";
+import { cn } from "../../../../lib/utils";
 
 const alignmentOptions = [
   { value: "left", icon: <TextAlignLeftIcon /> },
@@ -18,7 +19,13 @@ const alignmentOptions = [
   { value: "unset", icon: <ResetIcon /> },
 ];
 
-const BubbleMenuJustifyOptions = ({ editor }: { editor: Editor }) => {
+export default function BubbleMenuJustifyOptions({
+  editor,
+  className,
+}: {
+  editor: Editor;
+  className?: string;
+}) {
   const [currentAlignment, setCurrentAlignment] = useState("left");
 
   const handleSelectAlignment = (alignment: string) => {
@@ -41,7 +48,12 @@ const BubbleMenuJustifyOptions = ({ editor }: { editor: Editor }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={"menu"} size={"sm"} title="Position">
+        <Button
+          variant={"menu"}
+          size={"sm"}
+          title="Position"
+          className={cn("", className)}
+        >
           {getIcon()}
         </Button>
       </PopoverTrigger>
@@ -67,6 +79,4 @@ const BubbleMenuJustifyOptions = ({ editor }: { editor: Editor }) => {
       </PopoverContent>
     </Popover>
   );
-};
-
-export default BubbleMenuJustifyOptions;
+}

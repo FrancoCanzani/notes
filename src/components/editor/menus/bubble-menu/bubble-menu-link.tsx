@@ -3,8 +3,15 @@ import { Popover, PopoverTrigger, PopoverContent } from "../../../ui/popover";
 import { Button } from "../../../ui/button";
 import { Editor } from "@tiptap/core";
 import { Link2Icon } from "@radix-ui/react-icons";
+import { cn } from "../../../../lib/utils";
 
-export default function BubbleMenuLink({ editor }: { editor: Editor }) {
+export default function BubbleMenuLink({
+  editor,
+  className,
+}: {
+  editor: Editor;
+  className?: string;
+}) {
   const [url, setUrl] = useState(editor.getAttributes("link").href || "");
   const [openInNewTab, setOpenInNewTab] = useState<boolean>(
     editor.getAttributes("link").target === "_blank"
@@ -64,11 +71,7 @@ export default function BubbleMenuLink({ editor }: { editor: Editor }) {
           variant={"menu"}
           size={"sm"}
           title="Link"
-          className={
-            editor.isActive("link")
-              ? "font-bold bg-bermuda-gray-100 hover:bg-bermuda-gray-100"
-              : ""
-          }
+          className={cn("", className)}
         >
           <Link2Icon />
         </Button>

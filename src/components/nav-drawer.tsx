@@ -66,7 +66,7 @@ export default function NavDrawer({
       <DrawerContent className="bg-white">
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle className="font-semibold py-1.5">Notes</DrawerTitle>
+            <DrawerTitle className="font-semibold py-1">Notes</DrawerTitle>
           </DrawerHeader>
           <div className="flex flex-col justify-between w-full px-1.5 py-4 min-h-60">
             <div className="space-y-4">

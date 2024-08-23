@@ -6,12 +6,15 @@ import { Note } from "../../lib/types";
 import { Editor } from "@tiptap/core";
 import { DebouncedState } from "use-debounce";
 import { Button } from "../ui/button";
+import EditorMobileMenu from "./editor-mobile-menu";
+import isMobile from "../../lib/helpers/is-mobile";
 
 interface EditorHeaderProps {
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
   editor: Editor;
   note: Note | undefined;
+  notes: Note[] | undefined;
   debouncedUpdates: DebouncedState<(editor: any) => Promise<void>>;
 }
 
@@ -20,9 +23,11 @@ export default function EditorHeader({
   setTitle,
   editor,
   note,
+  notes,
   debouncedUpdates,
 }: EditorHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const usesMobile = isMobile();
 
   const handleTitleChange = useCallback(
     (input: string) => {
@@ -91,6 +96,7 @@ export default function EditorHeader({
           )}
         </div>
       </div>
+      {usesMobile && <EditorMobileMenu editor={editor} notes={notes} />}
     </div>
   );
 }
