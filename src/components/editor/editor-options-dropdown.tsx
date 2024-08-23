@@ -37,7 +37,10 @@ export default function EditorOptionsDropdown({
           <MoreHorizontal size={16} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-bermuda-gray-50">
+      <DropdownMenuContent
+        align="end"
+        className="bg-bermuda-gray-50 rounded-sm"
+      >
         <DropdownMenuItem className="hover:bg-bermuda-gray-200 rounded-sm w-full text-xs">
           <button
             onClick={handleExport}
