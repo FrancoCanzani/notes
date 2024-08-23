@@ -44,12 +44,11 @@ const mapToNodeModel = (folders: Folder[], notes: Note[]): NodeModel[] => {
 
   // Create folder nodes with note count
   const folderNodes: NodeModel[] = folders.map((folder) => {
-    const noteCount = folderNotesMap[folder._id as string]?.length || 0;
     return {
       id: folder._id || "",
       parent: 0,
       droppable: true,
-      text: `${folder.name} (${noteCount})`,
+      text: folder.name,
     };
   });
 
@@ -104,7 +103,7 @@ export default function SidebarNotes({
   };
 
   return (
-    <ScrollArea className="h-[400px] thin-scrollbar w-full text-sm p-2 border rounded-sm shadow-inner">
+    <ScrollArea className="h-[400px] thin-scrollbar w-full text-sm rounded-sm border p-1">
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Tree
           tree={treeData}
@@ -114,26 +113,23 @@ export default function SidebarNotes({
               key={node.id}
               onClick={node.droppable ? onToggle : undefined}
               style={{ marginInlineStart: depth * 10 }}
-              className="flex my-1 items-center justify-start gap-x-1.5 truncate cursor-pointer"
+              className="flex my-1 hover:bg-bermuda-gray-100 bg-bermuda-gray-50 p-1 items-center justify-start gap-x-1.5 truncate cursor-pointer"
             >
               {node.droppable ? (
                 <span>
                   {isOpen ? (
-                    <FolderOpen size={14} />
+                    <FolderOpen size={16} />
                   ) : (
-                    <FolderClosed size={14} />
+                    <FolderClosed size={16} />
                   )}
                 </span>
               ) : (
-                <FileText size={14} />
+                <FileText size={16} />
               )}
               {node.droppable ? (
                 <span>{node.text}</span>
               ) : (
-                <Link
-                  className="hover:font-medium truncate w-[200px]"
-                  href={`/notes/${node.id}`}
-                >
+                <Link className="truncate w-[200px]" href={`/notes/${node.id}`}>
                   {node.text}
                 </Link>
               )}
