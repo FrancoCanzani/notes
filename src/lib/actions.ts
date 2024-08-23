@@ -90,6 +90,36 @@ export async function updateNoteStatus(
   }
 }
 
+export async function updateNoteFolder(
+  userId: string | undefined,
+  noteId: string,
+  newFolderId: string | null
+) {
+  if (!userId) {
+    throw new Error("Missing user id for updateNoteFolder");
+  }
+
+  try {
+    await connectToDatabase();
+
+    const note = await Note.findOne({ userId: userId, id: noteId });
+
+    if (!note) {
+      throw new Error("Note not found");
+    }
+
+    note.folderId = newFolderId;
+
+    const updatedNote = await note.save();
+
+    const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
+    revalidatePath("/notes");
+    return parsedResponse;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function updatePublishedStatus(
   userId: string | undefined,
   noteId: string
