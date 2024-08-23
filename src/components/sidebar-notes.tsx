@@ -57,6 +57,9 @@ const mapToNodeModel = (folders: Folder[], notes: Note[]): NodeModel[] => {
 
   nodeModels.push(...notesWithoutFolder);
 
+  // Log the final node models for debugging
+  console.log('Mapped Node Models:', nodeModels);
+
   return nodeModels;
 };
 
@@ -75,26 +78,38 @@ export default function SidebarNotes({
   const [treeData, setTreeData] = useState<NodeModel[]>(initialTreeData);
   const [folderName, setFolderName] = useState('');
   const { userId } = useAuth();
-
-  console.log(treeData);
+  const [previousTreeData, setPreviousTreeData] =
+    useState<NodeModel[]>(initialTreeData);
 
   const handleDrop = async (newTree: NodeModel[]) => {
-    setTreeData(newTree);
+    try {
+      setTreeData(newTree);
 
-    for (const node of newTree) {
-      if (node.id && userId) {
-        const isNote = !node.droppable;
-        if (isNote) {
-          try {
+      // Identify moved nodes
+      const movedNodes = newTree.filter((newNode, index) => {
+        const previousNode = previousTreeData[index];
+        return newNode.parent !== previousNode.parent;
+      });
+
+      console.log('Moved Nodes:', movedNodes);
+
+      for (const node of movedNodes) {
+        if (node.id && userId) {
+          const isNote = !node.droppable;
+          if (isNote) {
             const folderId = node.parent !== 0 ? (node.parent as string) : null;
-            console.log(node.id, folderId); // Debugging
+            console.log(`Updating note ${node.text} to folder ${folderId}`);
             await updateNoteFolder(userId, node.id as string, folderId);
-          } catch (error) {
-            toast.error('Error updating folder');
-            console.log(error);
+            console.log(`Note ${node.text} successfully updated.`);
           }
         }
       }
+
+      // Update the previous tree data reference
+      setPreviousTreeData(newTree);
+    } catch (error) {
+      toast.error('Error updating folder');
+      console.error('Error in handleDrop:', error);
     }
   };
 
