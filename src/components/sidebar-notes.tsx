@@ -9,8 +9,12 @@ import {
 import { Folder, Note } from "../lib/types";
 import { updateNoteFolder } from "../lib/actions";
 import { useAuth } from "@clerk/nextjs";
+import { toast } from "sonner";
+import { ScrollArea } from "./ui/scroll-area";
+import Link from "next/link";
+import { Folder as FolderClosed, FolderOpen, FileText } from "lucide-react";
 
-// Utility function to map folders and notes to NodeModel with nesting
+// Map folders and notes to NodeModel with nesting
 const mapToNodeModel = (folders: Folder[], notes: Note[]): NodeModel[] => {
   // Create a map of folder ids to their notes
   const folderNotesMap: { [key: string]: NodeModel[] } = {};
@@ -38,13 +42,16 @@ const mapToNodeModel = (folders: Folder[], notes: Note[]): NodeModel[] => {
     }
   });
 
-  // Create folder nodes
-  const folderNodes: NodeModel[] = folders.map((folder) => ({
-    id: folder._id || "",
-    parent: 0,
-    droppable: true, // Folders can contain notes
-    text: folder.name,
-  }));
+  // Create folder nodes with note count
+  const folderNodes: NodeModel[] = folders.map((folder) => {
+    const noteCount = folderNotesMap[folder._id as string]?.length || 0;
+    return {
+      id: folder._id || "",
+      parent: 0,
+      droppable: true,
+      text: `${folder.name} (${noteCount})`,
+    };
+  });
 
   // Combine folder nodes with their notes
   const nodeModels: NodeModel[] = [];
@@ -78,10 +85,8 @@ export default function SidebarNotes({
   const handleDrop = async (newTree: NodeModel[]) => {
     setTreeData(newTree);
 
-    // Update server-side folderId for notes
     for (const node of newTree) {
       if (node.id && userId) {
-        // Convert ids to string and check if the node is a note by its parent
         const isNote = !node.droppable && node.parent !== 0;
         if (isNote) {
           try {
@@ -91,7 +96,7 @@ export default function SidebarNotes({
               node.parent !== 0 ? (node.parent as string) : null
             );
           } catch (error) {
-            console.error(`Error updating folder for note ${node.id}:`, error);
+            toast.error("Error updating folder");
           }
         }
       }
@@ -99,17 +104,39 @@ export default function SidebarNotes({
   };
 
   return (
-    <div>
+    <ScrollArea className="h-[400px] thin-scrollbar w-full text-sm p-2 border rounded-sm shadow-inner">
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Tree
           tree={treeData}
           rootId={0}
           render={(node, { depth, isOpen, onToggle }) => (
-            <div style={{ marginInlineStart: depth * 10 }}>
-              {node.droppable && (
-                <span onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
+            <div
+              key={node.id}
+              onClick={node.droppable ? onToggle : undefined}
+              style={{ marginInlineStart: depth * 10 }}
+              className="flex my-1 items-center justify-start gap-x-1.5 truncate cursor-pointer"
+            >
+              {node.droppable ? (
+                <span>
+                  {isOpen ? (
+                    <FolderOpen size={14} />
+                  ) : (
+                    <FolderClosed size={14} />
+                  )}
+                </span>
+              ) : (
+                <FileText size={14} />
               )}
-              {node.text}
+              {node.droppable ? (
+                <span>{node.text}</span>
+              ) : (
+                <Link
+                  className="hover:font-medium truncate w-[200px]"
+                  href={`/notes/${node.id}`}
+                >
+                  {node.text}
+                </Link>
+              )}
             </div>
           )}
           dragPreviewRender={(monitorProps) => (
@@ -118,6 +145,6 @@ export default function SidebarNotes({
           onDrop={handleDrop}
         />
       </DndProvider>
-    </div>
+    </ScrollArea>
   );
 }
