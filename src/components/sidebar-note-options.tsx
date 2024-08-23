@@ -25,11 +25,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Note } from "../lib/types";
-import {
-  deleteCloudNote,
-  updateNoteStatus,
-  updatePinStatus,
-} from "../lib/actions";
+import { deleteNote, updatePinStatus } from "../lib/actions";
 import { useAuth } from "@clerk/nextjs";
 import { cn } from "../lib/utils";
 import { usePathname } from "next/dist/client/components/navigation";
@@ -50,8 +46,7 @@ export default function SidebarNoteOptions({
 
   const handleDeleteNote = async () => {
     try {
-      await deleteCloudNote(userId, note.id);
-      // redirect if the deleted note is the one in view
+      await deleteNote(userId, note.id);
       if (pathname.includes(note.id)) router.replace("/");
       toast.success(`Deleted: ${note.title}`);
       router.refresh();

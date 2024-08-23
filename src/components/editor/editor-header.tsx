@@ -6,7 +6,7 @@ import { Note } from "../../lib/types";
 import { Editor } from "@tiptap/core";
 import { DebouncedState } from "use-debounce";
 import { Button } from "../ui/button";
-import EditorMobileMenu from "./editor-mobile-menu";
+import EditorMobileMenu from "./menus/editor-mobile-menu";
 import isMobile from "../../lib/helpers/is-mobile";
 
 interface EditorHeaderProps {

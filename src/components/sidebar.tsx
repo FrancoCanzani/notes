@@ -1,12 +1,18 @@
 "use client";
 
 import UserSettingsModal from "./user-settings-modal";
-import { Note } from "../lib/types";
+import { Folder, Note } from "../lib/types";
 import NewNoteForm from "./new-note-form";
 import SidebarNotes from "./sidebar-notes";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 
-export default function Sidebar({ notes }: { notes: Note[] }) {
+export default function Sidebar({
+  notes,
+  folders,
+}: {
+  notes: Note[];
+  folders: Folder[];
+}) {
   return (
     <div className="rounded-r-sm border-r flex flex-col justify-between w-full h-[calc(100vh)]">
       <div className="flex flex-col space-y-2 w-full items-center justify-between px-5 pt-5">
@@ -14,7 +20,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
           <h1 className="font-bold">Notes</h1>
         </div>
         <NewNoteForm />
-        <SidebarNotes notes={notes} />
+        <SidebarNotes notes={notes} folders={folders} />
       </div>
       <div className="px-5 pb-5 space-y-3">
         <div className="bg-[#FFD700] cursor-pointer font-medium p-1.5 rounded-sm text-sm w-full flex items-center justify-start gap-x-2 hover:bg-[#F2C649]">

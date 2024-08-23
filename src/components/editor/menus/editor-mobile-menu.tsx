@@ -6,8 +6,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
-import { Button } from "../ui/button";
+} from "../../ui/tooltip";
+import { Button } from "../../ui/button";
 import {
   FileIcon,
   HomeIcon,
@@ -18,12 +18,12 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "@radix-ui/react-icons";
-import NavDrawer from "../nav-drawer";
-import { Note } from "../../lib/types";
-import { cn } from "../../lib/utils";
-import BubbleMenuAiActions from "./menus/bubble-menu/bubble-menu-ai-actions";
-import BubbleMenuJustifyOptions from "./menus/bubble-menu/bubble-menu-justify-options";
-import BubbleMenuLink from "./menus/bubble-menu/bubble-menu-link";
+import NavDrawer from "../../nav-drawer";
+import { Note } from "../../../lib/types";
+import { cn } from "../../../lib/utils";
+import BubbleMenuAiActions from "./bubble-menu/bubble-menu-ai-actions";
+import BubbleMenuJustifyOptions from "./bubble-menu/bubble-menu-justify-options";
+import BubbleMenuLink from "./bubble-menu/bubble-menu-link";
 
 export default function EditorMobileMenu({
   editor,
