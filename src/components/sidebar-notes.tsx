@@ -85,13 +85,10 @@ export default function SidebarNotes({
     try {
       setTreeData(newTree);
 
-      // Identify moved nodes
       const movedNodes = newTree.filter((newNode, index) => {
         const previousNode = previousTreeData[index];
         return newNode.parent !== previousNode.parent;
       });
-
-      console.log('Moved Nodes:', movedNodes);
 
       for (const node of movedNodes) {
         if (node.id && userId) {
@@ -105,7 +102,6 @@ export default function SidebarNotes({
         }
       }
 
-      // Update the previous tree data reference
       setPreviousTreeData(newTree);
     } catch (error) {
       toast.error('Error updating folder');
@@ -114,20 +110,18 @@ export default function SidebarNotes({
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full h-full flex flex-col'>
       <form
+        className='flex items-center justify-center space-x-2 my-2'
         onSubmit={async (e) => {
           e.preventDefault();
           if (userId && folderName.trim()) {
             try {
               await createFolder(folderName.trim(), userId);
-              setFolderName(''); // Clear input field after successful creation
-              toast.success('Folder created successfully');
+              setFolderName('');
             } catch (error) {
               toast.error('Error creating folder');
             }
-          } else {
-            toast.error('Folder name cannot be empty');
           }
         }}
       >
@@ -139,13 +133,17 @@ export default function SidebarNotes({
           placeholder='Folder name'
           required
         />
-        <button type='submit'>Create Folder</button>
+        <button type='submit'>Create</button>
       </form>
-      <ScrollArea className='h-[400px] thin-scrollbar w-full text-sm rounded-sm border p-1'>
+      <ScrollArea className='h-[400px] w-full text-sm rounded-sm border p-1'>
         <DndProvider backend={MultiBackend} options={getBackendOptions()}>
           <Tree
             tree={treeData}
             rootId={0}
+            classes={{
+              root: 'pb-5',
+              draggingSource: 'opacity-50',
+            }}
             render={(node, { depth, isOpen, onToggle }) => (
               <div
                 key={node.id}
