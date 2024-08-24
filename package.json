@@ -16,6 +16,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@headlessui/react": "^2.1.2",
     "@minoru/react-dnd-treeview": "^3.4.4",
+    "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
