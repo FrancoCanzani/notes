@@ -48,7 +48,6 @@ const noteSchema = new Schema({
     text: String,
     color: String,
   },
-  folderId: { type: String, default: null },
 });
 
 export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);

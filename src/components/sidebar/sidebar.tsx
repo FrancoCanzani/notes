@@ -2,34 +2,28 @@
 
 import React, { useState } from 'react';
 import UserSettingsModal from '../user-settings-modal';
-import { Folder, Note } from '../../lib/types';
+import { Note } from '../../lib/types';
 import SidebarNotes from './sidebar-notes';
 import { StarFilledIcon } from '@radix-ui/react-icons';
-import {
-  FolderSimplePlus,
-  FolderSimpleMinus,
-  FilePlus,
-  FileMinus,
-} from '@phosphor-icons/react';
+import { FilePlus, FileMinus, MagnifyingGlass } from '@phosphor-icons/react';
+import SearchNotesForm from '../forms/search-notes-form';
 
-export default function Sidebar({
-  notes,
-  folders,
-}: {
-  notes: Note[];
-  folders: Folder[];
-}) {
+export default function Sidebar({ notes }: { notes: Note[] }) {
   const [isNoteFormVisible, setIsNoteFormVisible] = useState(false);
-  const [isFolderFormVisible, setIsFolderFormVisible] = useState(false);
+  const [isSearchFormVisible, setIsSearchFormVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleNoteForm = () => {
     setIsNoteFormVisible(!isNoteFormVisible);
-    if (isFolderFormVisible) setIsFolderFormVisible(false);
   };
 
-  const toggleFolderForm = () => {
-    setIsFolderFormVisible(!isFolderFormVisible);
+  const toggleSearchForm = () => {
+    setIsSearchFormVisible(!isSearchFormVisible);
     if (isNoteFormVisible) setIsNoteFormVisible(false);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   return (
@@ -44,31 +38,27 @@ export default function Sidebar({
               aria-controls='new-note-form'
             >
               {isNoteFormVisible ? (
-                <FileMinus size={20} />
+                <FileMinus size={16} />
               ) : (
-                <FilePlus size={20} />
-              )}{' '}
+                <FilePlus size={16} />
+              )}
               <span className='sr-only'>Toggle New Note Form</span>
             </button>
             <button
-              onClick={toggleFolderForm}
-              aria-expanded={isFolderFormVisible}
-              aria-controls='new-folder-form'
+              onClick={toggleSearchForm}
+              aria-expanded={isSearchFormVisible}
+              aria-controls='search-notes-form'
             >
-              {isFolderFormVisible ? (
-                <FolderSimpleMinus size={20} />
-              ) : (
-                <FolderSimplePlus size={20} />
-              )}
-              <span className='sr-only'>Toggle New Folder Form</span>
+              <MagnifyingGlass size={16} />
+              <span className='sr-only'>Toggle Search Form</span>
             </button>
           </div>
         </div>
+        {isSearchFormVisible && <SearchNotesForm onSearch={handleSearch} />}
         <SidebarNotes
           notes={notes}
-          folders={folders}
           isNoteFormVisible={isNoteFormVisible}
-          isFolderFormVisible={isFolderFormVisible}
+          searchQuery={searchQuery}
         />
       </div>
       <div className='px-5 pb-5 space-y-3'>

@@ -14,16 +14,5 @@ export interface Note {
     text: string;
     color: string;
   };
-  folderId?: string | null;
-  __v?: number;
-}
-
-export interface Folder {
-  _id?: string;
-  id: string;
-  name: string;
-  userId: string;
-  created?: Date;
-  parentFolderId?: string | null;
   __v?: number;
 }
