@@ -104,11 +104,11 @@ export default function EditorHeader({
                 AI Writer
               </Button>
               {isSaved ? (
-                <span className="bg-bermuda-gray-100 text-xs shadow rounded-sm px-1.5 py-1 font-semibold">
+                <span className="bg-bermuda-gray-50 text-xs rounded-sm px-1.5 py-1 font-semibold">
                   Saved
                 </span>
               ) : (
-                <span className="animate-pulse bg-bermuda-gray-100 text-xs shadow rounded-sm px-1.5 py-1 font-semibold">
+                <span className="animate-pulse bg-bermuda-gray-50 text-xs rounded-sm px-1.5 py-1 font-semibold">
                   Saving...
                 </span>
               )}
