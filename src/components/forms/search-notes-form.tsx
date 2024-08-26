@@ -18,7 +18,7 @@ export default function SearchNotesForm({
       placeholder="Search notes..."
       value={searchQuery}
       onChange={handleChange}
-      className="w-full px-3 py-1 rounded-sm border border-gray-300"
+      className="w-full px-3 py-2 mb-1 rounded-sm border border-bermuda-gray-100"
     />
   );
 }
