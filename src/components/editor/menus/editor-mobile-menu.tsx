@@ -35,7 +35,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<MagicWand size={20} />}
+            icon={<MagicWand size={19} />}
             tooltip="Insert AI Writer"
             onClick={() => editor.chain().focus().setAiWriter().run()}
           />
@@ -44,7 +44,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />{" "}
           <BarButton
-            icon={<Image size={20} />}
+            icon={<Image size={19} />}
             tooltip="Insert image"
             onClick={() => {
               /* Add image insertion logic */
@@ -55,7 +55,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<TextB size={20} />}
+            icon={<TextB size={19} />}
             tooltip="Bold"
             isActive={editor.isActive("bold")}
             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -66,7 +66,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<TextItalic size={20} />}
+            icon={<TextItalic size={19} />}
             tooltip="Italic"
             isActive={editor.isActive("italic")}
             onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -77,7 +77,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<TextAUnderline size={20} />}
+            icon={<TextAUnderline size={19} />}
             tooltip="Underline"
             isActive={editor.isActive("underline")}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -88,7 +88,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<TextStrikethrough size={20} />}
+            icon={<TextStrikethrough size={19} />}
             tooltip="Strike"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -112,7 +112,7 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<HighlighterCircle size={20} />}
+            icon={<HighlighterCircle size={19} />}
             tooltip="Highlight"
             isActive={editor.isActive("highlight")}
             onClick={() =>
@@ -131,14 +131,14 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
           />
           <BarButton
-            icon={<ArrowUUpRight size={20} />}
+            icon={<ArrowUUpRight size={19} />}
             tooltip="Redo"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().undo()}
           />
           <BarButton
-            icon={<ArrowUUpLeft size={20} />}
+            icon={<ArrowUUpLeft size={19} />}
             tooltip="Undo"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().redo().run()}

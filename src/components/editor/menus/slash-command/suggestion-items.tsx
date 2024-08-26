@@ -1,33 +1,44 @@
 import { CommandProps } from "../../../../lib/types";
 import { toast } from "sonner";
 import {
-  Sparkles,
-  Text,
+  Sparkle,
+  TextAa,
   CheckSquare,
-  Heading1,
-  Heading2,
-  Heading3,
-  List,
-  ListOrdered,
+  TextHOne,
+  TextHTwo,
+  TextHThree,
+  ListNumbers,
+  ListBullets,
   Code,
-  TextQuote,
+  Quotes,
   Image,
-} from "lucide-react";
+  Article,
+} from "@phosphor-icons/react";
+
 import { upload } from "@vercel/blob/client";
 
 export default function getSuggestionItems({ query }: { query: string }) {
   return [
     {
-      title: "Write Magic",
+      title: "Continue Writing",
       description: "Use AI to expand your thoughts.",
       searchTerms: ["gpt", "ai"],
-      icon: <Sparkles className="w-7" />,
+      icon: <Sparkle size={18} />,
+    },
+    {
+      title: "Insert AI Writer",
+      description: "Prompt your next paragraph.",
+      searchTerms: ["gpt", "ai", "prompt"],
+      icon: <Article size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        editor.chain().focus().deleteRange(range).setAiWriter().run();
+      },
     },
     {
       title: "Text",
       description: "Just start typing with plain text.",
       searchTerms: ["p", "paragraph"],
-      icon: <Text size={18} />,
+      icon: <TextAa size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -50,7 +61,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Heading 1",
       description: "Big section heading.",
       searchTerms: ["title", "big", "large"],
-      icon: <Heading1 size={18} />,
+      icon: <TextHOne size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -64,7 +75,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Heading 2",
       description: "Medium section heading.",
       searchTerms: ["subtitle", "medium"],
-      icon: <Heading2 size={18} />,
+      icon: <TextHTwo size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -78,7 +89,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Heading 3",
       description: "Small section heading.",
       searchTerms: ["subtitle", "small"],
-      icon: <Heading3 size={18} />,
+      icon: <TextHThree size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor
           .chain()
@@ -92,7 +103,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Bullet List",
       description: "Create a simple bullet list.",
       searchTerms: ["unordered", "point"],
-      icon: <List size={18} />,
+      icon: <ListBullets size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
@@ -101,7 +112,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Numbered List",
       description: "Create a list with numbering.",
       searchTerms: ["ordered"],
-      icon: <ListOrdered size={18} />,
+      icon: <ListNumbers size={18} />,
       command: ({ editor, range }: CommandProps) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
       },
@@ -110,7 +121,7 @@ export default function getSuggestionItems({ query }: { query: string }) {
       title: "Quote",
       description: "Capture a quote.",
       searchTerms: ["blockquote"],
-      icon: <TextQuote size={18} />,
+      icon: <Quotes size={18} />,
       command: ({ editor, range }: CommandProps) =>
         editor
           .chain()

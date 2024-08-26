@@ -95,14 +95,6 @@ export default function EditorHeader({
         <div className="flex items-center justify-end gap-x-2 md:gap-x-3">
           {note && (
             <>
-              <Button
-                variant={"menu"}
-                size={"sm"}
-                onClick={() => editor.chain().focus().setAiWriter().run()}
-                className="rounded-sm hidden sm:block"
-              >
-                AI Writer
-              </Button>
               {isSaved ? (
                 <span className="bg-bermuda-gray-950 text-white text-xs rounded-sm px-1.5 py-1 font-semibold">
                   Saved

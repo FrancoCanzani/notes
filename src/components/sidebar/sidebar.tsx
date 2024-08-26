@@ -36,7 +36,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
               aria-expanded={isNoteFormVisible}
               aria-controls="new-note-form"
             >
-              <FileText size={20} />
+              <FileText size={19} />
               <span className="sr-only">Toggle New Note Form</span>
             </Button>
             {notes.length > 0 && (
@@ -48,7 +48,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
                 aria-expanded={isSearchFormVisible}
                 aria-controls="search-notes-form"
               >
-                <MagnifyingGlass size={20} />
+                <MagnifyingGlass size={19} />
                 <span className="sr-only">Toggle Search Form</span>
               </Button>
             )}

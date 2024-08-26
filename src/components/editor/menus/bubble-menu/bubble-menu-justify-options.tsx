@@ -12,11 +12,11 @@ import { Button } from "../../../ui/button";
 import { cn } from "../../../../lib/utils";
 
 const alignmentOptions = [
-  { value: "left", icon: <TextAlignLeft size={20} /> },
-  { value: "center", icon: <TextAlignCenter size={20} /> },
-  { value: "right", icon: <TextAlignRight size={20} /> },
-  { value: "justify", icon: <TextAlignJustify size={20} /> },
-  { value: "unset", icon: <ArrowUUpLeft size={20} /> },
+  { value: "left", icon: <TextAlignLeft size={19} /> },
+  { value: "center", icon: <TextAlignCenter size={19} /> },
+  { value: "right", icon: <TextAlignRight size={19} /> },
+  { value: "justify", icon: <TextAlignJustify size={19} /> },
+  { value: "unset", icon: <ArrowUUpLeft size={19} /> },
 ];
 
 export default function BubbleMenuJustifyOptions({
@@ -42,7 +42,7 @@ export default function BubbleMenuJustifyOptions({
     const option = alignmentOptions.find(
       (opt) => opt.value === currentAlignment && opt.value !== "unset"
     );
-    return option ? option.icon : <TextAlignLeft size={20} />;
+    return option ? option.icon : <TextAlignLeft size={19} />;
   };
 
   return (

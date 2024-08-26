@@ -1,6 +1,6 @@
 import React from "react";
-import { CircleDashed } from "lucide-react";
 import { CommandItemProps } from "../../../../lib/types";
+import { SpinnerGap } from "@phosphor-icons/react";
 
 interface Props {
   item: CommandItemProps;
@@ -22,8 +22,8 @@ export const CommandItem: React.FC<Props> = ({
     onClick={onSelect}
   >
     <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-stone-200 bg-bermuda-gray-50">
-      {item.title === "Write Magic" && isLoading ? (
-        <CircleDashed className="animate-spin" size={16} />
+      {item.title === "Continue Writing" && isLoading ? (
+        <SpinnerGap className="animate-spin" size={16} />
       ) : (
         item.icon
       )}

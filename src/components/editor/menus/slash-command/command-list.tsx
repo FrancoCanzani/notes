@@ -116,7 +116,7 @@ export const CommandList = ({
       {items.map((item: CommandItemProps, index: number) => {
         return (
           <button
-            className={`flex w-full items-center space-x-2 rounded-sm px-2 py-1 text-left text-sm text-stone-900 hover:bg-bermuda-gray-100 ${
+            className={`flex w-full items-center space-x-2 rounded-sm px-2 py-1 text-left text-sm hover:bg-bermuda-gray-100 ${
               index === selectedIndex
                 ? "bg-bermuda-gray-100 text-stone-900"
                 : ""
@@ -124,7 +124,7 @@ export const CommandList = ({
             key={index}
             onClick={() => selectItem(index)}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-stone-200 bg-bermuda-gray-50">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm border bg-bermuda-gray-50">
               {item.title === "Write Magic" && isLoading ? (
                 <CircleDashed className="animate-spin" size={16} />
               ) : (
@@ -133,7 +133,7 @@ export const CommandList = ({
             </div>
             <div>
               <p className="font-medium">{item.title}</p>
-              <p className="text-xs text-stone-500">{item.description}</p>
+              <p className="text-xs text-gray-800">{item.description}</p>
             </div>
           </button>
         );

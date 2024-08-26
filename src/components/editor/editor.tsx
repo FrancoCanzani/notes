@@ -108,7 +108,7 @@ export default function Editor({
         <BubbleMenu editor={editor} />
         <EditorContent
           editor={editor}
-          className="max-w-3xl mx-auto px-3 pt-2"
+          className="max-w-3xl mx-auto px-3 py-2"
         />
         <WordCount editor={editor} />
       </div>
