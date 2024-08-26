@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Note } from "../../lib/types";
 import NewNoteForm from "../forms/new-note-form";
@@ -7,22 +7,29 @@ import Link from "next/link";
 import { cn } from "../../lib/utils";
 import SidebarNoteOptions from "./sidebar-note-options";
 import { DrawingPinFilledIcon, FileIcon } from "@radix-ui/react-icons";
+import SearchNotesForm from "../forms/search-notes-form";
 
 export default function SidebarNotes({
   notes,
   isNoteFormVisible,
-  searchQuery,
+  isSearchFormVisible,
 }: {
   notes: Note[];
   isNoteFormVisible: boolean;
-  searchQuery: string;
+  isSearchFormVisible: boolean;
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const pathname = usePathname();
 
   const pinnedNotes = notes?.filter((note: Note) => note.pinned === true) || [];
   const activeNotes =
     notes?.filter((note: Note) => note.status === "active" && !note.pinned) ||
     [];
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
   const filteredNotes = [...pinnedNotes, ...activeNotes].filter((note) =>
     note.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -32,6 +39,7 @@ export default function SidebarNotes({
     <div className="w-full h-full flex flex-col">
       <ScrollArea className="h-[450px] w-full text-sm rounded-sm border p-1">
         {isNoteFormVisible && <NewNoteForm />}
+        {isSearchFormVisible && <SearchNotesForm onSearch={handleSearch} />}
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note) => (
             <Link href={`/notes/${note.id}`} key={note._id}>
