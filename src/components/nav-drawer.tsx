@@ -75,7 +75,7 @@ export default function NavDrawer({
                 className="flex items-center justify-between gap-x-2"
               >
                 <Input
-                  className="text-center rounded-sm focus:text-start bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"
+                  className="rounded-sm bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"
                   placeholder="New Note Title"
                   onChange={(e) => setTitle(e.target.value)}
                 />

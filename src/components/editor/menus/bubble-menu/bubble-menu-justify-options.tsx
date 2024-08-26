@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
 import {
-  TextAlignLeftIcon,
-  TextAlignCenterIcon,
-  TextAlignRightIcon,
-  TextAlignJustifyIcon,
-  ResetIcon,
-} from "@radix-ui/react-icons";
+  TextAlignCenter,
+  TextAlignLeft,
+  TextAlignRight,
+  TextAlignJustify,
+  ArrowUUpLeft,
+} from "@phosphor-icons/react";
 import { Editor } from "@tiptap/core";
 import { Button } from "../../../ui/button";
 import { cn } from "../../../../lib/utils";
 
 const alignmentOptions = [
-  { value: "left", icon: <TextAlignLeftIcon /> },
-  { value: "center", icon: <TextAlignCenterIcon /> },
-  { value: "right", icon: <TextAlignRightIcon /> },
-  { value: "justify", icon: <TextAlignJustifyIcon /> },
-  { value: "unset", icon: <ResetIcon /> },
+  { value: "left", icon: <TextAlignLeft size={18} /> },
+  { value: "center", icon: <TextAlignCenter size={18} /> },
+  { value: "right", icon: <TextAlignRight size={18} /> },
+  { value: "justify", icon: <TextAlignJustify size={18} /> },
+  { value: "unset", icon: <ArrowUUpLeft size={18} /> },
 ];
 
 export default function BubbleMenuJustifyOptions({
@@ -42,7 +42,7 @@ export default function BubbleMenuJustifyOptions({
     const option = alignmentOptions.find(
       (opt) => opt.value === currentAlignment && opt.value !== "unset"
     );
-    return option ? option.icon : <TextAlignLeftIcon />;
+    return option ? option.icon : <TextAlignLeft size={18} />;
   };
 
   return (

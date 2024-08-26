@@ -1,6 +1,5 @@
 import React from "react";
 import { Editor } from "@tiptap/core";
-import Link from "next/link";
 import {
   Tooltip,
   TooltipContent,
@@ -8,52 +7,37 @@ import {
   TooltipTrigger,
 } from "../../ui/tooltip";
 import { Button } from "../../ui/button";
-import {
-  FileIcon,
-  HomeIcon,
-  MagicWandIcon,
-  ImageIcon,
-  FontBoldIcon,
-  FontItalicIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-} from "@radix-ui/react-icons";
-import NavDrawer from "../../nav-drawer";
-import { Note } from "../../../lib/types";
 import { cn } from "../../../lib/utils";
 import BubbleMenuAiActions from "./bubble-menu/bubble-menu-ai-actions";
 import BubbleMenuJustifyOptions from "./bubble-menu/bubble-menu-justify-options";
 import BubbleMenuLink from "./bubble-menu/bubble-menu-link";
+import {
+  TextB,
+  TextAUnderline,
+  TextItalic,
+  TextStrikethrough,
+  MagicWand,
+  HighlighterCircle,
+  Image,
+  ArrowUUpLeft,
+  ArrowUUpRight,
+} from "@phosphor-icons/react";
 
-export default function EditorMobileMenu({
-  editor,
-  notes,
-}: {
-  editor: Editor;
-  notes: Note[] | undefined;
-}) {
+export default function EditorMobileMenu({ editor }: { editor: Editor }) {
   return (
     <TooltipProvider>
-      <nav className="sm:hidden text-sm py-0.5">
+      <nav className="sm:hidden border-y border-bermuda-gray-50 text-sm py-1.5">
         <div className="flex items-center justify-evenly overflow-x-scroll no-scrollbar gap-x-1.5 px-2">
-          <NavDrawer notes={notes}>
-            <BarButton icon={<FileIcon />} tooltip="Open Navigation" />
-          </NavDrawer>
-
-          <Link href="/">
-            <BarButton icon={<HomeIcon />} tooltip="Go to Home" />
-          </Link>
-
           <BubbleMenuAiActions editor={editor} className="border-none" />
 
           <BarButton
-            icon={<MagicWandIcon />}
+            icon={<MagicWand size={18} />}
             tooltip="Insert AI Writer"
             onClick={() => editor.chain().focus().setAiWriter().run()}
           />
 
           <BarButton
-            icon={<ImageIcon />}
+            icon={<Image size={18} />}
             tooltip="Insert image"
             onClick={() => {
               /* Add image insertion logic */
@@ -61,7 +45,7 @@ export default function EditorMobileMenu({
           />
 
           <BarButton
-            icon={<FontBoldIcon />}
+            icon={<TextB size={18} />}
             tooltip="Bold"
             isActive={editor.isActive("bold")}
             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -69,7 +53,7 @@ export default function EditorMobileMenu({
           />
 
           <BarButton
-            icon={<FontItalicIcon />}
+            icon={<TextItalic size={18} />}
             tooltip="Italic"
             isActive={editor.isActive("italic")}
             onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -77,7 +61,7 @@ export default function EditorMobileMenu({
           />
 
           <BarButton
-            icon={<UnderlineIcon />}
+            icon={<TextAUnderline size={18} />}
             tooltip="Underline"
             isActive={editor.isActive("underline")}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -85,7 +69,7 @@ export default function EditorMobileMenu({
           />
 
           <BarButton
-            icon={<StrikethroughIcon />}
+            icon={<TextStrikethrough size={18} />}
             tooltip="Strike"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -99,19 +83,7 @@ export default function EditorMobileMenu({
           />
 
           <BarButton
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 32 32"
-              >
-                <path
-                  fill="currentColor"
-                  d="m23.625 3.063l-.719.624L7.563 17l-.5.469l.25.656s1.125 3-1.032 5.156v.032l-.031.03l-.156.188l-.125.125L2 27.531L7.375 29l2.063-2.063l.218-.187l.031-.031h.032c2.156-2.157 5.156-1.032 5.156-1.032l.656.25l.469-.5l13.313-15.343l.625-.719zm-.125 2.75L27.188 9.5l-8.75 10.063l-5-5zM11.937 15.874l5.188 5.188l-1.938 2.25l-5.5-5.5zM9.563 20.5l2.937 2.938c-1.242.046-2.746.437-4.156 1.812c-.02.02-.043.012-.063.031l-.25.219l-.531-.531l.219-.25l.031-.063c1.375-1.41 1.766-2.914 1.813-4.156"
-                />
-              </svg>
-            }
+            icon={<HighlighterCircle size={18} />}
             tooltip="Highlight"
             isActive={editor.isActive("highlight")}
             onClick={() =>
@@ -124,6 +96,22 @@ export default function EditorMobileMenu({
                     .run()
             }
             disabled={!editor.can().chain().focus().toggleHighlight().run()}
+          />
+
+          <BarButton
+            icon={<ArrowUUpRight size={18} />}
+            tooltip="Redo"
+            isActive={editor.isActive("strike")}
+            onClick={() => editor.chain().focus().undo().run()}
+            disabled={!editor.can().undo()}
+          />
+
+          <BarButton
+            icon={<ArrowUUpLeft size={18} />}
+            tooltip="Undo"
+            isActive={editor.isActive("strike")}
+            onClick={() => editor.chain().focus().redo().run()}
+            disabled={!editor.can().redo()}
           />
         </div>
       </nav>

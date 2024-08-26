@@ -8,6 +8,8 @@ import { DebouncedState } from "use-debounce";
 import { Button } from "../ui/button";
 import EditorMobileMenu from "./menus/editor-mobile-menu";
 import isMobile from "../../lib/helpers/is-mobile";
+import NavDrawer from "../nav-drawer";
+import { List } from "@phosphor-icons/react";
 
 interface EditorHeaderProps {
   title: string;
@@ -57,8 +59,19 @@ export default function EditorHeader({
 
   return (
     <div className="w-full supports-backdrop-blur:bg-bermuda-gray/90 sticky top-0 z-40 bg-bermuda-gray/40 backdrop-blur-lg">
-      <div className="max-w-4xl mx-auto px-3 py-2 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
-        <div className="flex max-w-[40%] items-center justify-start gap-x-2">
+      <div className="max-w-4xl mx-auto px-3 py-2 text-xs overflow-x-clip flex items-center justify-between">
+        <div className="flex sm:max-w-[40%] max-w-[60%] items-center justify-start gap-x-2">
+          <NavDrawer notes={notes}>
+            {
+              <Button
+                variant={"menu"}
+                size={"sm"}
+                className="border-none sm:hidden"
+              >
+                {<List size={18} />}
+              </Button>
+            }
+          </NavDrawer>
           {isEditing ? (
             <input
               type="text"
@@ -67,13 +80,13 @@ export default function EditorHeader({
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeyDown}
               autoFocus
-              className="font-medium text-xl outline-none bg-transparent"
+              className="font-medium sm:text-xl text-lg outline-none bg-transparent"
               aria-label="Note title"
             />
           ) : (
             <p
               onClick={handleTitleClick}
-              className="font-medium text-xl outline-none bg-transparent cursor-pointer truncate"
+              className="font-medium sm:text-xl text-lg outline-none bg-transparent cursor-pointer truncate"
             >
               {title || "Untitled"}
             </p>
@@ -91,15 +104,15 @@ export default function EditorHeader({
                 AI Writer
               </Button>
               {isSaved ? (
-                <span className="bg-bermuda-gray-100 rounded-sm px-1.5 py-1 font-semibold">
+                <span className="bg-bermuda-gray-100 text-xs shadow rounded-sm px-1.5 py-1 font-semibold">
                   Saved
                 </span>
               ) : (
-                <span className="animate-pulse bg-bermuda-gray-100 rounded-sm px-1.5 py-1 font-semibold">
+                <span className="animate-pulse bg-bermuda-gray-100 text-xs shadow rounded-sm px-1.5 py-1 font-semibold">
                   Saving...
                 </span>
               )}
-              <time className="text-gray-400 capitalize block text-sm">
+              <time className="text-gray-400 hidden capitalize sm:block text-sm">
                 {formatRelative(new Date(note.lastSaved), new Date())}
               </time>
               <EditorOptionsDropdown note={note} editor={editor} />
@@ -107,7 +120,7 @@ export default function EditorHeader({
           )}
         </div>
       </div>
-      {usesMobile && <EditorMobileMenu editor={editor} notes={notes} />}
+      {usesMobile && <EditorMobileMenu editor={editor} />}
     </div>
   );
 }

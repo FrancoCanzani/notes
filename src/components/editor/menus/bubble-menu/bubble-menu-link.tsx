@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "../../../ui/popover";
 import { Button } from "../../../ui/button";
 import { Editor } from "@tiptap/core";
-import { Link2Icon } from "@radix-ui/react-icons";
+import { Link } from "@phosphor-icons/react";
 import { cn } from "../../../../lib/utils";
 
 export default function BubbleMenuLink({
@@ -73,7 +73,7 @@ export default function BubbleMenuLink({
           title="Link"
           className={cn("", className)}
         >
-          <Link2Icon />
+          <Link size={18} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex w-fit items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5">
