@@ -6,11 +6,6 @@ import {
   TextAUnderline,
   TextItalic,
   TextStrikethrough,
-  MagicWand,
-  HighlighterCircle,
-  Image,
-  ArrowUUpLeft,
-  ArrowUUpRight,
 } from "@phosphor-icons/react";
 import isMobile from "../../../../lib/helpers/is-mobile";
 import { cn } from "../../../../lib/utils";
@@ -70,7 +65,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="bold"
             title="Bold"
           >
-            <TextB size={18} />
+            <TextB size={20} />
           </Button>
           <Button
             variant={"menu"}
@@ -85,7 +80,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="italic"
             title="Italic"
           >
-            <TextItalic size={18} />
+            <TextItalic size={20} />
           </Button>
           <Button
             variant={"menu"}
@@ -100,7 +95,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="underline"
             title="Underline"
           >
-            <TextAUnderline size={18} />
+            <TextAUnderline size={20} />
           </Button>
           <Button
             variant={"menu"}
@@ -115,7 +110,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="strike"
             title="Strike"
           >
-            <TextStrikethrough size={18} />
+            <TextStrikethrough size={20} />
           </Button>
           <BubbleMenuLink editor={editor} />
           <Button

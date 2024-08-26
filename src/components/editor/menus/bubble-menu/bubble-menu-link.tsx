@@ -73,7 +73,7 @@ export default function BubbleMenuLink({
           title="Link"
           className={cn("", className)}
         >
-          <Link size={18} />
+          <Link size={20} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex w-fit items-center gap-x-0.5 rounded-sm text-xs bg-bermuda-gray-50 p-0.5">

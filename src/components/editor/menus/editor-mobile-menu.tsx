@@ -22,6 +22,7 @@ import {
   ArrowUUpLeft,
   ArrowUUpRight,
 } from "@phosphor-icons/react";
+import { Separator } from "../../ui/separator";
 
 export default function EditorMobileMenu({ editor }: { editor: Editor }) {
   return (
@@ -29,61 +30,89 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
       <nav className="sm:hidden border-y border-bermuda-gray-50 text-sm py-1.5">
         <div className="flex items-center justify-evenly overflow-x-scroll no-scrollbar gap-x-1.5 px-2">
           <BubbleMenuAiActions editor={editor} className="border-none" />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<MagicWand size={18} />}
+            icon={<MagicWand size={20} />}
             tooltip="Insert AI Writer"
             onClick={() => editor.chain().focus().setAiWriter().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />{" "}
           <BarButton
-            icon={<Image size={18} />}
+            icon={<Image size={20} />}
             tooltip="Insert image"
             onClick={() => {
               /* Add image insertion logic */
             }}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<TextB size={18} />}
+            icon={<TextB size={20} />}
             tooltip="Bold"
             isActive={editor.isActive("bold")}
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<TextItalic size={18} />}
+            icon={<TextItalic size={20} />}
             tooltip="Italic"
             isActive={editor.isActive("italic")}
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<TextAUnderline size={18} />}
+            icon={<TextAUnderline size={20} />}
             tooltip="Underline"
             isActive={editor.isActive("underline")}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             disabled={!editor.can().chain().focus().toggleUnderline().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<TextStrikethrough size={18} />}
+            icon={<TextStrikethrough size={20} />}
             tooltip="Strike"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BubbleMenuLink editor={editor} className={cn("border-none")} />
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BubbleMenuJustifyOptions
             editor={editor}
             className={cn("border-none")}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<HighlighterCircle size={18} />}
+            icon={<HighlighterCircle size={20} />}
             tooltip="Highlight"
             isActive={editor.isActive("highlight")}
             onClick={() =>
@@ -97,17 +126,19 @@ export default function EditorMobileMenu({ editor }: { editor: Editor }) {
             }
             disabled={!editor.can().chain().focus().toggleHighlight().run()}
           />
-
+          <Separator
+            orientation="vertical"
+            className="bg-bermuda-gray-950 opacity-30 h-6 p-[0.3px]"
+          />
           <BarButton
-            icon={<ArrowUUpRight size={18} />}
+            icon={<ArrowUUpRight size={20} />}
             tooltip="Redo"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().undo()}
           />
-
           <BarButton
-            icon={<ArrowUUpLeft size={18} />}
+            icon={<ArrowUUpLeft size={20} />}
             tooltip="Undo"
             isActive={editor.isActive("strike")}
             onClick={() => editor.chain().focus().redo().run()}

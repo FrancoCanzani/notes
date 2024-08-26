@@ -102,7 +102,7 @@ export default function BubbleMenuAiActions({
           className={cn("", className, isLoading && "animate-pulse")}
         >
           <span className="sr-only">Ai Actions</span>
-          <OpenAiLogo size={18} />
+          <OpenAiLogo size={20} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
