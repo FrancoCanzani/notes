@@ -64,7 +64,11 @@ export default function SidebarNotes({
                           {note.title}
                         </p>
                       </div>
-                      <p className="capitalize text-gray-500 text-xs">
+                      <p
+                        className="capitalize text-gray-500 text-xs"
+                        // todo
+                        suppressHydrationWarning
+                      >
                         {formatRelative(new Date(note.lastSaved), new Date())}
                       </p>
                     </div>

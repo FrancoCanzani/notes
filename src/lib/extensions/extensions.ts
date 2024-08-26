@@ -7,7 +7,6 @@ import Highlight from "@tiptap/extension-highlight";
 import CharacterCount from "@tiptap/extension-character-count";
 import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
-import SlashCommand from "../../components/editor/slash-command";
 import Placeholder from "@tiptap/extension-placeholder";
 import SearchAndReplace from "@sereneinserenade/tiptap-search-and-replace";
 import Image from "@tiptap/extension-image";
@@ -17,6 +16,9 @@ import AiWriter from "./ai-writer-extension";
 import Selection from "./selection-extension";
 import TextAlign from "@tiptap/extension-text-align";
 import ImageResize from "tiptap-extension-resize-image";
+import { Command } from "./command-extension";
+import getSuggestionItems from "../../components/editor/menus/slash-command/suggestion-items";
+import { renderItems } from "../../components/editor/menus/slash-command/render-items";
 
 export const extensions = [
   Color,
@@ -30,6 +32,12 @@ export const extensions = [
     linkOnPaste: true,
     defaultProtocol: "https",
   }),
+  Command.configure({
+    suggestion: {
+      items: getSuggestionItems,
+      render: renderItems,
+    },
+  }),
   HardBreak,
   TaskItem,
   Image,
@@ -40,7 +48,6 @@ export const extensions = [
   CharacterCount,
   TaskList,
   StarterKit,
-  SlashCommand,
   AiWriter,
   Selection,
   SearchAndReplace.configure(),
