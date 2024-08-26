@@ -1,7 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const noteSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   title: {
     type: String,
     required: true,
@@ -9,13 +14,9 @@ const noteSchema = new Schema({
   content: {
     type: String,
   },
-  id: {
-    type: String,
-    required: true,
-  },
   type: {
     type: String,
-    default: "cloud",
+    default: 'cloud',
   },
   created: {
     type: Date,
@@ -27,7 +28,7 @@ const noteSchema = new Schema({
   },
   userId: {
     type: String,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   pinned: {
@@ -40,17 +41,13 @@ const noteSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["active", "archived"],
-    default: "active",
+    enum: ['active', 'archived'],
+    default: 'active',
   },
   label: {
     text: String,
     color: String,
   },
-  folderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: null,
-  },
 });
 
-export const Note = mongoose.models.Note || mongoose.model("Note", noteSchema);
+export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);

@@ -1,9 +1,8 @@
-"use server";
+'use server';
 
-import connectToDatabase from "./db/connect-to-db";
-import { Note } from "./db/schemas/note-schema";
-import { Folder } from "./db/schemas/folder-schema";
-import { revalidatePath } from "next/cache";
+import connectToDatabase from './db/connect-to-db';
+import { Note } from './db/schemas/note-schema';
+import { revalidatePath } from 'next/cache';
 
 export async function saveNote(
   userId: string,
@@ -12,7 +11,7 @@ export async function saveNote(
   content: string
 ) {
   if (!userId) {
-    throw new Error("Missing user id for saveNote");
+    throw new Error('Missing user id for saveNote');
   }
 
   try {
@@ -45,7 +44,7 @@ export async function saveNote(
 
 export async function deleteNote(userId: string | undefined, noteId: string) {
   if (!userId) {
-    throw new Error("Missing user id for deleteNote");
+    throw new Error('Missing user id for deleteNote');
   }
 
   try {
@@ -54,7 +53,7 @@ export async function deleteNote(userId: string | undefined, noteId: string) {
     const note = await Note.findOneAndDelete({ userId: userId, id: noteId });
 
     const parsedResponse = JSON.parse(JSON.stringify(note));
-    revalidatePath("/notes");
+    revalidatePath('/notes');
     return parsedResponse;
   } catch (error) {
     throw error;
@@ -67,7 +66,7 @@ export async function updateNoteStatus(
   newStatus: string
 ) {
   if (!userId) {
-    throw new Error("Missing user id for updateNoteStatus");
+    throw new Error('Missing user id for updateNoteStatus');
   }
 
   try {
@@ -76,7 +75,7 @@ export async function updateNoteStatus(
     const note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
-      throw new Error("Note not found");
+      throw new Error('Note not found');
     }
 
     note.status = newStatus;
@@ -90,42 +89,12 @@ export async function updateNoteStatus(
   }
 }
 
-export async function updateNoteFolder(
-  userId: string | undefined,
-  noteId: string,
-  newFolderId: string | null
-) {
-  if (!userId) {
-    throw new Error("Missing user id for updateNoteFolder");
-  }
-
-  try {
-    await connectToDatabase();
-
-    const note = await Note.findOne({ userId: userId, id: noteId });
-
-    if (!note) {
-      throw new Error("Note not found");
-    }
-
-    note.folderId = newFolderId;
-
-    const updatedNote = await note.save();
-
-    const parsedResponse = JSON.parse(JSON.stringify(updatedNote));
-    revalidatePath("/notes");
-    return parsedResponse;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function updatePublishedStatus(
   userId: string | undefined,
   noteId: string
 ) {
   if (!userId) {
-    throw new Error("Missing user id for updatePublishedStatus");
+    throw new Error('Missing user id for updatePublishedStatus');
   }
 
   try {
@@ -134,7 +103,7 @@ export async function updatePublishedStatus(
     const note = await Note.findOne({ userId: userId, id: noteId });
 
     if (!note) {
-      throw new Error("Note not found");
+      throw new Error('Note not found');
     }
 
     if (note.published === undefined) {
@@ -156,7 +125,7 @@ export async function updatePinStatus(
   noteId: string
 ) {
   if (!userId) {
-    throw new Error("Missing user id for updatePinStatus");
+    throw new Error('Missing user id for updatePinStatus');
   }
 
   try {
@@ -165,7 +134,7 @@ export async function updatePinStatus(
     const note = await Note.findOne({ userId, id: noteId });
 
     if (!note) {
-      throw new Error("Note not found");
+      throw new Error('Note not found');
     }
 
     if (note.pinned === undefined) {
@@ -182,14 +151,4 @@ export async function updatePinStatus(
   } catch (error) {
     throw error;
   }
-}
-
-export async function createFolder(name: string, userId: string) {
-  await connectToDatabase();
-
-  const newFolder = new Folder({ name, userId });
-  await newFolder.save();
-
-  revalidatePath("/notes");
-  return;
 }

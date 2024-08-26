@@ -8,21 +8,11 @@ export interface Note {
   published?: boolean;
   created?: Date;
   lastSaved: Date;
-  type: "local" | "cloud";
-  status: "active" | "archived";
+  type: 'local' | 'cloud';
+  status: 'active' | 'archived';
   label?: {
     text: string;
     color: string;
   };
-  folderId?: string | null;
-  __v?: number;
-}
-
-export interface Folder {
-  _id?: string;
-  name: string;
-  userId: string;
-  created?: Date;
-  parentFolderId?: string | null;
   __v?: number;
 }

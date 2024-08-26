@@ -1,8 +1,8 @@
-import { Editor } from "@tiptap/core";
-import { useCompletion } from "ai/react";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import { options } from "../../../../lib/constants/ai-actions";
+import { Editor } from '@tiptap/core';
+import { useCompletion } from 'ai/react';
+import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
+import { options } from '../../../../lib/constants/ai-actions';
 import {
   Command,
   CommandEmpty,
@@ -10,11 +10,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../../ui/command";
-import { Button } from "../../../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
-import { cn } from "../../../../lib/utils";
-import { GearIcon } from "@radix-ui/react-icons";
+} from '../../../ui/command';
+import { Button } from '../../../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/popover';
+import { cn } from '../../../../lib/utils';
+import { GearIcon } from '@radix-ui/react-icons';
 
 export default function BubbleMenuAiActions({
   editor,
@@ -23,15 +23,15 @@ export default function BubbleMenuAiActions({
   editor: Editor;
   className?: string;
 }) {
-  const [lastSelectedText, setLastSelectedText] = useState("");
+  const [lastSelectedText, setLastSelectedText] = useState('');
   const [selectionFrom, setSelectionFrom] = useState<number | null>(null);
   const [selectionTo, setSelectionTo] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
   const { complete, completion, error, isLoading } = useCompletion({
-    api: "/api/aiActions",
+    api: '/api/aiActions',
     onError: () => {
-      toast.error("Failed to execute action");
+      toast.error('Failed to execute action');
       restoreOriginalText();
     },
   });
@@ -48,9 +48,9 @@ export default function BubbleMenuAiActions({
       }
     };
 
-    editor.on("selectionUpdate", updateSelectedText);
+    editor.on('selectionUpdate', updateSelectedText);
     return () => {
-      editor.off("selectionUpdate", updateSelectedText);
+      editor.off('selectionUpdate', updateSelectedText);
     };
   }, [editor]);
 
@@ -85,7 +85,7 @@ export default function BubbleMenuAiActions({
       });
 
       if (error) {
-        toast.error("Failed to execute command");
+        toast.error('Failed to execute command');
         return;
       }
     }
@@ -95,22 +95,22 @@ export default function BubbleMenuAiActions({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="menu"
-          size={"sm"}
-          title="Ai Actions"
+          variant='menu'
+          size={'sm'}
+          title='Ai Actions'
           disabled={isLoading}
-          className={cn("", className, isLoading && "animate-pulse")}
+          className={cn('', className, isLoading && 'animate-pulse')}
         >
-          <span className="sr-only">Ai Actions</span>
-          <GearIcon />
+          <span className='sr-only'>Ai Actions</span>
+          <GearIcon className={cn('', isLoading && 'animate-spin')} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[200px] bg-white rounded-sm p-0"
-        align="start"
+        className='w-[200px] bg-white rounded-sm p-0'
+        align='start'
       >
         <Command>
-          <CommandInput placeholder="Search AI actions..." />
+          <CommandInput placeholder='Search AI actions...' />
           <CommandList>
             <CommandEmpty>No actions found.</CommandEmpty>
             <CommandGroup>
@@ -119,10 +119,10 @@ export default function BubbleMenuAiActions({
                   key={option.value}
                   onSelect={() => handleSelect(option.value)}
                   disabled={isLoading}
-                  className="cursor-pointer hover:bg-bermuda-gray-100"
+                  className='cursor-pointer hover:bg-bermuda-gray-100'
                 >
                   {option.icon}
-                  <span className="ml-2">{option.label}</span>
+                  <span className='ml-2'>{option.label}</span>
                 </CommandItem>
               ))}
             </CommandGroup>
