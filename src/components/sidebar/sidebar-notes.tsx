@@ -10,7 +10,7 @@ import { cn } from "../../lib/utils";
 import SidebarNoteOptions from "./sidebar-note-options";
 import SearchNotesForm from "../forms/search-notes-form";
 import { formatRelative } from "date-fns";
-import { DrawingPinFilledIcon } from "@radix-ui/react-icons";
+import { PushPin } from "@phosphor-icons/react";
 
 export default function SidebarNotes({
   notes,
@@ -56,7 +56,7 @@ export default function SidebarNotes({
                   <div className="flex items-center w-auto justify-start gap-x-2">
                     <div>
                       <div className="flex items-center justify-start space-x-1">
-                        {note.pinned && <DrawingPinFilledIcon />}
+                        {note.pinned && <PushPin size={13} weight="fill" />}
                         <p
                           title={note.title}
                           className="truncate font-medium max-w-48 pr-2"
