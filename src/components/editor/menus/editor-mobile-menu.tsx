@@ -27,7 +27,7 @@ import { Separator } from "../../ui/separator";
 export default function EditorMobileMenu({ editor }: { editor: Editor }) {
   return (
     <TooltipProvider>
-      <nav className="sm:hidden border-y border-bermuda-gray-50 text-sm py-1.5">
+      <nav className="sm:hidden border-y border-bermuda-gray-950/30 text-sm py-1.5">
         <div className="flex items-center justify-evenly overflow-x-scroll no-scrollbar gap-x-1.5 px-2">
           <BubbleMenuAiActions editor={editor} className="border-none" />
           <Separator
