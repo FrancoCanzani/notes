@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Note } from "../../lib/types";
@@ -6,8 +8,9 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "../../lib/utils";
 import SidebarNoteOptions from "./sidebar-note-options";
-import { DrawingPinFilledIcon, FileIcon } from "@radix-ui/react-icons";
 import SearchNotesForm from "../forms/search-notes-form";
+import { formatRelative } from "date-fns";
+import { DrawingPinFilledIcon } from "@radix-ui/react-icons";
 
 export default function SidebarNotes({
   notes,
@@ -37,7 +40,7 @@ export default function SidebarNotes({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <ScrollArea className="h-[450px] w-full text-sm rounded-sm border p-1">
+      <ScrollArea className="h-[450px] w-full text-sm rounded-sm border border-bermuda-gray-50 p-1">
         {isNoteFormVisible && <NewNoteForm />}
         {isSearchFormVisible && <SearchNotesForm onSearch={handleSearch} />}
         {filteredNotes.length > 0 ? (
@@ -45,17 +48,26 @@ export default function SidebarNotes({
             <Link href={`/notes/${note.id}`} key={note._id}>
               <div
                 className={cn(
-                  "p-1.5 group my-1 bg-bermuda-gray-50 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
-                  pathname.includes(note.id) &&
-                    "bg-bermuda-gray-200 font-semibold"
+                  "p-1.5 group my-1 border border-bermuda-gray-100 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-50",
+                  pathname.includes(note.id) && "bg-bermuda-gray-50"
                 )}
               >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center w-auto justify-start gap-x-2">
-                    {note.pinned ? <DrawingPinFilledIcon /> : <FileIcon />}
-                    <p title={note.title} className="truncate max-w-44 pr-2">
-                      {note.title}
-                    </p>
+                    <div>
+                      <div className="flex items-center justify-start space-x-1">
+                        {note.pinned && <DrawingPinFilledIcon />}
+                        <p
+                          title={note.title}
+                          className="truncate font-medium max-w-48 pr-2"
+                        >
+                          {note.title}
+                        </p>
+                      </div>
+                      <p className="capitalize text-gray-500">
+                        {formatRelative(new Date(note.lastSaved), new Date())}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-center justify-end gap-x-1">
                     <SidebarNoteOptions

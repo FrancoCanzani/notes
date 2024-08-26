@@ -13,14 +13,12 @@ export default function SearchNotesForm({
   };
 
   return (
-    <div className="">
-      <input
-        type="text"
-        placeholder="Search notes..."
-        value={searchQuery}
-        onChange={handleChange}
-        className="w-full px-3 py-1 rounded-sm border border-gray-300"
-      />
-    </div>
+    <input
+      type="text"
+      placeholder="Search notes..."
+      value={searchQuery}
+      onChange={handleChange}
+      className="w-full px-3 py-1 rounded-sm border border-gray-300"
+    />
   );
 }

@@ -88,9 +88,9 @@ export default function EditorHeader({
               >
                 AI Writer
               </Button>
-              <span className="text-gray-400 capitalize block text-sm">
+              <time className="text-gray-400 capitalize block text-sm">
                 {formatRelative(new Date(note.lastSaved), new Date())}
-              </span>
+              </time>
               <EditorOptionsDropdown note={note} editor={editor} />
             </>
           )}
