@@ -2,11 +2,16 @@ import { Editor } from "@tiptap/core";
 import { BubbleMenu as Bubble } from "@tiptap/react";
 import { Button } from "../../../ui/button";
 import {
-  FontBoldIcon,
-  FontItalicIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-} from "@radix-ui/react-icons";
+  TextB,
+  TextAUnderline,
+  TextItalic,
+  TextStrikethrough,
+  MagicWand,
+  HighlighterCircle,
+  Image,
+  ArrowUUpLeft,
+  ArrowUUpRight,
+} from "@phosphor-icons/react";
 import isMobile from "../../../../lib/helpers/is-mobile";
 import { cn } from "../../../../lib/utils";
 import isTextSelected from "../../../../lib/helpers/is-text-selected";
@@ -65,7 +70,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="bold"
             title="Bold"
           >
-            <FontBoldIcon />
+            <TextB size={18} />
           </Button>
           <Button
             variant={"menu"}
@@ -80,7 +85,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="italic"
             title="Italic"
           >
-            <FontItalicIcon />
+            <TextItalic size={18} />
           </Button>
           <Button
             variant={"menu"}
@@ -95,7 +100,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="underline"
             title="Underline"
           >
-            <UnderlineIcon />
+            <TextAUnderline size={18} />
           </Button>
           <Button
             variant={"menu"}
@@ -110,7 +115,7 @@ export default function BubbleMenu({ editor }: { editor: Editor }) {
             aria-label="strike"
             title="Strike"
           >
-            <StrikethroughIcon />
+            <TextStrikethrough size={18} />
           </Button>
           <BubbleMenuLink editor={editor} />
           <Button
