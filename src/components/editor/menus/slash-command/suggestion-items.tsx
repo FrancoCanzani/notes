@@ -20,13 +20,7 @@ import { upload } from "@vercel/blob/client";
 export default function getSuggestionItems({ query }: { query: string }) {
   return [
     {
-      title: "Continue Writing",
-      description: "Use AI to expand your thoughts.",
-      searchTerms: ["gpt", "ai"],
-      icon: <Sparkle size={18} />,
-    },
-    {
-      title: "Insert AI Writer",
+      title: "AI Writer",
       description: "Prompt your next paragraph.",
       searchTerms: ["gpt", "ai", "prompt"],
       icon: <Article size={18} />,

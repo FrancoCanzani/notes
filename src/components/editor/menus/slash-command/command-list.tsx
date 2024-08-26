@@ -1,73 +1,21 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  ReactNode,
-  useRef,
-  useLayoutEffect,
-} from "react";
-import { useCompletion } from "ai/react";
-import { CircleDashed } from "lucide-react";
-import { toast } from "sonner";
-import { getPrevText } from "../../../../lib/helpers/get-prev-text";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { updateScrollView } from "../../../../lib/helpers/update-scroll-view";
-
-interface CommandItemProps {
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
+import { CommandListProps, CommandItemProps } from "../../../../lib/types";
 
 export const CommandList = ({
   items,
   command,
   editor,
   range,
-}: {
-  items: CommandItemProps[];
-  command: any;
-  editor: any;
-  range: any;
-}) => {
+}: CommandListProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const { complete, isLoading } = useCompletion({
-    id: "editor",
-    api: "/api/ai",
-    onResponse: (response) => {
-      editor.chain().focus().deleteRange(range).run();
-    },
-    onFinish: (_prompt, completion) => {
-      editor.commands.setTextSelection({
-        from: range.from,
-        to: range.from + completion.length,
-      });
-    },
-    onError: (e) => {
-      toast.error("Failed to execute command");
-    },
-  });
-
-  const selectItem = useCallback(
-    (index: number) => {
-      const item = items[index];
-      if (item) {
-        if (item.title === "Write Magic") {
-          if (isLoading) return;
-          const text = getPrevText(editor, {
-            chars: 5000,
-            offset: 1,
-          });
-          complete(text, {
-            body: { option: "continue" },
-          });
-        } else {
-          command(item);
-        }
-      }
-    },
-    [complete, isLoading, command, editor, items]
-  );
+  const selectItem = (index: number) => {
+    const item = items[index];
+    if (item) {
+      command(item);
+    }
+  };
 
   useEffect(() => {
     const navigationKeys = ["ArrowUp", "ArrowDown", "Enter"];
@@ -76,24 +24,18 @@ export const CommandList = ({
         e.preventDefault();
         if (e.key === "ArrowUp") {
           setSelectedIndex((selectedIndex + items.length - 1) % items.length);
-          return true;
-        }
-        if (e.key === "ArrowDown") {
+        } else if (e.key === "ArrowDown") {
           setSelectedIndex((selectedIndex + 1) % items.length);
-          return true;
-        }
-        if (e.key === "Enter") {
+        } else if (e.key === "Enter") {
           selectItem(selectedIndex);
-          return true;
         }
-        return false;
       }
     };
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [items, selectedIndex, setSelectedIndex, selectItem]);
+  }, [items, selectedIndex, selectItem]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -125,11 +67,7 @@ export const CommandList = ({
             onClick={() => selectItem(index)}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-sm border bg-bermuda-gray-50">
-              {item.title === "Write Magic" && isLoading ? (
-                <CircleDashed className="animate-spin" size={16} />
-              ) : (
-                item.icon
-              )}
+              {item.icon}
             </div>
             <div>
               <p className="font-medium">{item.title}</p>

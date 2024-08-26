@@ -34,7 +34,7 @@ export default function Editor({
       preserveWhitespace: true,
     },
     editorProps: useMemo(() => ({ ...defaultEditorProps }), []),
-    extensions,
+    extensions: [...extensions],
     onUpdate: ({ editor }) => {
       handleImageDeletion({ editor });
       debouncedUpdates(editor);
