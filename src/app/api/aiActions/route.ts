@@ -1,143 +1,143 @@
-import { openai } from "@ai-sdk/openai";
-import { CoreMessage, streamText } from "ai";
-import { match } from "ts-pattern";
+import { openai } from '@ai-sdk/openai';
+import { CoreMessage, streamText } from 'ai';
+import { match } from 'ts-pattern';
 
 export async function POST(req: Request): Promise<Response> {
   const { prompt, option } = await req.json();
 
   const messages = match(option)
-    .with("continue", () => [
+    .with('continue', () => [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are an AI writing assistant that continues existing text based on context from prior text. " +
-          "Give more weight/priority to the later characters than the beginning ones. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences.",
+          'You are an AI writing assistant that continues existing text based on context from prior text. ' +
+          'Give more weight/priority to the later characters than the beginning ones. ' +
+          'Limit your response to no more than 200 characters, but make sure to construct complete sentences.',
       },
       {
-        role: "user",
+        role: 'user',
         content: prompt,
       },
     ])
-    .with("improve", () => [
+    .with('improve', () => [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are an AI writing assistant that improves existing text. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences.",
+          'You are an AI writing assistant that improves existing text. ' +
+          'Limit your response to no more than 200 characters, but make sure to construct complete sentences.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `The existing text is: ${prompt}`,
       },
     ])
-    .with("shorter", () => [
+    .with('shorter', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that shortens existing text.",
+        role: 'system',
+        content: 'You are an AI writing assistant that shortens existing text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `The existing text is: ${prompt}`,
       },
     ])
-    .with("longer", () => [
+    .with('longer', () => [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are an AI writing assistant that lengthens existing text.",
+          'You are an AI writing assistant that lengthens existing text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `The existing text is: ${prompt}`,
       },
     ])
-    .with("fix", () => [
+    .with('fix', () => [
       {
-        role: "system",
+        role: 'system',
         content:
-          "You are an AI writing assistant that fixes grammar and spelling errors in existing text. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences.",
+          'You are an AI writing assistant that fixes grammar and spelling errors in existing text. ' +
+          'Limit your response to no more than 200 characters, but make sure to construct complete sentences.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `The existing text is: ${prompt}`,
       },
     ])
-    .with("summarize", () => [
+    .with('summarize', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that summarizes text.",
+        role: 'system',
+        content: 'You are an AI writing assistant that summarizes text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Summarize this text: ${prompt}`,
       },
     ])
-    .with("rewrite", () => [
+    .with('rewrite', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that rewrites text.",
+        role: 'system',
+        content: 'You are an AI writing assistant that rewrites text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Rewrite this text: ${prompt}`,
       },
     ])
-    .with("simplify", () => [
+    .with('simplify', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that simplifies text.",
+        role: 'system',
+        content: 'You are an AI writing assistant that simplifies text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Simplify this text: ${prompt}`,
       },
     ])
-    .with("formalize", () => [
+    .with('formalize', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that formalizes text.",
+        role: 'system',
+        content: 'You are an AI writing assistant that formalizes text.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Make this text more formal: ${prompt}`,
       },
     ])
-    .with("casualize", () => [
+    .with('casualize', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that makes text more casual.",
+        role: 'system',
+        content: 'You are an AI writing assistant that makes text more casual.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Make this text more casual: ${prompt}`,
       },
     ])
-    .with("addTone", () => [
+    .with('addTone', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that adds a positive tone.",
+        role: 'system',
+        content: 'You are an AI writing assistant that adds a positive tone.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Add a positive tone to this text: ${prompt}`,
       },
     ])
-    .with("negate", () => [
+    .with('negate', () => [
       {
-        role: "system",
-        content: "You are an AI writing assistant that adds a negative tone.",
+        role: 'system',
+        content: 'You are an AI writing assistant that adds a negative tone.',
       },
       {
-        role: "user",
+        role: 'user',
         content: `Add a negative tone to this text: ${prompt}`,
       },
     ])
     .run() as CoreMessage[];
 
   const result = await streamText({
-    model: openai("gpt-4o-mini"),
+    model: openai('gpt-4o-mini'),
     messages,
   });
 

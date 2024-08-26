@@ -3,6 +3,23 @@
 import connectToDatabase from './db/connect-to-db';
 import { Note } from './db/schemas/note-schema';
 import { revalidatePath } from 'next/cache';
+import { createStreamableValue } from 'ai/rsc';
+import { CoreMessage, streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
+
+export async function continueConversation(text: string) {
+  const result = await streamText({
+    model: openai('gpt-4-turbo'),
+    prompt:
+      'You are an AI writing assistant that continues existing text based on context from prior text. ' +
+      'Give more weight/priority to the later characters than the beginning ones. ' +
+      'Limit your response to no more than 200 characters, but make sure to construct complete sentences.' +
+      `Here is the previous text: ${text}`,
+  });
+
+  const stream = createStreamableValue(result.textStream);
+  return stream.value;
+}
 
 export async function saveNote(
   userId: string,
