@@ -16,6 +16,7 @@ interface EditorHeaderProps {
   note: Note | undefined;
   notes: Note[] | undefined;
   debouncedUpdates: DebouncedState<(editor: any) => Promise<void>>;
+  isSaved: boolean;
 }
 
 export default function EditorHeader({
@@ -25,6 +26,7 @@ export default function EditorHeader({
   note,
   notes,
   debouncedUpdates,
+  isSaved,
 }: EditorHeaderProps) {
   const [isEditing, setIsEditing] = useState(false);
   const usesMobile = isMobile();
@@ -56,7 +58,7 @@ export default function EditorHeader({
   return (
     <div className="w-full supports-backdrop-blur:bg-bermuda-gray/90 sticky top-0 z-40 bg-bermuda-gray/40 backdrop-blur-lg">
       <div className="max-w-4xl mx-auto px-3 py-2 text-gray-600 text-xs overflow-x-clip flex items-center justify-between">
-        <div className="flex max-w-[50%] items-center justify-start gap-x-2">
+        <div className="flex max-w-[40%] items-center justify-start gap-x-2">
           {isEditing ? (
             <input
               type="text"
@@ -88,6 +90,15 @@ export default function EditorHeader({
               >
                 AI Writer
               </Button>
+              {isSaved ? (
+                <span className="bg-bermuda-gray-100 rounded-sm px-1.5 py-1 font-semibold">
+                  Saved
+                </span>
+              ) : (
+                <span className="animate-pulse bg-bermuda-gray-100 rounded-sm px-1.5 py-1 font-semibold">
+                  Saving...
+                </span>
+              )}
               <time className="text-gray-400 capitalize block text-sm">
                 {formatRelative(new Date(note.lastSaved), new Date())}
               </time>

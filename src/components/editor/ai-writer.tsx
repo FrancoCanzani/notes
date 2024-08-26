@@ -113,6 +113,12 @@ export default function AiWriterView({
             id="aiPrompt"
             value={input}
             onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
             className="w-full text-sm h-9 p-2 bg-white outline-none rounded-sm"
             placeholder="Tell me what you want me to write about"
             spellCheck="false"

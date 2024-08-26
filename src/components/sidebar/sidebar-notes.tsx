@@ -48,7 +48,7 @@ export default function SidebarNotes({
             <Link href={`/notes/${note.id}`} key={note._id}>
               <div
                 className={cn(
-                  "p-1.5 group my-1 border border-bermuda-gray-100 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-50",
+                  "p-1.5 group mb-1 border border-bermuda-gray-100 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-50",
                   pathname.includes(note.id) && "bg-bermuda-gray-50"
                 )}
               >
@@ -64,7 +64,7 @@ export default function SidebarNotes({
                           {note.title}
                         </p>
                       </div>
-                      <p className="capitalize text-gray-500">
+                      <p className="capitalize text-gray-500 text-xs">
                         {formatRelative(new Date(note.lastSaved), new Date())}
                       </p>
                     </div>

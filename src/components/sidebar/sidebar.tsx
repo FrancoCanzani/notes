@@ -5,7 +5,7 @@ import UserSettingsModal from "../user-settings-modal";
 import { Note } from "../../lib/types";
 import SidebarNotes from "./sidebar-notes";
 import { StarFilledIcon } from "@radix-ui/react-icons";
-import { FilePlus, FileMinus, MagnifyingGlass } from "@phosphor-icons/react";
+import { FileText, MagnifyingGlass } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 
 export default function Sidebar({ notes }: { notes: Note[] }) {
@@ -36,11 +36,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
               aria-expanded={isNoteFormVisible}
               aria-controls="new-note-form"
             >
-              {isNoteFormVisible ? (
-                <FileMinus size={15} />
-              ) : (
-                <FilePlus size={15} />
-              )}
+              <FileText size={20} />
               <span className="sr-only">Toggle New Note Form</span>
             </Button>
             {notes.length > 0 && (
@@ -52,7 +48,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
                 aria-expanded={isSearchFormVisible}
                 aria-controls="search-notes-form"
               >
-                <MagnifyingGlass size={16} />
+                <MagnifyingGlass size={20} />
                 <span className="sr-only">Toggle Search Form</span>
               </Button>
             )}
