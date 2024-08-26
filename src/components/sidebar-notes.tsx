@@ -42,7 +42,7 @@ const mapToNodeModel = (folders: Folder[], notes: Note[]): NodeModel[] => {
     }
   });
 
-  // Create folder nodes with note count
+  // Create folder nodes
   const folderNodes: NodeModel[] = folders.map((folder) => {
     return {
       id: folder._id || "",
@@ -77,7 +77,6 @@ export default function SidebarNotes({
     () => mapToNodeModel(folders, notes),
     [folders, notes]
   );
-
   const [treeData, setTreeData] = useState<NodeModel[]>(initialTreeData);
   const { userId } = useAuth();
 
@@ -86,13 +85,16 @@ export default function SidebarNotes({
 
     for (const node of newTree) {
       if (node.id && userId) {
-        const isNote = !node.droppable && node.parent !== 0;
+        const isNote = !node.droppable;
+        const isRootLevel = node.parent === 0;
+
         if (isNote) {
           try {
+            // Handle root level (parent as 0) or other folder assignments
             await updateNoteFolder(
               userId,
               node.id as string,
-              node.parent !== 0 ? (node.parent as string) : null
+              isRootLevel ? null : (node.parent as string)
             );
           } catch (error) {
             toast.error("Error updating folder");
