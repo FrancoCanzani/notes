@@ -9,17 +9,19 @@ export default function PdfRenderer() {
   const [file, setFile] = useState<PDFFile | null>(null);
 
   return (
-    <main>
+    <main className="flex flex-col h-screen">
       <header className="w-full p-3 font-medium capitalize">pdf.ai</header>
-      <div className="flex items-center justify-center">
-        <div className="w-1/2">
+      <div className="flex flex-grow">
+        <div className="w-1/2 bg-bermuda-gray-50">
           {file ? (
             <PDFViewer file={file} />
           ) : (
             <PDFDragDropInput file={file} setFile={setFile} />
           )}
         </div>
-        <p className="w-1/2">Other half</p>
+        <div className="w-1/2">
+          <p>Other half</p>
+        </div>
       </div>
     </main>
   );

@@ -3,15 +3,14 @@
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import {
-  ZoomIn,
-  ZoomOut,
-  ChevronLeft,
-  ChevronRight,
-  RotateCw,
-  RotateCcw,
-} from "lucide-react";
+  CaretLeft,
+  CaretRight,
+  ArrowClockwise,
+  ArrowCounterClockwise,
+  MagnifyingGlassMinus,
+  MagnifyingGlassPlus,
+} from "@phosphor-icons/react";
 import { PDFFile } from "../lib/types";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -42,66 +41,63 @@ export default function Component({ file }: { file: PDFFile }) {
   }
 
   return (
-    <div className="flex flex-col items-center bg-background text-foreground">
-      <div className="flex items-center justify-between w-full max-w-3xl p-4 bg-muted">
+    <div className="flex flex-col items-center max-w-2xl border h-full">
+      <div className="flex items-center justify-between w-full text-sm py-1 border-b">
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
-            size="icon"
+            variant="menu"
+            size="sm"
             onClick={() => changePage(-1)}
             disabled={pageNumber <= 1}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <CaretLeft />
           </Button>
-          <div className="flex items-center space-x-1">
-            <Input
+          <div className="flex items-center justify-center">
+            <input
               type="number"
               min={1}
               max={numPages}
-              className="w-16 text-center"
+              className="text-center bg-transparent focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={pageNumber}
-              onChange={(e) => setPageNumber(parseInt(e.target.value))}
+              onChange={(e) => {
+                if (parseInt(e.target.value) > numPages) {
+                  setPageNumber(numPages);
+                }
+                setPageNumber(parseInt(e.target.value));
+              }}
             />
             <span>/ {numPages}</span>
           </div>
           <Button
-            variant="outline"
-            size="icon"
+            variant="menu"
+            size="sm"
             onClick={() => changePage(1)}
             disabled={pageNumber >= numPages}
           >
-            <ChevronRight className="h-4 w-4" />
+            <CaretRight />
           </Button>
         </div>
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => changeScale(-0.1)}
-          >
-            <ZoomOut className="h-4 w-4" />
+          <Button variant="menu" size="sm" onClick={() => changeScale(-0.1)}>
+            <MagnifyingGlassMinus />
           </Button>
           <span className="text-sm">{Math.round(scale * 100)}%</span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => changeScale(0.1)}
-          >
-            <ZoomIn className="h-4 w-4" />
+          <Button variant="menu" size="sm" onClick={() => changeScale(0.1)}>
+            <MagnifyingGlassPlus />
           </Button>
-          <Button variant="outline" size="icon" onClick={() => rotate(-90)}>
-            <RotateCcw className="h-4 w-4" />
+          <Button variant="menu" size="sm" onClick={() => rotate(-90)}>
+            <ArrowClockwise />
           </Button>
-          <Button variant="outline" size="icon" onClick={() => rotate(90)}>
-            <RotateCw className="h-4 w-4" />
+          <Button variant="menu" size="sm" onClick={() => rotate(90)}>
+            <ArrowCounterClockwise />
           </Button>
         </div>
       </div>
-      <div className="border rounded-lg shadow-lg overflow-auto max-h-[calc(100vh-150px)] mt-4">
+      <div className="overflow-auto max-h-[calc(100vh-115px)] max-w-2xl">
         <Document
           file={file}
           onLoadSuccess={onDocumentLoadSuccess}
-          className="flex flex-col items-center"
+          className={"py-2"}
         >
           <Page
             pageNumber={pageNumber}

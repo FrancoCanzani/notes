@@ -1,14 +1,28 @@
 "use client";
 
-import React, { useState, useRef, DragEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, {
+  useState,
+  useRef,
+  DragEvent,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { File } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 interface PDFFile extends File {
   type: "application/pdf";
 }
 
-export default function PDFDragDropInput({file, setFile}:{file: PDFFile | null; setFile: Dispatch<SetStateAction<PDFFile | null>>}) {
+export default function PDFDragDropInput({
+  file,
+  setFile,
+}: {
+  file: PDFFile | null;
+  setFile: Dispatch<SetStateAction<PDFFile | null>>;
+}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,7 +56,7 @@ export default function PDFDragDropInput({file, setFile}:{file: PDFFile | null; 
     if (files[0].type === "application/pdf") {
       setFile(files[0] as PDFFile);
     } else {
-      alert("Please upload a PDF file.");
+      toast.error("Please upload a PDF file.");
     }
   };
 
@@ -51,7 +65,7 @@ export default function PDFDragDropInput({file, setFile}:{file: PDFFile | null; 
   };
 
   return (
-    <div className="relative p-4 max-w-2xl w-full mx-auto">
+    <div className="p-4 max-w-2xl w-full h-full">
       <input
         ref={inputRef}
         type="file"
@@ -61,7 +75,7 @@ export default function PDFDragDropInput({file, setFile}:{file: PDFFile | null; 
         accept=".pdf"
       />
       <div
-        className={`p-6 border border-dashed rounded-sm text-center cursor-pointer
+        className={`p-6 border border-dashed rounded-sm text-center cursor-pointer h-full flex-col flex items-center justify-center
           ${dragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"}`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
