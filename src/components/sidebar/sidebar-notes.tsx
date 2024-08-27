@@ -40,7 +40,7 @@ export default function SidebarNotes({
 
   return (
     <div className="w-full h-full flex flex-col">
-      <ScrollArea className="h-[450px] w-full text-sm rounded-sm border border-bermuda-gray-50 p-1">
+      <ScrollArea className="h-[400px] w-full text-sm rounded-sm border border-bermuda-gray-50 p-1">
         {isNoteFormVisible && <NewNoteForm />}
         {isSearchFormVisible && <SearchNotesForm onSearch={handleSearch} />}
         {filteredNotes.length > 0 ? (

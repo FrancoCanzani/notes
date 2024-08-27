@@ -40,3 +40,7 @@ export interface CommandListProps {
   editor: Editor;
   range: Range;
 }
+
+export interface PDFFile extends File {
+  type: "application/pdf";
+}

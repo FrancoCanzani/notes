@@ -7,6 +7,8 @@ import SidebarNotes from "./sidebar-notes";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { FileText, MagnifyingGlass } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { FilePdf } from "@phosphor-icons/react";
 
 export default function Sidebar({ notes }: { notes: Note[] }) {
   const [isNoteFormVisible, setIsNoteFormVisible] = useState(false);
@@ -61,6 +63,13 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
         />
       </div>
       <div className="px-5 pb-5 space-y-3">
+        <Link
+          href={"/pdf"}
+          className="font-medium p-1.5 bg-[#C5FCCF] hover:bg-[#C5FCCF]/50 rounded-sm text-sm w-full flex items-center justify-start gap-x-2"
+        >
+          <FilePdf size={20} />
+          Chat with your PDF's
+        </Link>
         <div className="bg-[#FFD700]/50 cursor-pointer font-medium p-1.5 rounded-sm text-sm w-full flex items-center justify-start gap-x-2 hover:bg-[#F2C649]/50">
           <StarFilledIcon />
           <span className="sr-only">Premium Offer</span>
