@@ -4,6 +4,7 @@ import { useState } from "react";
 import PDFDragDropInput from "./pdf-dd-input";
 import PDFViewer from "./pdf-viewer";
 import { PDFFile } from "../lib/types";
+import Chat from "./chat";
 
 export default function PdfRenderer() {
   const [file, setFile] = useState<PDFFile | null>(null);
@@ -20,7 +21,7 @@ export default function PdfRenderer() {
           )}
         </div>
         <div className="w-1/2">
-          <p>Other half</p>
+          <Chat file={file}/>
         </div>
       </div>
     </main>
