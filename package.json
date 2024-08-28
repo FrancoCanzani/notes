@@ -13,6 +13,7 @@
     "@ai-sdk/openai": "^0.0.46",
     "@clerk/nextjs": "^5.0.12",
     "@minoru/react-dnd-treeview": "^3.4.4",
+    "@mozilla/readability": "^0.5.0",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -57,6 +58,8 @@
     "filepond": "^4.31.2",
     "framer-motion": "^11.2.10",
     "idb-keyval": "^6.2.1",
+    "isomorphic-dompurify": "^2.15.0",
+    "jsdom": "^25.0.0",
     "lucide-react": "^0.350.0",
     "mini-svg-data-uri": "^1.4.4",
     "mongodb": "^6.5.0",
@@ -86,7 +89,10 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.14",
+    "@types/dompurify": "^3.0.5",
     "@types/file-saver": "^2.0.7",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "20.11.24",
     "@types/react": "18.2.63",
     "@types/react-dom": "18.2.20",
