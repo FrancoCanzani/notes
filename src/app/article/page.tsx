@@ -1,7 +1,10 @@
-import React from "react";
-import DOMPurify from "isomorphic-dompurify";
-import { getArticleContent } from "../../lib/helpers/get-article-content";
-import { Link } from "@phosphor-icons/react/dist/ssr";
+import React, { Suspense } from "react";
+import ArticleContent from "../../components/article-content";
+import ArticleSkeleton from "../../components/skeletons/article-skeleton";
+import Link from "next/link";
+import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import { Separator } from "../../components/ui/separator";
+import NewArticleForm from "../../components/forms/new-article-form";
 
 function isValidUrl(url: string): boolean {
   try {
@@ -19,7 +22,7 @@ function ensureHttpProtocol(url: string): string {
   return url;
 }
 
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -27,45 +30,37 @@ export default async function Page({
   let url = searchParams?.url as string;
 
   if (!url) {
-    return <div>Error: No URL provided</div>;
+    return (
+      <div className="max-w-3xl mx-auto text-center font-medium w-full px-4 py-8">
+        Error: No URL provided
+      </div>
+    );
   }
 
   url = ensureHttpProtocol(url);
 
   if (!isValidUrl(url)) {
-    return <div>Error: Invalid URL provided</div>;
+    return (
+      <div className="max-w-3xl mx-auto text-center font-medium w-full px-4 py-8">
+        Error: Invalid URL provided
+      </div>
+    );
   }
-
-  const result = await getArticleContent(url);
-
-  if (result.error) {
-    return <div>Error: {result.error}</div>;
-  }
-
-  if (!result.article) {
-    return <div>No article content available</div>;
-  }
-
-  const { article } = result;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-      {article.byline && <p className="text-gray-600 mb-2">{article.byline}</p>}
-      <a
-        href={url}
-        target="_blank"
-        className="text-gray-500 mb-2 flex items-center justify-start gap-x-1"
-      >
-        <Link size={14} />{" "}
-        <span className="hover:underline">{new URL(url).hostname}</span>
-      </a>
-      <article
-        className="prose lg:prose-lg prose-img:rounded-sm"
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(article.content),
-        }}
-      />
-    </div>
+    <Suspense fallback={<ArticleSkeleton />}>
+      <div className="max-w-3xl mx-auto px-4 pt-8">
+        <Link
+          href={"/notes"}
+          className="flex text-xs w-full items-center text-gray-500 justify-start"
+        >
+          <ArrowLeft size={12} className="mr-1" />{" "}
+          <span className="hover:underline">Back to notes</span>
+        </Link>
+        <ArticleContent url={url} />
+        <Separator className="bg-gray-300 opacity-45 h-[0.5px]" />
+        <NewArticleForm showSubtext={false} label="Continue reading" />
+      </div>
+    </Suspense>
   );
 }

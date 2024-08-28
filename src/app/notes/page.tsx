@@ -1,31 +1,25 @@
-import { auth } from '@clerk/nextjs/server';
-import getCloudNotes from '../../lib/helpers/get-cloud-notes';
-import { Note } from '../../lib/types';
-import { nanoid } from 'nanoid';
-import { redirect } from 'next/navigation';
+import NewArticleForm from "../../components/forms/new-article-form";
+import Sidebar from "../../components/sidebar/sidebar";
+import getCloudNotes from "../../lib/helpers/get-cloud-notes";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Page() {
-  const { userId } = auth();
-  const newNoteId = nanoid(7);
+  const { userId } = await auth();
 
   if (userId) {
     const notes = await getCloudNotes(userId);
-    const parsedNotes: Note[] = JSON.parse(JSON.stringify(notes));
 
-    const sortedNotes = parsedNotes.sort((a, b) => {
-      if (new Date(a.lastSaved) > new Date(b.lastSaved)) {
-        return -1;
-      }
-      if (new Date(a.lastSaved) < new Date(b.lastSaved)) {
-        return 1;
-      }
-      return 0;
-    });
+    const serializedNotes = JSON.parse(JSON.stringify(notes));
 
-    if (sortedNotes.length > 0) {
-      redirect(`/notes/${sortedNotes[0].id}`);
-    } else {
-      redirect(`/notes/${newNoteId}`);
-    }
+    return (
+      <div className="w-full sm:flex items-start">
+        <aside className="self-start sticky top-0 w-80 z-30 hidden h-[calc(100vh)] shrink-0 sm:sticky sm:block">
+          <Sidebar notes={serializedNotes} />
+        </aside>
+        <main className="flex-1 relative overflow-y-auto">
+          <NewArticleForm showSubtext={true} label="Generate article" />
+        </main>
+      </div>
+    );
   }
 }

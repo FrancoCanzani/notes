@@ -58,7 +58,7 @@ function reinsertVideos(content: string): string {
 
 export async function getArticleContent(url: string): Promise<ArticleResponse> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 14000); // 14 seconds timeout
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 seconds timeout
 
   try {
     const response = await fetch(url, {
