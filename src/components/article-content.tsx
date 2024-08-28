@@ -14,6 +14,8 @@ interface ArticleResult {
 }
 
 export default async function ArticleContent({ url }: { url: string }) {
+  console.log(url);
+
   const result = await getArticleContent(url);
 
   if (result.error) {
