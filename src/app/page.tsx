@@ -53,9 +53,9 @@ export default function Page() {
           <path
             fill='none'
             stroke='currentColor'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-            stroke-width='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth='1.5'
             d='M21 3.6v16.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6V3.6a.6.6 0 0 1 .6-.6h16.8a.6.6 0 0 1 .6.6M10 16l4-8'
           />
         </svg>
@@ -187,9 +187,9 @@ export default function Page() {
                 viewBox='0 0 24 24'
                 fill='none'
                 stroke='currentColor'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 className='ml-1 h-4 w-4 text-gray-500'
               >
                 <path d='m9 18 6-6-6-6'></path>
