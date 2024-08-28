@@ -63,6 +63,7 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
   const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 seconds timeout
 
   try {
+    console.log(`Fetching content from URL: ${url}`);
     const response = await fetch(url, {
       headers: {
         'User-Agent':
@@ -76,6 +77,8 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
     }
 
     const html = await response.text();
+    console.log(`HTML content fetched. Length: ${html.length}`);
+
     const dom = new JSDOM(html, { url });
     const doc = dom.window.document;
 
@@ -83,6 +86,7 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
     fixLinks(doc, url);
     preserveVideos(doc);
 
+    console.log('Extracting article content with Readability');
     const reader = new Readability(doc);
     const article = reader.parse();
 
@@ -103,8 +107,10 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
       lang: article.lang || null,
     };
 
+    console.log('Validating article data');
     const validatedArticle = ArticleSchema.parse(articleData);
 
+    console.log('Article content extracted and validated successfully');
     return { article: validatedArticle };
   } catch (err) {
     console.error(`Error fetching article: ${err}`);
@@ -112,6 +118,7 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
 
     if (err instanceof z.ZodError) {
       errorMessage = 'Article data validation failed';
+      console.error('Zod validation errors:', JSON.stringify(err.errors));
     } else if (err instanceof Error) {
       errorMessage = err.message;
     } else {
