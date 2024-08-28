@@ -38,6 +38,24 @@ function fixLinks(doc: Document, url: string) {
   });
 }
 
+function preserveVideos(doc: Document) {
+  const videos = doc.querySelectorAll(
+    'video, iframe[src*="youtube.com"], iframe[src*="vimeo.com"]'
+  );
+  videos.forEach((video) => {
+    video.setAttribute("data-preserve", "true");
+  });
+}
+
+function reinsertVideos(content: string): string {
+  const tempDoc = new JSDOM(content).window.document;
+  const preservedVideos = tempDoc.querySelectorAll('[data-preserve="true"]');
+  preservedVideos.forEach((video) => {
+    video.removeAttribute("data-preserve");
+  });
+  return tempDoc.body.innerHTML;
+}
+
 export async function getArticleContent(url: string): Promise<ArticleResponse> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 14000); // 14 seconds timeout
@@ -61,6 +79,7 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
 
     fixImageSources(doc, url);
     fixLinks(doc, url);
+    preserveVideos(doc);
 
     const reader = new Readability(doc);
     const article = reader.parse();
@@ -69,9 +88,11 @@ export async function getArticleContent(url: string): Promise<ArticleResponse> {
       throw new Error("Failed to extract article content");
     }
 
+    const processedContent = reinsertVideos(article.content || "");
+
     const articleData: Article = {
       title: article.title || "",
-      content: article.content || "",
+      content: processedContent,
       textContent: article.textContent || "",
       length: article.textContent?.length || 0,
       siteName: article.siteName || new URL(url).hostname,

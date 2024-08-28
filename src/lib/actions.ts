@@ -6,9 +6,6 @@ import { revalidatePath } from "next/cache";
 import { createStreamableValue } from "ai/rsc";
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { JSDOM } from "jsdom";
-import { Readability } from "@mozilla/readability";
-import { z } from "zod";
 
 export async function continueConversation(text: string) {
   const result = await streamText({
@@ -170,57 +167,5 @@ export async function updatePinStatus(
     return parsedResponse;
   } catch (error) {
     throw error;
-  }
-}
-
-export async function getArticleContent(url: string) {
-  try {
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const html = await response.text();
-    const dom = new JSDOM(html, { url });
-    const doc = dom.window.document;
-
-    const reader = new Readability(doc);
-    const article = reader.parse();
-
-    console.log(article);
-
-    if (!article) {
-      throw new Error("Failed to extract article content");
-    }
-
-    return {
-      source: "direct",
-      cacheURL: url,
-      article: {
-        title: article.title || "",
-        content: article.content || "",
-        textContent: article.textContent || "",
-        length: article.textContent?.length || 0,
-        siteName: article.siteName || new URL(url).hostname,
-        byline: article.byline || "",
-        dir: article.dir || "",
-        lang: article.lang || "",
-      },
-      status: "success",
-    };
-  } catch (error) {
-    console.error(`Error fetching article: ${error}`);
-    return {
-      source: "direct",
-      cacheURL: url,
-      status: "error",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
-    };
   }
 }

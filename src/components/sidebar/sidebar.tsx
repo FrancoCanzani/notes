@@ -63,7 +63,7 @@ export default function Sidebar({ notes }: { notes: Note[] }) {
       </div>
       <div className="px-5 pb-5 space-y-3">
         <Link
-          href={"/pdf"}
+          href={"/summary"}
           className="font-medium p-1.5 bg-[#C5FCCF] hover:bg-[#C5FCCF]/50 rounded-sm text-sm w-full flex items-center justify-start gap-x-2"
         >
           <Article size={20} />
