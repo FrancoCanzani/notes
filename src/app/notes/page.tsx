@@ -1,13 +1,13 @@
-import NewArticleForm from "../../components/forms/new-article-form";
-import Sidebar from "../../components/sidebar/sidebar";
-import getCloudNotes from "../../lib/helpers/get-cloud-notes";
 import { auth } from "@clerk/nextjs/server";
+import Sidebar from "@/components/sidebar/sidebar";
+import NewArticleForm from "@/components/forms/new-article-form";
+import fetchNotes from "@/lib/helpers/fetch-notes";
 
 export default async function Page() {
   const { userId } = await auth();
 
   if (userId) {
-    const notes = await getCloudNotes(userId);
+    const notes = await fetchNotes(userId);
 
     const serializedNotes = JSON.parse(JSON.stringify(notes));
 

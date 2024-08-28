@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
-import ArticleContent from "../../components/article-content";
-import ArticleSkeleton from "../../components/skeletons/article-skeleton";
+import ArticleContent from "@/components/article-content";
+import ArticleSkeleton from "@/components/skeletons/article-skeleton";
 import Link from "next/link";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
-import { Separator } from "../../components/ui/separator";
-import NewArticleForm from "../../components/forms/new-article-form";
+import { Separator } from "@/components/ui/separator";
+import NewArticleForm from "@/components/forms/new-article-form";
 
 function isValidUrl(url: string): boolean {
   try {

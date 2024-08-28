@@ -1,16 +1,16 @@
-import connectToDatabase from '../db/connect-to-db';
-import { Note } from '../db/schemas/note-schema';
+import connectToDatabase from "../db/connect-to-db";
+import { Note } from "../db/schemas/note-schema";
 
 class DatabaseConnectionError extends Error {
   code: string;
 
   constructor(message: string) {
     super(message);
-    this.code = 'DATABASE_CONNECTION_ERROR';
+    this.code = "DATABASE_CONNECTION_ERROR";
   }
 }
 
-export default async function getCloudNotes(userId?: string) {
+export default async function fetchNotes(userId?: string) {
   try {
     await connectToDatabase();
 
@@ -28,9 +28,9 @@ export default async function getCloudNotes(userId?: string) {
     }
   } catch (error: unknown) {
     if (error instanceof DatabaseConnectionError) {
-      throw new Error('Unable to connect to the database');
+      throw new Error("Unable to connect to the database");
     } else {
-      throw new Error('Error retrieving notes: ' + (error as Error).message);
+      throw new Error("Error retrieving notes: " + (error as Error).message);
     }
   }
 }
