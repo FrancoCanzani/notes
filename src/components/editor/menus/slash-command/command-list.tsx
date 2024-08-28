@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { updateScrollView } from "../../../../lib/helpers/update-scroll-view";
-import { CommandListProps, CommandItemProps } from "../../../../lib/types";
+import { CommandListProps, CommandItemProps } from "@/lib/types";
+import { updateScrollView } from "@/lib/helpers/update-scroll-view";
 
 export const CommandList = ({
   items,
