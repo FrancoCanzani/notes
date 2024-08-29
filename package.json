@@ -61,6 +61,7 @@
     "isomorphic-dompurify": "^2.15.0",
     "jsdom": "^25.0.0",
     "lucide-react": "^0.350.0",
+    "marked": "^14.1.0",
     "mini-svg-data-uri": "^1.4.4",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.1",
