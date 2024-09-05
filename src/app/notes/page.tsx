@@ -1,6 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import Sidebar from '@/components/sidebar/sidebar';
 import fetchNotes from '@/lib/helpers/fetch-notes';
+import isMobile from '@/lib/helpers/is-mobile';
 
 export default async function Page() {
   const { userId } = await auth();
@@ -8,6 +10,13 @@ export default async function Page() {
   if (userId) {
     const notes = await fetchNotes(userId);
     const serializedNotes = JSON.parse(JSON.stringify(notes));
+    const usesMobile = isMobile();
+
+    // Redirect to the last note if it's a mobile device and there are notes
+    if (usesMobile && serializedNotes.length > 0) {
+      const lastNote = serializedNotes[serializedNotes.length - 1];
+      redirect(`/notes/${lastNote.id}`);
+    }
 
     return (
       <div className='w-full sm:flex items-start'>
