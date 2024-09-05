@@ -15,6 +15,9 @@ export default async function Page() {
     // Redirect to the last note if it's a mobile device and there are notes
     if (usesMobile && serializedNotes.length > 0) {
       const lastNote = serializedNotes[serializedNotes.length - 1];
+      console.log(lastNote);
+      console.log('Hello');
+
       redirect(`/notes/${lastNote.id}`);
     }
 

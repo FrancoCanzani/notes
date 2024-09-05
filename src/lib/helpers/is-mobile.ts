@@ -1,17 +1,26 @@
-// Check if the user agent string indicates a mobile device
+import { headers } from 'next/headers';
+
 export default function isMobile(): boolean {
+  let userAgent: string;
+
   if (typeof window !== 'undefined') {
-    const userAgent = window.navigator.userAgent;
-
-    const mobileKeywords = [
-      'Android',
-      'iPhone',
-      'iPad',
-      'iPod',
-      'Windows Phone',
-    ];
-
-    return mobileKeywords.some((keyword) => userAgent.includes(keyword));
+    // Client-side
+    userAgent = window.navigator.userAgent;
+  } else {
+    // Server-side
+    userAgent = headers().get('user-agent') || '';
   }
-  return false;
+
+  const mobileKeywords = [
+    'Android',
+    'webOS',
+    'iPhone',
+    'iPad',
+    'iPod',
+    'BlackBerry',
+    'Windows Phone',
+    'Mobile',
+  ];
+
+  return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 }
