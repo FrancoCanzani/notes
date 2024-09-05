@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "../lib/utils";
-import { useAuth } from "@clerk/nextjs";
-import { Note } from "../lib/types";
-import { nanoid } from "nanoid";
+import React, { ReactNode, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '../lib/utils';
+import { useAuth } from '@clerk/nextjs';
+import { Note } from '../lib/types';
+import { nanoid } from 'nanoid';
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "./ui/drawer";
-import { FileIcon, DrawingPinFilledIcon } from "@radix-ui/react-icons";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { ReactNode, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { saveNote } from "../lib/actions";
+} from './ui/drawer';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { ScrollArea } from './ui/scroll-area';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { saveNote } from '../lib/actions';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 export default function NavDrawer({
   notes,
@@ -30,90 +31,99 @@ export default function NavDrawer({
 }) {
   const pathname = usePathname();
   const { userId } = useAuth();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const noteId = nanoid(7);
   const router = useRouter();
 
-  async function handleSubmit() {
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     if (userId && title.trim()) {
-      toast.promise(saveNote(userId, noteId, title, ""), {
-        loading: "Saving note...",
+      toast.promise(saveNote(userId, noteId, title, ''), {
+        loading: 'Saving note...',
         success: async (data) => {
           await router.push(`/notes/${noteId}`);
-          setTitle("");
-          return "Note created successfully";
+          setTitle('');
+          return 'Note created successfully';
         },
-        error: "Error saving note",
+        error: 'Error saving note',
       });
     } else if (!title.trim()) {
-      toast.error("Please enter note title");
+      toast.error('Please enter note title');
     }
   }
 
-  const pinnedNotes = notes
-    ? notes.filter((note: Note) => note.pinned === true)
-    : [];
-
-  const activeNotes = notes
-    ? notes.filter(
-        (note: Note) => note.status === "active" && note.pinned != true
-      )
-    : [];
+  const filteredNotes =
+    notes?.filter((note) =>
+      note.title.toLowerCase().includes(searchQuery.toLowerCase())
+    ) || [];
 
   return (
     <Drawer>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="bg-white">
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle className="font-semibold py-1">Notes</DrawerTitle>
+      <DrawerContent className='bg-white'>
+        <div className='mx-auto w-full'>
+          <DrawerHeader className='px-4'>
+            <DrawerTitle className='font-semibold'>Notes</DrawerTitle>
           </DrawerHeader>
-          <div className="flex flex-col justify-between w-full px-1.5 py-4 min-h-60">
-            <div className="space-y-4">
+          <div className='flex flex-col w-full space-y-4'>
+            <div className='px-4'>
+              <div className='relative rounded-sm'>
+                <Input
+                  type='text'
+                  placeholder='Search notes...'
+                  className='w-full pl-8 pr-2 py-1 rounded-sm'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <MagnifyingGlassIcon className='absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400' />
+              </div>
+            </div>
+            <div className='px-4'>
               <form
-                action={handleSubmit}
-                className="flex items-center justify-between gap-x-2"
+                onSubmit={handleSubmit}
+                className='flex items-center justify-between gap-x-2'
               >
                 <Input
-                  className="rounded-sm bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full"
-                  placeholder="New Note Title"
+                  className='rounded-sm bg-bermuda-gray-50 border-none placeholder:font-medium focus-visible:ring-0 focus-visible:ring-offset-0 outline-none font-medium text-sm w-full'
+                  placeholder='New Note Title'
+                  value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <Button
-                  variant={"menu"}
-                  size={"lg"}
-                  className="px-3 py-2 h-10 rounded-sm font-medium bg-bermuda-gray-50"
+                  type='submit'
+                  variant={'menu'}
+                  size={'lg'}
+                  className='px-3 py-2 h-10 rounded-sm font-medium bg-bermuda-gray-50'
                 >
                   Create
                 </Button>
               </form>
-              <div>
-                {[...pinnedNotes, ...activeNotes].map((note) => (
-                  <Link href={`/notes/${note.id}`} key={note._id}>
-                    <div
-                      className={cn(
-                        "p-1.5 my-1 bg-bermuda-gray-50 rounded-sm text-sm w-full flex-col items-center justify-between hover:bg-bermuda-gray-200",
-                        pathname.includes(note.id) &&
-                          "bg-bermuda-gray-200 font-semibold"
-                      )}
-                    >
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center w-auto justify-start gap-x-2">
-                          {note.pinned ? (
-                            <DrawingPinFilledIcon />
-                          ) : (
-                            <FileIcon />
-                          )}
-                          <p title={note.title} className="truncate max-w-64">
-                            {note.title}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
             </div>
+            <ScrollArea className='flex-grow h-[calc(100vh-200px)]'>
+              {filteredNotes.map((note) => (
+                <Link href={`/notes/${note.id}`} key={note.id}>
+                  <div
+                    className={cn(
+                      'border-b border-bermuda-gray-200 hover:bg-bermuda-gray-50 cursor-pointer p-4',
+                      pathname.includes(note.id) && 'bg-gray-50'
+                    )}
+                  >
+                    <div className='flex justify-between items-start mb-1'>
+                      <h3 className='font-medium text-sm'>{note.title}</h3>
+                      <span className='text-xs text-gray-500'>
+                        {new Date(note.lastSaved).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className='text-sm text-gray-600 line-clamp-2'>
+                      {note.content
+                        ? JSON.parse(note.content).content[0].content[0].text
+                        : 'No content'}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </ScrollArea>
           </div>
         </div>
       </DrawerContent>
