@@ -101,7 +101,7 @@ export default function NavDrawer({
                 </Button>
               </form>
             </div>
-            <ScrollArea className='flex-grow h-[calc(100vh-200px)]'>
+            <ScrollArea className='h-[300px]'>
               {filteredNotes.map((note) => (
                 <Link href={`/notes/${note.id}`} key={note.id}>
                   <div
