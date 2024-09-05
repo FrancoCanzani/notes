@@ -50,7 +50,7 @@ export default function EditorHeader({
 
   return (
     <div className='w-full sticky top-0 py-3 z-40 bg-bermuda-gray/40 backdrop-blur-lg supports-[backdrop-filter]:bg-bermuda-gray/90'>
-      <div className='max-w-4xl mx-auto px-1.5 pt-1 sm:px-2.5 text-xs flex items-center justify-between'>
+      <div className='max-w-4xl mx-auto pb-3 px-2.5 text-xs flex items-center justify-between'>
         <div className='flex sm:max-w-[40%] max-w-[60%] items-center justify-start gap-x-2'>
           <NavDrawer notes={notes}>
             <Button variant='menu' size='sm' className='border-none sm:hidden'>
