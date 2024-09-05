@@ -8,7 +8,7 @@ export const getContentPreview = (content: string): string => {
       parsedContent.content[0].content &&
       parsedContent.content[0].content[0]
     ) {
-      return parsedContent.content[0].content[0].text || 'No text content';
+      return parsedContent.content[0].content[0].text || '';
     }
     return 'Content structure invalid';
   } catch (error) {
