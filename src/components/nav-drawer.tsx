@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { saveNote } from '../lib/actions';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { getContentPreview } from '@/lib/helpers/get-content-preview';
 
 export default function NavDrawer({
   notes,
@@ -116,9 +117,7 @@ export default function NavDrawer({
                       </span>
                     </div>
                     <p className='text-sm text-gray-600 line-clamp-2'>
-                      {note.content
-                        ? JSON.parse(note.content).content[0].content[0].text
-                        : 'No content'}
+                      {note.content ? getContentPreview(note.content) : ''}
                     </p>
                   </div>
                 </Link>

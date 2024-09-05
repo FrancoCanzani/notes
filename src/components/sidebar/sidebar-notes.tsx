@@ -6,6 +6,7 @@ import { Note } from '../../lib/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../../lib/utils';
+import { getContentPreview } from '@/lib/helpers/get-content-preview';
 
 export default function SidebarNotes({
   notes,
@@ -37,9 +38,7 @@ export default function SidebarNotes({
               </span>
             </div>
             <p className='text-sm text-gray-600 line-clamp-2'>
-              {note.content
-                ? JSON.parse(note.content).content[0].content[0].text
-                : 'No content'}
+              {note.content ? getContentPreview(note.content) : ''}
             </p>
           </div>
         </Link>
